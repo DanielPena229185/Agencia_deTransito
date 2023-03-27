@@ -1,6 +1,6 @@
 /**
-* AyudaForm.java
-* 25 mar. 2023 13:34:32
+* CobrarDlg.java
+* 27 mar. 2023 10:44:50
 */ 
 
 package org.itson.presentacion;
@@ -10,10 +10,10 @@ package org.itson.presentacion;
  * 
  * @author Daniel Armando Peña Garcia ID:229185
  */
-public class AyudaDlg extends javax.swing.JDialog {
+public class PagarDlg extends javax.swing.JDialog {
 
-    /** Creates new form AyudaForm */
-    public AyudaDlg(java.awt.Frame parent, boolean modal) {
+    /** Creates new form CobrarDlg */
+    public PagarDlg(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -29,21 +29,21 @@ public class AyudaDlg extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        lblConfiguracion = new javax.swing.JLabel();
-        btnInsertarClientes = new javax.swing.JButton();
-        btnCostosTramites = new javax.swing.JButton();
-        btnCerrar = new javax.swing.JButton();
+        lblRealizarCobro = new javax.swing.JLabel();
+        lblMonto = new javax.swing.JLabel();
+        txtMonto = new javax.swing.JTextField();
+        btnCobro = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Configuración");
+        setTitle("Pagos");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 255));
 
-        lblConfiguracion.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        lblConfiguracion.setForeground(new java.awt.Color(255, 255, 255));
-        lblConfiguracion.setText("Configuración");
+        lblRealizarCobro.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        lblRealizarCobro.setForeground(new java.awt.Color(255, 255, 255));
+        lblRealizarCobro.setText("Realizar Pago:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -51,31 +51,29 @@ public class AyudaDlg extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblConfiguracion)
+                .addComponent(lblRealizarCobro)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblConfiguracion)
+                .addComponent(lblRealizarCobro)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnInsertarClientes.setBackground(new java.awt.Color(255, 255, 255));
-        btnInsertarClientes.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        btnInsertarClientes.setForeground(new java.awt.Color(0, 0, 0));
-        btnInsertarClientes.setText("Insertar Clientes");
+        lblMonto.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        lblMonto.setForeground(new java.awt.Color(0, 0, 0));
+        lblMonto.setText("Monto: ");
 
-        btnCostosTramites.setBackground(new java.awt.Color(255, 255, 255));
-        btnCostosTramites.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        btnCostosTramites.setForeground(new java.awt.Color(0, 0, 0));
-        btnCostosTramites.setText("Costos de Trámites");
+        txtMonto.setBackground(new java.awt.Color(255, 255, 255));
+        txtMonto.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        txtMonto.setForeground(new java.awt.Color(0, 0, 0));
 
-        btnCerrar.setBackground(new java.awt.Color(255, 255, 255));
-        btnCerrar.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        btnCerrar.setForeground(new java.awt.Color(0, 0, 0));
-        btnCerrar.setText("Cerrar");
+        btnCobro.setBackground(new java.awt.Color(255, 255, 255));
+        btnCobro.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        btnCobro.setForeground(new java.awt.Color(0, 0, 0));
+        btnCobro.setText("Pagar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -83,24 +81,27 @@ public class AyudaDlg extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCostosTramites)
-                    .addComponent(btnCerrar)
-                    .addComponent(btnInsertarClientes))
-                .addContainerGap(202, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addComponent(lblMonto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(62, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCobro)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCostosTramites)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnInsertarClientes)
-                .addGap(9, 9, 9)
-                .addComponent(btnCerrar)
-                .addGap(110, 110, 110))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMonto))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addComponent(btnCobro)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -111,19 +112,19 @@ public class AyudaDlg extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCerrar;
-    private javax.swing.JButton btnCostosTramites;
-    private javax.swing.JButton btnInsertarClientes;
+    private javax.swing.JButton btnCobro;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel lblConfiguracion;
+    private javax.swing.JLabel lblMonto;
+    private javax.swing.JLabel lblRealizarCobro;
+    private javax.swing.JTextField txtMonto;
     // End of variables declaration//GEN-END:variables
 
 }

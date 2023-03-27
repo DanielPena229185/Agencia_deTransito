@@ -9,12 +9,12 @@ package org.itson.presentacion;
  *
  * @author Daniel Armando Peña Garcia ID:229185
  */
-public class SobreNosotrosDlg extends javax.swing.JDialog {
+public class NosotrosDlg extends javax.swing.JDialog {
 
     /**
      * Creates new form SobreNosotrosDlg
      */
-    public SobreNosotrosDlg(java.awt.Frame parent, boolean modal) {
+    public NosotrosDlg(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -101,9 +101,7 @@ public class SobreNosotrosDlg extends javax.swing.JDialog {
             .addGroup(panCuerpoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panCuerpoLayout.createSequentialGroup()
-                        .addComponent(lblEquipo)
-                        .addGap(278, 278, 278))
+                    .addComponent(lblEquipo)
                     .addComponent(lblNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblNombre2)
                     .addComponent(lblMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)

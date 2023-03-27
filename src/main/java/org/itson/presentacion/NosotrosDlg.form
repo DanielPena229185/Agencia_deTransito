@@ -46,10 +46,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="lblEquipo" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="278" pref="278" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="lblEquipo" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="lblNombre1" min="-2" pref="340" max="-2" attributes="0"/>
                       <Component id="lblNombre2" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="lblMateria" alignment="0" min="-2" pref="86" max="-2" attributes="0"/>
