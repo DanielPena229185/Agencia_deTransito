@@ -2,7 +2,9 @@ package dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 import javax.persistence.*;
+import org.eclipse.persistence.jpa.config.Cascade;
 
 /**
  *
@@ -39,20 +41,26 @@ public class Tramite implements Serializable {
     @JoinColumn(name = "id_persona", nullable = false)
     private Persona persona;
 
+    // Relacion pago
+    @OneToMany(mappedBy = "tramite", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Pago> pago;
+
     public Tramite() {
     }
 
-    public Tramite(Long idTramite, EstadoTramite estado, Float precio, Calendar fechaExpedicion) {
+    public Tramite(EstadoTramite estado, Float precio, Calendar fechaExpedicion, List<Pago> pago) {
+        this.estado = estado;
+        this.precio = precio;
+        this.fechaExpedicion = fechaExpedicion;
+        this.pago = pago;
+    }
+
+    public Tramite(Long idTramite, EstadoTramite estado, Float precio, Calendar fechaExpedicion, List<Pago> pago) {
         this.idTramite = idTramite;
         this.estado = estado;
         this.precio = precio;
         this.fechaExpedicion = fechaExpedicion;
-    }
-
-    public Tramite(EstadoTramite estado, Float precio, Calendar fechaExpedicion) {
-        this.estado = estado;
-        this.precio = precio;
-        this.fechaExpedicion = fechaExpedicion;
+        this.pago = pago;
     }
 
     public Long getIdTramite() {
@@ -93,6 +101,14 @@ public class Tramite implements Serializable {
 
     public void setPersona(Persona persona) {
         this.persona = persona;
+    }
+
+    public List<Pago> getPago() {
+        return pago;
+    }
+
+    public void setPago(List<Pago> pago) {
+        this.pago = pago;
     }
 
 }

@@ -6,6 +6,7 @@
     <class>dominio.Tramite</class>
     <class>dominio.Licencia</class>
     <class>dominio.Placas</class>
+    <class>dominio.Pago</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/transito?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
