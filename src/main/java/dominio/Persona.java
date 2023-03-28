@@ -2,6 +2,7 @@ package dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -12,6 +13,9 @@ import javax.persistence.*;
 @Table(name = "persona")
 public class Persona implements Serializable {
 
+    /**
+     * Variables
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPersona;
@@ -37,7 +41,14 @@ public class Persona implements Serializable {
 
     @Column(name = "telefono", nullable = false, length = 100)
     private String telefono;
-
+    
+    /**
+     * Relaciones
+     */
+    // Relacion Tramite
+    @OneToMany(mappedBy = "persona")
+    private List<Tramite> tramite;
+    
     /**
      * Contructor por ausencia
      */

@@ -3,6 +3,9 @@
   <persistence-unit name="org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>dominio.Persona</class>
+    <class>dominio.Tramite</class>
+    <class>dominio.Licencia</class>
+    <class>dominio.Placas</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/transito?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
