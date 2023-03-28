@@ -2,6 +2,7 @@ package dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -17,6 +18,7 @@ public class Persona implements Serializable {
      * Variables
      */
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPersona;
 
@@ -241,6 +243,13 @@ public class Persona implements Serializable {
      */
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+    
+    public void agregarALista(Tramite tramite){
+        if(this.tramite == null){
+            this.tramite = new LinkedList<>();
+        }
+        this.tramite.add(tramite);
     }
 
     /**

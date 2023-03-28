@@ -42,10 +42,11 @@ public class Pago implements Serializable {
     public Pago() {
     }
 
-    public Pago(Float monto, Calendar fechaHora, String concepto) {
+    public Pago(Float monto, Calendar fechaHora, String concepto, Tramite tramite) {
         this.monto = monto;
         this.fechaHora = fechaHora;
         this.concepto = concepto;
+        this.tramite = tramite;
     }
 
     public Pago(Long idPago, Float monto, Calendar fechaHora, String concepto) {

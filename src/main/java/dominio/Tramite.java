@@ -2,6 +2,7 @@ package dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.*;
 import org.eclipse.persistence.jpa.config.Cascade;
@@ -48,11 +49,11 @@ public class Tramite implements Serializable {
     public Tramite() {
     }
 
-    public Tramite(EstadoTramite estado, Float precio, Calendar fechaExpedicion, List<Pago> pago) {
+    public Tramite(EstadoTramite estado, Float precio, Calendar fechaExpedicion, Persona persona) {
         this.estado = estado;
         this.precio = precio;
         this.fechaExpedicion = fechaExpedicion;
-        this.pago = pago;
+        this.persona = persona;
     }
 
     public Tramite(Long idTramite, EstadoTramite estado, Float precio, Calendar fechaExpedicion, List<Pago> pago) {
@@ -109,6 +110,14 @@ public class Tramite implements Serializable {
 
     public void setPago(List<Pago> pago) {
         this.pago = pago;
+    }
+    
+    public void agregarPago(Pago pago){
+        if(this.pago == null){
+            this.pago = new LinkedList<>();
+        }
+        
+        this.pago.add(pago);
     }
 
 }

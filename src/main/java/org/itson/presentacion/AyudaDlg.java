@@ -66,6 +66,11 @@ public class AyudaDlg extends javax.swing.JDialog {
         btnInsertarClientes.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         btnInsertarClientes.setForeground(new java.awt.Color(0, 0, 0));
         btnInsertarClientes.setText("Insertar Clientes");
+        btnInsertarClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertarClientesActionPerformed(evt);
+            }
+        });
 
         btnCostosTramites.setBackground(new java.awt.Color(255, 255, 255));
         btnCostosTramites.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -116,6 +121,10 @@ public class AyudaDlg extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnInsertarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarClientesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInsertarClientesActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;

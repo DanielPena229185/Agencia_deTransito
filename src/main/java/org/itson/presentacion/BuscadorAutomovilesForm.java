@@ -47,7 +47,7 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Buscador de Automóviles:");
+        jLabel1.setText("Buscador de Vehículos:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
