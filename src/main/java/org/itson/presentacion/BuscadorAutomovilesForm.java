@@ -1,6 +1,7 @@
 /**
-* AyudaForm.java
-* 25 mar. 2023 13:34:32
+* BuscadorAutomovilesForm.java
+* 27 mar. 2023 16:11:35
+* 
 */ 
 
 package org.itson.presentacion;
@@ -10,11 +11,10 @@ package org.itson.presentacion;
  * 
  * @author Daniel Armando Peña Garcia ID:229185
  */
-public class AyudaDlg extends javax.swing.JDialog {
+public class BuscadorAutomovilesForm extends javax.swing.JFrame {
 
-    /** Creates new form AyudaForm */
-    public AyudaDlg(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    /** Creates new form BuscadorAutomovilesForm */
+    public BuscadorAutomovilesForm() {
         initComponents();
     }
 
@@ -29,21 +29,17 @@ public class AyudaDlg extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        lblConfiguracion = new javax.swing.JLabel();
-        btnInsertarClientes = new javax.swing.JButton();
-        btnCostosTramites = new javax.swing.JButton();
-        btnCerrar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Configuración");
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 255));
 
-        lblConfiguracion.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        lblConfiguracion.setForeground(new java.awt.Color(255, 255, 255));
-        lblConfiguracion.setText("Configuración");
+        jLabel1.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Buscador de Automóviles:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -51,56 +47,28 @@ public class AyudaDlg extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblConfiguracion)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel1)
+                .addContainerGap(698, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblConfiguracion)
+                .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        btnInsertarClientes.setBackground(new java.awt.Color(255, 255, 255));
-        btnInsertarClientes.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        btnInsertarClientes.setForeground(new java.awt.Color(0, 0, 0));
-        btnInsertarClientes.setText("Insertar Clientes");
-
-        btnCostosTramites.setBackground(new java.awt.Color(255, 255, 255));
-        btnCostosTramites.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        btnCostosTramites.setForeground(new java.awt.Color(0, 0, 0));
-        btnCostosTramites.setText("Costos de Trámites");
-
-        btnCerrar.setBackground(new java.awt.Color(255, 255, 255));
-        btnCerrar.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        btnCerrar.setForeground(new java.awt.Color(0, 0, 0));
-        btnCerrar.setText("Cerrar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCostosTramites)
-                    .addComponent(btnCerrar)
-                    .addComponent(btnInsertarClientes))
-                .addContainerGap(202, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCostosTramites)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnInsertarClientes)
-                .addGap(18, 18, 18)
-                .addComponent(btnCerrar)
-                .addGap(101, 101, 101))
+                .addGap(0, 405, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -111,19 +79,51 @@ public class AyudaDlg extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(BuscadorAutomovilesForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(BuscadorAutomovilesForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(BuscadorAutomovilesForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(BuscadorAutomovilesForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new BuscadorAutomovilesForm().setVisible(true);
+            }
+        });
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCerrar;
-    private javax.swing.JButton btnCostosTramites;
-    private javax.swing.JButton btnInsertarClientes;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel lblConfiguracion;
     // End of variables declaration//GEN-END:variables
 
 }
