@@ -60,10 +60,7 @@ public class PrincipalForm extends javax.swing.JFrame {
         menuItemTramiteLicencia = new javax.swing.JMenuItem();
         menuItemTramitePlaca = new javax.swing.JMenuItem();
         menuConsulta = new javax.swing.JMenu();
-        menuConsultaHistorial = new javax.swing.JMenu();
-        menuItemConsultaHistorialLicencias = new javax.swing.JMenuItem();
-        menuConsultaHistorialPlacas = new javax.swing.JMenuItem();
-        menuConsultaHistorialTodo = new javax.swing.JMenuItem();
+        menuItemConsultaTramites = new javax.swing.JMenuItem();
         menuItemConsultaReporte = new javax.swing.JMenuItem();
         menuAyuda = new javax.swing.JMenu();
         menuItemConfiguracion = new javax.swing.JMenuItem();
@@ -100,7 +97,7 @@ public class PrincipalForm extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblAgencia)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 351, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 362, Short.MAX_VALUE)
                         .addComponent(lblFecha)))
                 .addContainerGap())
         );
@@ -109,11 +106,11 @@ public class PrincipalForm extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblItson)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAgencia)
                     .addComponent(lblFecha))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelInicioLayout = new javax.swing.GroupLayout(panelInicio);
@@ -126,7 +123,7 @@ public class PrincipalForm extends javax.swing.JFrame {
             panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInicioLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 306, Short.MAX_VALUE))
+                .addGap(0, 317, Short.MAX_VALUE))
         );
 
         desktopPane.add(panelInicio);
@@ -176,18 +173,13 @@ public class PrincipalForm extends javax.swing.JFrame {
 
         menuConsulta.setText("Consulta");
 
-        menuConsultaHistorial.setText("Historial");
-
-        menuItemConsultaHistorialLicencias.setText("Licencias");
-        menuConsultaHistorial.add(menuItemConsultaHistorialLicencias);
-
-        menuConsultaHistorialPlacas.setText("Placas");
-        menuConsultaHistorial.add(menuConsultaHistorialPlacas);
-
-        menuConsultaHistorialTodo.setText("Todo");
-        menuConsultaHistorial.add(menuConsultaHistorialTodo);
-
-        menuConsulta.add(menuConsultaHistorial);
+        menuItemConsultaTramites.setText("Tràmites");
+        menuItemConsultaTramites.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemConsultaTramitesActionPerformed(evt);
+            }
+        });
+        menuConsulta.add(menuItemConsultaTramites);
 
         menuItemConsultaReporte.setText("Reporte pdf");
         menuConsulta.add(menuItemConsultaReporte);
@@ -267,6 +259,10 @@ public class PrincipalForm extends javax.swing.JFrame {
         placas.setVisible(true);
     }//GEN-LAST:event_menuItemTramitePlacaActionPerformed
 
+    private void menuItemConsultaTramitesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemConsultaTramitesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuItemConsultaTramitesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -311,12 +307,9 @@ public class PrincipalForm extends javax.swing.JFrame {
     private javax.swing.JMenu menuAyuda;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuConsulta;
-    private javax.swing.JMenu menuConsultaHistorial;
-    private javax.swing.JMenuItem menuConsultaHistorialPlacas;
-    private javax.swing.JMenuItem menuConsultaHistorialTodo;
     private javax.swing.JMenuItem menuItemConfiguracion;
-    private javax.swing.JMenuItem menuItemConsultaHistorialLicencias;
     private javax.swing.JMenuItem menuItemConsultaReporte;
+    private javax.swing.JMenuItem menuItemConsultaTramites;
     private javax.swing.JMenuItem menuItemSalir;
     private javax.swing.JMenuItem menuItemSobreNosotros;
     private javax.swing.JMenuItem menuItemTramiteLicencia;

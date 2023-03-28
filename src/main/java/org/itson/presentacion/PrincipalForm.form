@@ -55,28 +55,14 @@
             <Property name="text" type="java.lang.String" value="Consulta"/>
           </Properties>
           <SubComponents>
-            <Menu class="javax.swing.JMenu" name="menuConsultaHistorial">
+            <MenuItem class="javax.swing.JMenuItem" name="menuItemConsultaTramites">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Historial"/>
+                <Property name="text" type="java.lang.String" value="Tr&#xe0;mites"/>
               </Properties>
-              <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="menuItemConsultaHistorialLicencias">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Licencias"/>
-                  </Properties>
-                </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="menuConsultaHistorialPlacas">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Placas"/>
-                  </Properties>
-                </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="menuConsultaHistorialTodo">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Todo"/>
-                  </Properties>
-                </MenuItem>
-              </SubComponents>
-            </Menu>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItemConsultaTramitesActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuItemConsultaReporte">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Reporte pdf"/>
@@ -175,7 +161,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="306" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="317" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -200,7 +186,7 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="lblAgencia" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="351" max="32767" attributes="0"/>
+                                  <EmptySpace pref="362" max="32767" attributes="0"/>
                                   <Component id="lblFecha" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -213,12 +199,12 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="lblItson" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lblAgencia" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lblFecha" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="7" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
