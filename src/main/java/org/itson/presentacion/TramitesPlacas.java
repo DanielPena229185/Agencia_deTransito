@@ -99,6 +99,7 @@ public class TramitesPlacas extends javax.swing.JFrame {
         txtLetrasSerie.setBackground(new java.awt.Color(255, 255, 255));
         txtLetrasSerie.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtLetrasSerie.setForeground(new java.awt.Color(0, 0, 0));
+        txtLetrasSerie.setText("LND");
         txtLetrasSerie.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtLetrasSerieKeyTyped(evt);
@@ -112,6 +113,7 @@ public class TramitesPlacas extends javax.swing.JFrame {
         txtNumerosSerie.setBackground(new java.awt.Color(255, 255, 255));
         txtNumerosSerie.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtNumerosSerie.setForeground(new java.awt.Color(0, 0, 0));
+        txtNumerosSerie.setText("279");
         txtNumerosSerie.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNumerosSerieActionPerformed(evt);
@@ -130,6 +132,7 @@ public class TramitesPlacas extends javax.swing.JFrame {
         txtLinea.setBackground(new java.awt.Color(255, 255, 255));
         txtLinea.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtLinea.setForeground(new java.awt.Color(0, 0, 0));
+        txtLinea.setText("Mustang");
 
         lblMarca.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblMarca.setForeground(new java.awt.Color(0, 0, 0));
@@ -138,6 +141,7 @@ public class TramitesPlacas extends javax.swing.JFrame {
         txtMarca.setBackground(new java.awt.Color(255, 255, 255));
         txtMarca.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtMarca.setForeground(new java.awt.Color(0, 0, 0));
+        txtMarca.setText("Ford");
 
         lblLinea.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblLinea.setForeground(new java.awt.Color(0, 0, 0));
@@ -146,6 +150,7 @@ public class TramitesPlacas extends javax.swing.JFrame {
         txtModelo.setBackground(new java.awt.Color(255, 255, 255));
         txtModelo.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtModelo.setForeground(new java.awt.Color(0, 0, 0));
+        txtModelo.setText("2022");
 
         lblColor.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblColor.setForeground(new java.awt.Color(0, 0, 0));
@@ -154,6 +159,12 @@ public class TramitesPlacas extends javax.swing.JFrame {
         txtColor.setBackground(new java.awt.Color(255, 255, 255));
         txtColor.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtColor.setForeground(new java.awt.Color(0, 0, 0));
+        txtColor.setText("Rojo");
+        txtColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtColorActionPerformed(evt);
+            }
+        });
 
         btnRegistrar.setBackground(new java.awt.Color(255, 255, 255));
         btnRegistrar.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -196,6 +207,7 @@ public class TramitesPlacas extends javax.swing.JFrame {
         txtNombre.setBackground(new java.awt.Color(255, 255, 255));
         txtNombre.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtNombre.setForeground(new java.awt.Color(0, 0, 0));
+        txtNombre.setText("Daniel Armando Peña García");
         txtNombre.setEnabled(false);
 
         lblRfc.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -205,6 +217,7 @@ public class TramitesPlacas extends javax.swing.JFrame {
         txtRfc.setBackground(new java.awt.Color(255, 255, 255));
         txtRfc.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtRfc.setForeground(new java.awt.Color(0, 0, 0));
+        txtRfc.setText("PEGD021110HSR");
         txtRfc.setEnabled(false);
 
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
@@ -223,7 +236,13 @@ public class TramitesPlacas extends javax.swing.JFrame {
         jTextField1.setBackground(new java.awt.Color(255, 255, 255));
         jTextField1.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jTextField1.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField1.setText("Activo");
         jTextField1.setEnabled(false);
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
@@ -232,6 +251,7 @@ public class TramitesPlacas extends javax.swing.JFrame {
         jTextField2.setBackground(new java.awt.Color(255, 255, 255));
         jTextField2.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jTextField2.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField2.setText("28/03/2025");
         jTextField2.setEnabled(false);
 
         jButton2.setBackground(new java.awt.Color(255, 255, 255));
@@ -292,10 +312,10 @@ public class TramitesPlacas extends javax.swing.JFrame {
                         .addComponent(lblGuion)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtNumerosSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(lblMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -421,6 +441,14 @@ public class TramitesPlacas extends javax.swing.JFrame {
         BuscadorClientesForm buscarCliente = new BuscadorClientesForm();
         buscarCliente.setVisible(true);
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void txtColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtColorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtColorActionPerformed
 
     private boolean validarCamposVacios() {
         JTextField[] camposTexto = {
