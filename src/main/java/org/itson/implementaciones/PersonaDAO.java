@@ -42,6 +42,8 @@ public class PersonaDAO implements IPersonaDAO{
         } catch(Exception b){
             em.getTransaction().rollback();
             throw new PersistenciaException("No se pudo registrar a la persona");
+        }finally{
+            em.close();
         }
     }
 

@@ -255,8 +255,8 @@ public class PrincipalForm extends javax.swing.JFrame {
     }//GEN-LAST:event_menuTramitesActionPerformed
 
     private void menuItemTramitePlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemTramitePlacaActionPerformed
-        TramitesPlacas placas = new TramitesPlacas();
-        placas.setVisible(true);
+        
+        
     }//GEN-LAST:event_menuItemTramitePlacaActionPerformed
 
     private void menuItemConsultaTramitesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemConsultaTramitesActionPerformed
