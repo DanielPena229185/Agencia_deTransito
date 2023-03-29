@@ -1,8 +1,9 @@
 package dominio;
 
-import dominio.EstadoTramite;
-import dominio.Pago;
-import dominio.Persona;
+import org.itson.dominio.Tramite;
+import org.itson.dominio.EstadoTramite;
+import org.itson.dominio.Pago;
+import org.itson.dominio.Persona;
 import java.util.Calendar;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;

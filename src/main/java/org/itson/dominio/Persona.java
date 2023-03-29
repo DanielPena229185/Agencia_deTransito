@@ -1,4 +1,4 @@
-package dominio;
+package org.itson.dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -14,9 +14,8 @@ import javax.persistence.*;
 @Table(name = "persona")
 public class Persona implements Serializable {
 
-    /**
-     * Variables
-     */
+    //Variables
+    
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,14 +42,14 @@ public class Persona implements Serializable {
 
     @Column(name = "telefono", nullable = false, length = 100)
     private String telefono;
-    
-    /**
-     * Relaciones
-     */
+    //Relaciones
     // Relacion Tramite
     @OneToMany(mappedBy = "persona")
-    private List<Tramite> tramite;
-    
+    private List<Tramite> tramites;
+    //Relaciones
+    @OneToMany(mappedBy = "persona")
+    private List<Vehiculo> vehiculos;
+
     /**
      * Contructor por ausencia
      */
@@ -68,7 +67,9 @@ public class Persona implements Serializable {
      * @param discapacidad
      * @param telefono
      */
-    public Persona(String nombres, String apellido_paterno, String apellido_materno, String rfc, Calendar fechaNacimiento, Boolean discapacidad, String telefono) {
+    public Persona(String nombres, String apellido_paterno,
+            String apellido_materno, String rfc, Calendar fechaNacimiento,
+            Boolean discapacidad, String telefono) {
         this.nombres = nombres;
         this.apellido_paterno = apellido_paterno;
         this.apellido_materno = apellido_materno;
@@ -90,7 +91,9 @@ public class Persona implements Serializable {
      * @param discapacidad
      * @param telefono
      */
-    public Persona(Long idPersona, String nombres, String apellido_paterno, String apellido_materno, String rfc, Calendar fechaNacimiento, Boolean discapacidad, String telefono) {
+    public Persona(Long idPersona, String nombres, String apellido_paterno,
+            String apellido_materno, String rfc, Calendar fechaNacimiento,
+            Boolean discapacidad, String telefono) {
         this.idPersona = idPersona;
         this.nombres = nombres;
         this.apellido_paterno = apellido_paterno;
@@ -244,12 +247,35 @@ public class Persona implements Serializable {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-    
-    public void agregarALista(Tramite tramite){
-        if(this.tramite == null){
-            this.tramite = new LinkedList<>();
+
+    public List<Tramite> getTramite() {
+        return tramites;
+    }
+
+    public void setTramite(List<Tramite> tramite) {
+        this.tramites = tramite;
+    }
+
+    public List<Vehiculo> getVehiculos() {
+        return vehiculos;
+    }
+
+    public void setVehiculos(List<Vehiculo> vehiculos) {
+        this.vehiculos = vehiculos;
+    }
+
+    public void agregarVehiculo(Vehiculo vehiculo) {
+        if (this.vehiculos == null) {
+            this.vehiculos = new LinkedList<>();
         }
-        this.tramite.add(tramite);
+        this.vehiculos.add(vehiculo);
+    }
+
+    public void agregarALista(Tramite tramite) {
+        if (this.tramites == null) {
+            this.tramites = new LinkedList<>();
+        }
+        this.tramites.add(tramite);
     }
 
     /**
@@ -259,7 +285,8 @@ public class Persona implements Serializable {
      */
     public int getEdad() {
         Calendar ahora = Calendar.getInstance();
-        long edadEnDias = (ahora.getTimeInMillis() - fechaNacimiento.getTimeInMillis())
+        long edadEnDias = 
+                (ahora.getTimeInMillis() - fechaNacimiento.getTimeInMillis())
                 / 1000 / 60 / 60 / 24;
         int anios = Double.valueOf(edadEnDias / 365.25d).intValue();
 

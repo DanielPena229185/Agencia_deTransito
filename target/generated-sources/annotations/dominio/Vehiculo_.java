@@ -1,6 +1,7 @@
 package dominio;
 
-import dominio.Placa;
+import org.itson.dominio.Vehiculo;
+import org.itson.dominio.Placa;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;

@@ -1,5 +1,6 @@
 package dominio;
 
+import org.itson.dominio.Licencia;
 import java.util.Calendar;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;

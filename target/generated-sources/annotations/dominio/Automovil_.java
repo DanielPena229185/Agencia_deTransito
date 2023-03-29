@@ -1,5 +1,6 @@
 package dominio;
 
+import org.itson.dominio.Automovil;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.StaticMetamodel;
 

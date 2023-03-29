@@ -1,6 +1,7 @@
 package dominio;
 
-import dominio.Tramite;
+import org.itson.dominio.Pago;
+import org.itson.dominio.Tramite;
 import java.util.Calendar;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;

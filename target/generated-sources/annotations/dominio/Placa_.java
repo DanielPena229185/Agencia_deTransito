@@ -1,6 +1,7 @@
 package dominio;
 
-import dominio.Vehiculo;
+import org.itson.dominio.Placa;
+import org.itson.dominio.Vehiculo;
 import java.util.Calendar;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;

@@ -1,11 +1,10 @@
-package dominio;
+package org.itson.dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.*;
-import org.eclipse.persistence.jpa.config.Cascade;
 
 /**
  *
@@ -43,25 +42,28 @@ public class Tramite implements Serializable {
     private Persona persona;
 
     // Relacion pago
-    @OneToMany(mappedBy = "tramite", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "tramite", cascade = {CascadeType.PERSIST})
     private List<Pago> pago;
 
     public Tramite() {
     }
 
-    public Tramite(EstadoTramite estado, Float precio, Calendar fechaExpedicion, Persona persona) {
+    public Tramite(EstadoTramite estado, Float precio,
+            Calendar fechaExpedicion, Persona persona) {
         this.estado = estado;
         this.precio = precio;
         this.fechaExpedicion = fechaExpedicion;
         this.persona = persona;
     }
 
-    public Tramite(Long idTramite, EstadoTramite estado, Float precio, Calendar fechaExpedicion, List<Pago> pago) {
+    public Tramite(Long idTramite, EstadoTramite estado, Float precio,
+            Calendar fechaExpedicion, List<Pago> pago, Persona persona) {
         this.idTramite = idTramite;
         this.estado = estado;
         this.precio = precio;
         this.fechaExpedicion = fechaExpedicion;
         this.pago = pago;
+        this.persona = persona;
     }
 
     public Long getIdTramite() {

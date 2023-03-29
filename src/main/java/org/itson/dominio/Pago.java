@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dominio;
+package org.itson.dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -49,11 +49,12 @@ public class Pago implements Serializable {
         this.tramite = tramite;
     }
 
-    public Pago(Long idPago, Float monto, Calendar fechaHora, String concepto) {
+    public Pago(Long idPago, Float monto, Calendar fechaHora, String concepto, Tramite tramite) {
         this.idPago = idPago;
         this.monto = monto;
         this.fechaHora = fechaHora;
         this.concepto = concepto;
+        this.tramite = tramite;
     }
 
     public Long getIdPago() {
@@ -94,8 +95,5 @@ public class Pago implements Serializable {
 
     public void setTramite(Tramite tramite) {
         this.tramite = tramite;
-    }
-    
-    
-
+    }   
 }

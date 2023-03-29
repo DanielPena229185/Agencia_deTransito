@@ -1,6 +1,7 @@
-package dominio;
+package org.itson.dominio;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -32,25 +33,32 @@ public class Vehiculo implements Serializable {
     @Column(name = "linea", nullable = false, length = 100)
     private String linea;
 
-    /**
-     * Relaciones
-     */
-    // Relacion a placa
+    //Relaciones
+    
+    // Relacion a placas
     @OneToMany(mappedBy = "vehiculo")
-    private List<Placa> placa;
+    private List<Placa> placas;
+    
+    //Relación a Persona
+    @ManyToOne()
+    @JoinColumn(name = "id_persona", nullable = false)
+    private Persona persona;
 
     public Vehiculo() {
     }
 
-    public Vehiculo(String numeroSerie, String marca, String color, String modelo, String linea) {
+    public Vehiculo(String numeroSerie, String marca, String color,
+            String modelo, String linea, Persona persona) {
         this.numeroSerie = numeroSerie;
         this.marca = marca;
         this.color = color;
         this.modelo = modelo;
         this.linea = linea;
+        this.persona = persona;
     }
 
-    public Vehiculo(Long idVehiculo, String numeroSerie, String marca, String color, String modelo, String linea) {
+    public Vehiculo(Long idVehiculo, String numeroSerie, String marca,
+            String color, String modelo, String linea) {
         this.idVehiculo = idVehiculo;
         this.numeroSerie = numeroSerie;
         this.marca = marca;
@@ -108,11 +116,34 @@ public class Vehiculo implements Serializable {
     }
 
     public List<Placa> getPlaca() {
-        return placa;
+        return placas;
     }
 
     public void setPlaca(List<Placa> placa) {
-        this.placa = placa;
+        this.placas = placa;
+    }
+    
+    public void agregarPlaca(Placa placa){
+        if(this.placas == null){
+            this.placas = new LinkedList<>();
+        }
+        this.placas.add(placa);
+    }
+
+    public List<Placa> getPlacas() {
+        return placas;
+    }
+
+    public void setPlacas(List<Placa> placas) {
+        this.placas = placas;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
 }

@@ -1,4 +1,4 @@
-package dominio;
+package org.itson.dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -14,26 +14,30 @@ import javax.persistence.*;
 @PrimaryKeyJoinColumn(name = "id_tramite")
 public class Licencia extends Tramite implements Serializable {
 
-    @Column(name = "fecha_expiracion", nullable = true)
+    @Column(name = "fecha_expiracion", nullable = false)
     @Temporal(TemporalType.DATE)
     private Calendar fechaExpiracion;
 
     public Licencia() {
+        super();
     }
-    
-    public Licencia(EstadoTramite estado, Float precio, Calendar fechaHora, int vigencia){
+
+    public Licencia(EstadoTramite estado, Float precio,
+            Calendar fechaExpedicion, int vigencia, Persona persona) {
+        super(estado, precio, fechaExpedicion, persona);
         
-    }
-    
-    public Licencia(EstadoTramite estado, Float precio, Calendar fechaExpedicion, int vigencia, Persona persona) {
-        super(estado, precio, fechaExpedicion,persona);
         this.setFechaExpiracion(fechaExpedicion, vigencia);
     }
 
-    public Licencia(Calendar fechaExpiracion, Long idTramite, EstadoTramite estado, Float precio, Calendar fechaExpedicion, List<Pago> pago) {
-        super(idTramite, estado, precio, fechaExpedicion, pago);
-        this.fechaExpiracion = fechaExpiracion;
+    public Licencia(Long idTramite, EstadoTramite estado, Float precio,
+            Calendar fechaExpedicion, List<Pago> pago, int vigencia,
+            Persona persona) {
+        super(idTramite, estado, precio, fechaExpedicion, pago, persona);
+        
+        this.setFechaExpiracion(fechaExpedicion, vigencia);
     }
+
+    
 
     public Calendar getFechaExpiracion() {
         return fechaExpiracion;
@@ -43,7 +47,7 @@ public class Licencia extends Tramite implements Serializable {
         this.fechaExpiracion = fechaExpiracion;
     }
 
-    public void setFechaExpiracion(Calendar fechaExpedicion, int años) {
+    private void setFechaExpiracion(Calendar fechaExpedicion, int años) {
         //Calendar fecha = new Calendar(fechaExpedicion.get(Calendar.YEAR,Calendar.MONTH,Calendar.DAY_OF_MONTH));
         fechaExpiracion = (Calendar) fechaExpedicion.clone();
         this.fechaExpiracion.add(Calendar.YEAR, años);

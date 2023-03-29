@@ -1,4 +1,4 @@
-package dominio;
+package org.itson.dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -21,26 +21,26 @@ public class Placa extends Tramite implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar fechaRecepcion;
 
-    /**
-     * Relaciones
-     */
+    //Relaciones
+    
     // Relacion vehiculo
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "id_vehiculo", nullable = true)
+    @JoinColumn(name = "id_vehiculo", nullable = false)
     private Vehiculo vehiculo;
 
     public Placa() {
+        super();
     }
 
     public Placa(String numero, Calendar fechaRecepcion, Vehiculo vehiculo, EstadoTramite estado, Float precio, Calendar fechaExpedicion, List<Pago> pago, Persona persona) {
-        super(estado, precio, fechaExpedicion, pago, persona);
+        super(estado, precio, fechaExpedicion, persona);
         this.numero = numero;
         this.fechaRecepcion = fechaRecepcion;
         this.vehiculo = vehiculo;
     }
 
-    public Placa(String numero, Calendar fechaRecepcion, Vehiculo vehiculo, Long idTramite, EstadoTramite estado, Float precio, Calendar fechaExpedicion, List<Pago> pago) {
-        super(idTramite, estado, precio, fechaExpedicion, pago);
+    public Placa(String numero, Calendar fechaRecepcion, Vehiculo vehiculo, Long idTramite, EstadoTramite estado, Float precio, Calendar fechaExpedicion, List<Pago> pago, Persona persona) {
+        super(idTramite, estado, precio, fechaExpedicion, pago, persona);
         this.numero = numero;
         this.fechaRecepcion = fechaRecepcion;
         this.vehiculo = vehiculo;
