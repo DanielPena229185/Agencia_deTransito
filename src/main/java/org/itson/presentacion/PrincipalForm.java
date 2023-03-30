@@ -57,8 +57,12 @@ public class PrincipalForm extends javax.swing.JFrame {
         menuSistema = new javax.swing.JMenu();
         menuItemSalir = new javax.swing.JMenuItem();
         menuTramites = new javax.swing.JMenu();
-        menuItemTramiteLicencia = new javax.swing.JMenuItem();
-        menuItemTramitePlaca = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         menuConsulta = new javax.swing.JMenu();
         menuItemConsultaTramites = new javax.swing.JMenuItem();
         menuItemConsultaReporte = new javax.swing.JMenuItem();
@@ -151,23 +155,25 @@ public class PrincipalForm extends javax.swing.JFrame {
             }
         });
 
-        menuItemTramiteLicencia.setMnemonic('t');
-        menuItemTramiteLicencia.setText("Licencias");
-        menuItemTramiteLicencia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuItemTramiteLicenciaActionPerformed(evt);
-            }
-        });
-        menuTramites.add(menuItemTramiteLicencia);
+        jMenu1.setText("Licencia");
 
-        menuItemTramitePlaca.setMnemonic('y');
-        menuItemTramitePlaca.setText("Placas");
-        menuItemTramitePlaca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuItemTramitePlacaActionPerformed(evt);
-            }
-        });
-        menuTramites.add(menuItemTramitePlaca);
+        jMenuItem1.setText("Nueva");
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Renovar");
+        jMenu1.add(jMenuItem2);
+
+        menuTramites.add(jMenu1);
+
+        jMenu2.setText("Placas");
+
+        jMenuItem3.setText("Nueva");
+        jMenu2.add(jMenuItem3);
+
+        jMenuItem4.setText("Cambiar");
+        jMenu2.add(jMenuItem4);
+
+        menuTramites.add(jMenu2);
 
         menuBar.add(menuTramites);
 
@@ -244,20 +250,9 @@ public class PrincipalForm extends javax.swing.JFrame {
         ayuda.setVisible(true);
     }//GEN-LAST:event_menuItemConfiguracionActionPerformed
 
-    private void menuItemTramiteLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemTramiteLicenciaActionPerformed
-        TramitesLicencia tramiteLicencia = new TramitesLicencia();
-        this.dispose();
-        tramiteLicencia.setVisible(true);
-    }//GEN-LAST:event_menuItemTramiteLicenciaActionPerformed
-
     private void menuTramitesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTramitesActionPerformed
         
     }//GEN-LAST:event_menuTramitesActionPerformed
-
-    private void menuItemTramitePlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemTramitePlacaActionPerformed
-        
-        
-    }//GEN-LAST:event_menuItemTramitePlacaActionPerformed
 
     private void menuItemConsultaTramitesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemConsultaTramitesActionPerformed
         // TODO add your handling code here:
@@ -300,6 +295,12 @@ public class PrincipalForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblAgencia;
     private javax.swing.JLabel lblFecha;
@@ -312,8 +313,6 @@ public class PrincipalForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuItemConsultaTramites;
     private javax.swing.JMenuItem menuItemSalir;
     private javax.swing.JMenuItem menuItemSobreNosotros;
-    private javax.swing.JMenuItem menuItemTramiteLicencia;
-    private javax.swing.JMenuItem menuItemTramitePlaca;
     private javax.swing.JMenu menuSistema;
     private javax.swing.JMenu menuTramites;
     private javax.swing.JPanel panelInicio;

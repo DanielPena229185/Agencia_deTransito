@@ -19,24 +19,42 @@ import org.itson.interfaces.IPagoDAO;
  */
 public class PagoDAO implements IPagoDAO {
 
-    private EntityManager entityManager;
+    private EntityManager em;
 
     /**
      *
      * @param factory
      */
     public PagoDAO(Conexion conexion) {
-        this.entityManager = conexion.obtenerConexion();
+        this.em = conexion.getConexion();
     }
 
     @Override
     public Pago agregarPago(Pago pago) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            this.em.getTransaction().begin();
+            this.em.persist(pago);
+            this.em.getTransaction().commit();
+            return pago;
+        } catch (Exception e) {
+            this.em.getTransaction().rollback();
+            throw new PersistenciaException("No se pudo agregar el pago");
+        }
     }
 
     @Override
-    public Pago eliminarPago(Pago pago) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void eliminarPago(Pago pago) throws PersistenciaException {
+        try {
+            this.em.getTransaction().begin();
+            Pago pagoEnBaseDeDatos = this.em.find(Pago.class, pago.getIdPago());
+            if (pagoEnBaseDeDatos != null) {
+                this.em.remove(pagoEnBaseDeDatos);
+            }
+            this.em.getTransaction().commit();
+        } catch (Exception e) {
+            this.em.getTransaction().rollback();
+            throw new PersistenciaException("No se pudo eliminar el pago");
+        }
     }
 
     @Override

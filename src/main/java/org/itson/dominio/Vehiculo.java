@@ -132,13 +132,5 @@ public class Vehiculo implements Serializable {
     public void setPlacas(List<Placa> placas) {
         this.placas = placas;
     }
-
-    public Persona getPersona() {
-        return persona;
-    }
-
-    public void setPersona(Persona persona) {
-        this.persona = persona;
-    }
-
+  
 }

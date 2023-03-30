@@ -8,6 +8,7 @@ package org.itson.implementaciones;
 
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.EntityManager;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Tramite;
 import org.itson.excepciones.PersistenciaException;
@@ -20,9 +21,11 @@ import org.itson.interfaces.ITramiteDAO;
  */
 public class TramiteDAO implements ITramiteDAO{
 
+    private EntityManager em;
+    
     //Constructor por omisión
     public TramiteDAO(Conexion conexion){
-
+       em = conexion.getConexion();
     }
 
     @Override

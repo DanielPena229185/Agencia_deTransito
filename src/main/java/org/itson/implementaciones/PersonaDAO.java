@@ -26,7 +26,7 @@ public class PersonaDAO implements IPersonaDAO{
      * 
      */
     public PersonaDAO(Conexion conexion){
-        this.em = conexion.obtenerConexion();
+        this.em = conexion.getConexion();
     }
 
     @Override
