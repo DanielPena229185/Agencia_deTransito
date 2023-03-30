@@ -37,24 +37,19 @@ public class Vehiculo implements Serializable {
     
     // Relacion a placas
     @OneToMany(mappedBy = "vehiculo")
-    private List<Placa> placas;
-    
-    //Relación a Persona
-    @ManyToOne()
-    @JoinColumn(name = "id_persona", nullable = false)
-    private Persona persona;
+    private List<Placa> placas;   
+
 
     public Vehiculo() {
     }
 
     public Vehiculo(String numeroSerie, String marca, String color,
-            String modelo, String linea, Persona persona) {
+            String modelo, String linea) {
         this.numeroSerie = numeroSerie;
         this.marca = marca;
         this.color = color;
         this.modelo = modelo;
         this.linea = linea;
-        this.persona = persona;
     }
 
     public Vehiculo(Long idVehiculo, String numeroSerie, String marca,

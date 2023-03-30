@@ -45,11 +45,6 @@ public class VehiculoDAO implements IVehiculoDAO {
     }
 
     @Override
-    public List<Vehiculo> consultarVehiculos(Persona persona) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public List<Vehiculo> consultarVehiculo(Placa placa) throws PersistenciaException {
         List<Vehiculo> vehiculos = new LinkedList<>();
         String numeroPlaca = placa.getNumero();

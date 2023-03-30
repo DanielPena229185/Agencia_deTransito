@@ -20,8 +20,8 @@ public class Automovil extends Vehiculo implements Serializable {
         super(idVehiculo, numeroSerie, marca, color, modelo, linea);
     }
 
-    public Automovil(String numeroSerie, String marca, String color, String modelo, String linea, Persona persona) {
-        super(numeroSerie, marca, color, modelo, linea, persona);
+    public Automovil(String numeroSerie, String marca, String color, String modelo, String linea) {
+        super(numeroSerie, marca, color, modelo, linea);
     }
 
 }
