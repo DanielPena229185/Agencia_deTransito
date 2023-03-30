@@ -1,13 +1,13 @@
 /**
-* TramiteDAO.java
-* 29 mar. 2023 09:49:32
-*/ 
-
+ * TramiteDAO.java
+ * 29 mar. 2023 09:49:32
+ */
 package org.itson.implementaciones;
 //importanciones
 
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Tramite;
@@ -15,22 +15,35 @@ import org.itson.excepciones.PersistenciaException;
 import org.itson.interfaces.ITramiteDAO;
 
 /**
- * Descripción de la clase: 
- * 
+ * Descripción de la clase:
+ *
  * @author Daniel Armando Peña Garcia ID:229185
  */
-public class TramiteDAO implements ITramiteDAO{
+public class TramiteDAO implements ITramiteDAO {
 
     private EntityManager em;
-    
+
     //Constructor por omisión
-    public TramiteDAO(Conexion conexion){
-       em = conexion.getConexion();
+    public TramiteDAO(Conexion conexion) {
+        em = conexion.getConexion();
     }
 
     @Override
     public Tramite agregarTramite(Tramite tramite) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            em.getTransaction().begin();
+            em.persist(tramite);
+            em.getTransaction().commit();
+            return tramite;
+        } catch (EntityExistsException a) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("Esta tramite ya exite");
+        } catch (Exception b) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("No se pudo registrar a el tramite");
+        } finally {
+            em.close();
+        }
     }
 
     @Override
