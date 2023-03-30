@@ -6,7 +6,6 @@
 package org.itson.presentacion;
 
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 
 /**
  * Descripción de la clase:
@@ -294,8 +293,7 @@ public class TramitesLicencia extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        PrincipalForm form = new PrincipalForm();
-        form.setVisible(true);
+        
     }//GEN-LAST:event_formWindowClosed
 
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed

@@ -2,7 +2,7 @@ package org.itson.sistema;
 
 import java.util.Calendar;
 import org.itson.dominio.Persona;
-import org.itson.implementaciones.Conexion;
+import org.itson.implementaciones.ConexionBD;
 import org.itson.implementaciones.PersonaDAO;
 import org.itson.interfaces.IPersonaDAO;
 
@@ -15,7 +15,7 @@ public class AgenciaDeTransito {
 
     public static void main(String[] args) {
 
-        Conexion conexion = new Conexion("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU");
+        ConexionBD conexion = new ConexionBD("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU");
         IPersonaDAO personas = new PersonaDAO(conexion);
         
 //        EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU");

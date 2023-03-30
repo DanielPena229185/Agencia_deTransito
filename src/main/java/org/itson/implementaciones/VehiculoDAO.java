@@ -22,7 +22,7 @@ public class VehiculoDAO implements IVehiculoDAO {
 
     private EntityManager em;
     
-    public VehiculoDAO(Conexion conexion) {
+    public VehiculoDAO(ConexionBD conexion) {
         this.em = conexion.getConexion();
     }
 

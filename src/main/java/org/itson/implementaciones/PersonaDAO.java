@@ -28,7 +28,7 @@ public class PersonaDAO implements IPersonaDAO {
     /**
      *
      */
-    public PersonaDAO(Conexion conexion) {
+    public PersonaDAO(ConexionBD conexion) {
         this.em = conexion.getConexion();
     }
 

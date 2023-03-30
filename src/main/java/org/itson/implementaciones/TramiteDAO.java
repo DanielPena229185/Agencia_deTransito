@@ -24,7 +24,7 @@ public class TramiteDAO implements ITramiteDAO {
     private EntityManager em;
 
     //Constructor por omisión
-    public TramiteDAO(Conexion conexion) {
+    public TramiteDAO(ConexionBD conexion) {
         em = conexion.getConexion();
     }
 
