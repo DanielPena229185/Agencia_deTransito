@@ -23,5 +23,11 @@ public class DAOFactory {
     public IPagoDAO getPagoDAO() {
         return new PagoDAO(conexion);
     }
+    
+    public IPersonaDAO getPersonaDAO() {
+        return new PersonaDAO(conexion);
+    }
+    
+    
 
 }

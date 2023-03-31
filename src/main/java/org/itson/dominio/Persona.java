@@ -15,7 +15,6 @@ import javax.persistence.*;
 public class Persona implements Serializable {
 
     //Variables
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,6 +66,7 @@ public class Persona implements Serializable {
     public Persona(String nombres, String apellido_paterno,
             String apellido_materno, String rfc, Calendar fechaNacimiento,
             Boolean discapacidad, String telefono) {
+        this.validarPersona(nombres, apellido_paterno, apellido_materno, rfc, fechaNacimiento, discapacidad, telefono);
         this.nombres = nombres;
         this.apellido_paterno = apellido_paterno;
         this.apellido_materno = apellido_materno;
@@ -77,7 +77,6 @@ public class Persona implements Serializable {
     }
 
     /**
-     * Constructor que inicializa el objeto los parametros:
      *
      * @param idPersona
      * @param nombres
@@ -91,6 +90,7 @@ public class Persona implements Serializable {
     public Persona(Long idPersona, String nombres, String apellido_paterno,
             String apellido_materno, String rfc, Calendar fechaNacimiento,
             Boolean discapacidad, String telefono) {
+        this.validarPersona(nombres, apellido_paterno, apellido_materno, rfc, fechaNacimiento, discapacidad, telefono);
         this.idPersona = idPersona;
         this.nombres = nombres;
         this.apellido_paterno = apellido_paterno;
@@ -99,6 +99,45 @@ public class Persona implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
         this.discapacidad = discapacidad;
         this.telefono = telefono;
+    }
+
+    public void validarPersona(String nombres, String apellido_paterno,
+            String apellido_materno, String rfc, Calendar fechaNacimiento,
+            Boolean discapacidad, String telefono) {
+
+        if (nombres == null || nombres.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacío");
+        } else if (nombres.length() > 150) {
+            throw new IllegalArgumentException("El nombre de la persona no debe exceder los 150 caracteres");
+        }
+
+        if (apellido_paterno == null || apellido_paterno.trim().isEmpty()) {
+            throw new IllegalArgumentException("El apellido paterno no puede estar vacío");
+        } else if (apellido_paterno.length() > 150) {
+            throw new IllegalArgumentException("El apellido paterno de la persona no debe exceder los 150 caracteres");
+        }
+
+        if (apellido_materno == null || apellido_materno.trim().isEmpty()) {
+            throw new IllegalArgumentException("El apellido materno no puede estar vacío");
+        } else if (apellido_materno.length() > 150) {
+            throw new IllegalArgumentException("El apellido materno de la persona no debe exceder los 150 caracteres");
+        }
+
+        if (rfc == null || rfc.trim().isEmpty()) {
+            throw new IllegalArgumentException("El RFC no puede estar vacío");
+        } else if (rfc.length() > 150) {
+            throw new IllegalArgumentException("El RFC de la persona no debe exceder los 150 caracteres");
+        }
+
+        if (fechaNacimiento == null) {
+            throw new IllegalArgumentException("La fecha de nacimiento no puede ser nula");
+        }
+
+        if (telefono == null || telefono.trim().isEmpty()) {
+            throw new IllegalArgumentException("El número de teléfono no puede estar vacío");
+        } else if (rfc.length() > 100) {
+            throw new IllegalArgumentException("El numero telefonico de la persona no debe exceder los 100 caracteres");
+        }
     }
 
     /**
@@ -134,6 +173,11 @@ public class Persona implements Serializable {
      * @param nombres a ingresar
      */
     public void setNombres(String nombres) {
+        if (nombres == null || nombres.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacío");
+        } else if (nombres.length() > 150) {
+            throw new IllegalArgumentException("El nombre de la persona no debe exceder los 150 caracteres");
+        }
         this.nombres = nombres;
     }
 
@@ -152,6 +196,11 @@ public class Persona implements Serializable {
      * @param apellido_paterno valor a ingresar
      */
     public void setApellido_paterno(String apellido_paterno) {
+        if (apellido_paterno == null || apellido_paterno.trim().isEmpty()) {
+            throw new IllegalArgumentException("El apellido paterno no puede estar vacío");
+        } else if (apellido_paterno.length() > 150) {
+            throw new IllegalArgumentException("El apellido paterno de la persona no debe exceder los 150 caracteres");
+        }
         this.apellido_paterno = apellido_paterno;
     }
 
@@ -170,6 +219,11 @@ public class Persona implements Serializable {
      * @param apellido_materno valor a ingresar
      */
     public void setApellido_materno(String apellido_materno) {
+        if (apellido_materno == null || apellido_materno.trim().isEmpty()) {
+            throw new IllegalArgumentException("El apellido materno no puede estar vacío");
+        } else if (apellido_materno.length() > 150) {
+            throw new IllegalArgumentException("El apellido materno de la persona no debe exceder los 150 caracteres");
+        }
         this.apellido_materno = apellido_materno;
     }
 
@@ -188,6 +242,11 @@ public class Persona implements Serializable {
      * @param rfc
      */
     public void setRfc(String rfc) {
+        if (rfc == null || rfc.trim().isEmpty()) {
+            throw new IllegalArgumentException("El RFC no puede estar vacío");
+        } else if (rfc.length() > 150) {
+            throw new IllegalArgumentException("El RFC de la persona no debe exceder los 150 caracteres");
+        }
         this.rfc = rfc;
     }
 
@@ -206,6 +265,9 @@ public class Persona implements Serializable {
      * @param fechaNacimiento
      */
     public void setFechaNacimiento(Calendar fechaNacimiento) {
+        if (fechaNacimiento == null) {
+            throw new IllegalArgumentException("La fecha de nacimiento no puede ser nula");
+        }
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -242,6 +304,11 @@ public class Persona implements Serializable {
      * @param telefono a ingresar
      */
     public void setTelefono(String telefono) {
+        if (telefono == null || telefono.trim().isEmpty()) {
+            throw new IllegalArgumentException("El número de teléfono no puede estar vacío");
+        } else if (rfc.length() > 100) {
+            throw new IllegalArgumentException("El numero telefonico de la persona no debe exceder los 100 caracteres");
+        }
         this.telefono = telefono;
     }
 
@@ -267,8 +334,8 @@ public class Persona implements Serializable {
      */
     public int getEdad() {
         Calendar ahora = Calendar.getInstance();
-        long edadEnDias = 
-                (ahora.getTimeInMillis() - fechaNacimiento.getTimeInMillis())
+        long edadEnDias
+                = (ahora.getTimeInMillis() - fechaNacimiento.getTimeInMillis())
                 / 1000 / 60 / 60 / 24;
         int anios = Double.valueOf(edadEnDias / 365.25d).intValue();
 

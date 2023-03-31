@@ -5,7 +5,6 @@
  */
 package org.itson.dominio;
 
-import com.sun.istack.internal.NotNull;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.*;
@@ -44,20 +43,7 @@ public class Pago implements Serializable {
     }
 
     public Pago(Float monto, Calendar fechaHora, String concepto, Tramite tramite) {
-        if (monto <= 0) {
-            throw new IllegalArgumentException("El monto debe ser mayor a 0");
-        }
-        if (fechaHora == null) {
-            throw new IllegalArgumentException("La fecha y hora no pueden ser nulas");
-        }
-        if (concepto == null || concepto.trim().isEmpty()) {
-            throw new IllegalArgumentException("El monto del pago es requerido");
-        } else if (concepto.length() > 255) {
-            throw new IllegalArgumentException("El concepto del pago no debe exceder los 255 caracteres");
-        }
-        if (tramite == null) {
-            throw new IllegalArgumentException("El tramite del pago es requerido");
-        }
+        this.validarPago(monto, fechaHora, concepto, tramite);
         this.monto = monto;
         this.fechaHora = fechaHora;
         this.concepto = concepto;
@@ -65,6 +51,15 @@ public class Pago implements Serializable {
     }
 
     public Pago(Long idPago, Float monto, Calendar fechaHora, String concepto, Tramite tramite) {
+        this.validarPago(monto, fechaHora, concepto, tramite);
+        this.idPago = idPago;
+        this.monto = monto;
+        this.fechaHora = fechaHora;
+        this.concepto = concepto;
+        this.tramite = tramite;
+    }
+
+    public void validarPago(Float monto, Calendar fechaHora, String concepto, Tramite tramite) throws IllegalArgumentException{
         if (monto <= 0) {
             throw new IllegalArgumentException("El monto debe ser mayor a 0");
         }
@@ -79,11 +74,6 @@ public class Pago implements Serializable {
         if (tramite == null) {
             throw new IllegalArgumentException("El tramite del pago es requerido");
         }
-        this.idPago = idPago;
-        this.monto = monto;
-        this.fechaHora = fechaHora;
-        this.concepto = concepto;
-        this.tramite = tramite;
     }
 
     public Long getIdPago() {

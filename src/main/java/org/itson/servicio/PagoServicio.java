@@ -124,10 +124,10 @@ public class PagoServicio {
     }
 
     /**
-     * 
+     *
      * @param fecha
      * @return
-     * @throws IllegalArgumentException 
+     * @throws IllegalArgumentException
      */
     public List<Pago> consultarPago(Calendar fecha) throws IllegalArgumentException {
         try {

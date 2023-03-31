@@ -32,6 +32,12 @@ public class PersonaDAO implements IPersonaDAO {
         this.em = conexion.getConexion();
     }
 
+    /**
+     *
+     * @param persona
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public Persona agregarPersona(Persona persona) throws PersistenciaException {
         try {
@@ -50,9 +56,39 @@ public class PersonaDAO implements IPersonaDAO {
         }
     }
 
+    /**
+     *
+     * @param persona
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public Persona actualizarPersona(Persona persona) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            em.getTransaction().begin();
+            Persona personaActualizado = em.find(Persona.class, persona.getIdPersona());
+            if (personaActualizado == null) {
+                throw new PersistenciaException("La persona no existe en la base de datos");
+            }
+            personaActualizado.setNombres(persona.getNombres());
+            personaActualizado.setApellido_paterno(persona.getApellido_paterno());
+            personaActualizado.setApellido_materno(persona.getApellido_materno());
+            personaActualizado.setRfc(persona.getRfc());
+            personaActualizado.setFechaNacimiento(persona.getFechaNacimiento());
+            personaActualizado.setDiscapacidad(persona.getDiscapacidad());
+            personaActualizado.setTelefono(persona.getTelefono());
+            em.merge(personaActualizado);
+            em.getTransaction().commit();
+            return personaActualizado;
+        } catch (IllegalArgumentException b) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("No se pudo actualizar el pago " + b.getMessage());
+        } catch (PersistenciaException b) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("No se pudo actualizar el pago " + b.getMessage());
+        } finally {
+            em.close();
+        }
     }
 
     @Override
@@ -62,10 +98,11 @@ public class PersonaDAO implements IPersonaDAO {
 
     /**
      * Busca la lista de personas que coincidan co los parametros dados
+     *
      * @param filtro columna a buscar en la consulta
      * @param busqueda el valor del filtro a buscar
      * @return lista de Personas con los valores asignados en la consulta
-     * @throws PersistenciaException 
+     * @throws PersistenciaException
      */
     @Override
     public List<Persona> consultarPersonas(String filtro, String busqueda) throws PersistenciaException {
@@ -94,6 +131,20 @@ public class PersonaDAO implements IPersonaDAO {
 
     @Override
     public List<Persona> consultarPersonas() throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            em.getTransaction().begin();
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Persona> criteria = builder.createQuery(Persona.class);
+            Root<Persona> root = criteria.from(Persona.class);
+            TypedQuery<Persona> query = em.createQuery(criteria);
+            List<Persona> personas = query.getResultList();
+            em.getTransaction().commit();
+            return personas;
+        } catch (PersistenciaException e) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("Error al consultar las personas en la base de datos " + e.getMessage());
+        } finally {
+            em.close();
+        }
     }
 }

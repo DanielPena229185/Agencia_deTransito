@@ -170,7 +170,7 @@ public class PagoDAO implements IPagoDAO {
             return pagos;
         } catch (PersistenciaException e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("\"Error al consultar los pagos en la base de datos "+e.getMessage());
+            throw new PersistenciaException("\"Error al consultar los pagos en la base de datos " + e.getMessage());
         } finally {
             em.close();
         }
