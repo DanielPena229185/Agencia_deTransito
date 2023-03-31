@@ -9,6 +9,10 @@ import java.util.Calendar;
 import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Tramite;
 import org.itson.excepciones.PersistenciaException;
@@ -84,7 +88,21 @@ public class TramiteDAO implements ITramiteDAO {
 
     @Override
     public List<Tramite> consultarTramites() throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            em.getTransaction().begin();
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Tramite> criteria = builder.createQuery(Tramite.class);
+            Root<Tramite> root = criteria.from(Tramite.class);
+            TypedQuery<Tramite> query = em.createQuery(criteria);
+            List<Tramite> tramites = query.getResultList();
+            em.getTransaction().commit();
+            return tramites;
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("No se pudo generar la busqueda de tramites");
+        } finally {
+            em.close();
+        }
     }
 
     @Override
