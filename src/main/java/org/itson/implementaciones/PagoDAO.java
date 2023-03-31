@@ -19,14 +19,14 @@ import org.itson.interfaces.IPagoDAO;
  */
 public class PagoDAO implements IPagoDAO {
 
-    private EntityManager entityManager;
+    private EntityManager em;
 
     /**
      *
      * @param factory
      */
     public PagoDAO(Conexion conexion) {
-        this.entityManager = conexion.obtenerConexion();
+        this.em = conexion.obtenerConexion();
     }
 
     @Override

@@ -56,7 +56,7 @@
                       <Component id="jButton2" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jTextField1" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="46" max="32767" attributes="0"/>
+                  <EmptySpace pref="66" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
@@ -153,7 +153,7 @@
               <StringArray count="3">
                 <StringItem index="0" value="Nombre"/>
                 <StringItem index="1" value="RFC"/>
-                <StringItem index="2" value="FECHA DE NACIMIENTO"/>
+                <StringItem index="2" value="A&#xf1;o de Nacimiento"/>
               </StringArray>
             </Property>
           </Properties>
