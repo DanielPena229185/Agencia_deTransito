@@ -50,10 +50,10 @@ public class PagoDAO implements IPagoDAO {
             return pago;
         } catch (EntityExistsException a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("Esta pago ya exite en la base de datos"+a.getMessage());
+            throw new PersistenciaException("Esta pago ya exite en la base de datos" + a.getMessage());
         } catch (Exception e) {
             this.em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo agregar el pago");
+            throw new PersistenciaException("No se pudo agregar el pago" + e.getMessage());
         } finally {
             em.close();
         }
@@ -80,6 +80,8 @@ public class PagoDAO implements IPagoDAO {
         } catch (Exception e) {
             this.em.getTransaction().rollback();
             throw new PersistenciaException("No se pudo eliminar el pago " + e.getMessage());
+        } finally {
+            em.close();
         }
     }
 
@@ -94,6 +96,9 @@ public class PagoDAO implements IPagoDAO {
         try {
             em.getTransaction().begin();
             Pago pagoActualizado = em.find(Pago.class, pago.getIdPago());
+            if (pagoActualizado == null) {
+                throw new PersistenciaException("El pago no existe en la base de datos");
+            }
             pagoActualizado.setMonto(pago.getMonto());
             pagoActualizado.setFechaHora(pago.getFechaHora());
             pagoActualizado.setConcepto(pago.getConcepto());
@@ -101,9 +106,12 @@ public class PagoDAO implements IPagoDAO {
             em.merge(pagoActualizado);
             em.getTransaction().commit();
             return pagoActualizado;
-        } catch (Exception b) {
+        } catch (IllegalArgumentException b) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar el pago");
+            throw new PersistenciaException("No se pudo actualizar el pago " + b.getMessage());
+        } catch (PersistenciaException b) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("No se pudo actualizar el pago " + b.getMessage());
         } finally {
             em.close();
         }
@@ -114,11 +122,14 @@ public class PagoDAO implements IPagoDAO {
         try {
             em.getTransaction().begin();
             Pago pagoConsulta = em.find(Pago.class, pago.getIdPago());
+            if (pagoConsulta == null) {
+                throw new PersistenciaException("El pago no existe en la base de datos");
+            }
             em.getTransaction().commit();
             return pagoConsulta;
-        } catch (Exception b) {
+        } catch (PersistenciaException b) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No existe el pago en la BD");
+            throw new PersistenciaException("Error al consultar el pago en la base de datos " + b.getMessage());
         } finally {
             em.close();
         }
@@ -135,9 +146,9 @@ public class PagoDAO implements IPagoDAO {
             List<Pago> pagos = query.getResultList();
             em.getTransaction().commit();
             return pagos;
-        } catch (Exception e) {
+        } catch (PersistenciaException e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de pagos");
+            throw new PersistenciaException("Error al consultar los pagos en la base de datos " + e.getMessage());
         } finally {
             em.close();
         }
@@ -157,9 +168,9 @@ public class PagoDAO implements IPagoDAO {
             List<Pago> pagos = query.getResultList();
             em.getTransaction().commit();
             return pagos;
-        } catch (Exception e) {
+        } catch (PersistenciaException e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de pagos");
+            throw new PersistenciaException("\"Error al consultar los pagos en la base de datos "+e.getMessage());
         } finally {
             em.close();
         }
