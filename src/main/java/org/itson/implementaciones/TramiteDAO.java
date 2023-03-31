@@ -54,9 +54,27 @@ public class TramiteDAO implements ITramiteDAO {
         }
     }
 
+    /**
+     *
+     * @param tramite
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public Tramite actualizarTramite(Tramite tramite) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            em.getTransaction().begin();
+            Tramite tramiteActualizado = em.find(Tramite.class, tramite.getIdTramite());
+            tramiteActualizado.actualizarTramite(tramite);
+            em.merge(tramite);
+            em.getTransaction().commit();
+            return tramiteActualizado;
+        } catch (Exception b) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("No se pudo actualizar el tramite");
+        } finally {
+            em.close();
+        }
     }
 
     @Override

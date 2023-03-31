@@ -22,7 +22,6 @@ public class Placa extends Tramite implements Serializable {
     private Calendar fechaRecepcion;
 
     //Relaciones
-    
     // Relacion vehiculo
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_vehiculo", nullable = false)

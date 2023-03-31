@@ -22,8 +22,8 @@ public class PagoDAO implements IPagoDAO {
     private EntityManager em;
 
     /**
-     * 
-     * @param conexion 
+     *
+     * @param conexion
      */
     public PagoDAO(ConexionBD conexion) {
         this.em = conexion.getConexion();
@@ -39,7 +39,7 @@ public class PagoDAO implements IPagoDAO {
         } catch (Exception e) {
             this.em.getTransaction().rollback();
             throw new PersistenciaException("No se pudo agregar el pago");
-        }finally{
+        } finally {
             em.close();
         }
     }

@@ -113,12 +113,12 @@ public class Tramite implements Serializable {
     public void setPago(List<Pago> pago) {
         this.pago = pago;
     }
-    
-    public void agregarPago(Pago pago){
-        if(this.pago == null){
+
+    public void agregarPago(Pago pago) {
+        if (this.pago == null) {
             this.pago = new LinkedList<>();
         }
-        
+
         this.pago.add(pago);
     }
 
