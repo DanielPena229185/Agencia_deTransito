@@ -7,24 +7,20 @@ package org.itson.presentacion;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
-import org.itson.interfaces.IPersonaDAO;
 
 /**
- * Descripción de la clase:
+ * DescripciÃ³n de la clase:
  *
- * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Armando PeÃ±a Garcia ID:229185
  */
 public class PrincipalForm extends javax.swing.JFrame {
 
-    private IPersonaDAO persona;
-    
     /**
      * Creates new form PrincipalForm
      */
-    public PrincipalForm(IPersonaDAO persona) {
+    public PrincipalForm() {
         initComponents();
         valoresIniciales();
-        this.persona = persona;
     }
 
     private String fecha() {
@@ -62,12 +58,8 @@ public class PrincipalForm extends javax.swing.JFrame {
         menuSistema = new javax.swing.JMenu();
         menuItemSalir = new javax.swing.JMenuItem();
         menuTramites = new javax.swing.JMenu();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        menuItemTramiteLicencia = new javax.swing.JMenuItem();
+        menuItemTramitePlaca = new javax.swing.JMenuItem();
         menuConsulta = new javax.swing.JMenu();
         menuItemConsultaTramites = new javax.swing.JMenuItem();
         menuItemConsultaReporte = new javax.swing.JMenuItem();
@@ -88,7 +80,7 @@ public class PrincipalForm extends javax.swing.JFrame {
 
         lblAgencia.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblAgencia.setForeground(new java.awt.Color(255, 255, 255));
-        lblAgencia.setText("Agencia de Tránsito");
+        lblAgencia.setText("Agencia de TrÃ¡nsito");
 
         lblFecha.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         lblFecha.setForeground(new java.awt.Color(255, 255, 255));
@@ -161,38 +153,36 @@ public class PrincipalForm extends javax.swing.JFrame {
         menuBar.add(menuSistema);
 
         menuTramites.setMnemonic('e');
-        menuTramites.setText("Trámites");
+        menuTramites.setText("TrÃ¡mites");
         menuTramites.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuTramitesActionPerformed(evt);
             }
         });
 
-        jMenu1.setText("Licencia");
+        menuItemTramiteLicencia.setMnemonic('t');
+        menuItemTramiteLicencia.setText("Licencias");
+        menuItemTramiteLicencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemTramiteLicenciaActionPerformed(evt);
+            }
+        });
+        menuTramites.add(menuItemTramiteLicencia);
 
-        jMenuItem1.setText("Nueva");
-        jMenu1.add(jMenuItem1);
-
-        jMenuItem2.setText("Renovar");
-        jMenu1.add(jMenuItem2);
-
-        menuTramites.add(jMenu1);
-
-        jMenu2.setText("Placas");
-
-        jMenuItem3.setText("Nueva");
-        jMenu2.add(jMenuItem3);
-
-        jMenuItem4.setText("Cambiar");
-        jMenu2.add(jMenuItem4);
-
-        menuTramites.add(jMenu2);
+        menuItemTramitePlaca.setMnemonic('y');
+        menuItemTramitePlaca.setText("Placas");
+        menuItemTramitePlaca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemTramitePlacaActionPerformed(evt);
+            }
+        });
+        menuTramites.add(menuItemTramitePlaca);
 
         menuBar.add(menuTramites);
 
         menuConsulta.setText("Consulta");
 
-        menuItemConsultaTramites.setText("Tràmites");
+        menuItemConsultaTramites.setText("TrÃ mites");
         menuItemConsultaTramites.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemConsultaTramitesActionPerformed(evt);
@@ -209,7 +199,7 @@ public class PrincipalForm extends javax.swing.JFrame {
         menuAyuda.setText("Ayuda");
 
         menuItemConfiguracion.setMnemonic('c');
-        menuItemConfiguracion.setText("Configuración");
+        menuItemConfiguracion.setText("ConfiguraciÃ³n");
         menuItemConfiguracion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemConfiguracionActionPerformed(evt);
@@ -246,8 +236,8 @@ public class PrincipalForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSalirActionPerformed
-        int salir = JOptionPane.showConfirmDialog(this, "¿Segur(a) que desea salir\n"
-                + "del sistema?", "¡Precaución!", JOptionPane.YES_NO_OPTION);
+        int salir = JOptionPane.showConfirmDialog(this, "Â¿Segur(a) que desea salir\n"
+                + "del sistema?", "Â¡PrecauciÃ³n!", JOptionPane.YES_NO_OPTION);
         if(salir == JOptionPane.YES_OPTION){
             System.exit(0);
         }
@@ -259,13 +249,24 @@ public class PrincipalForm extends javax.swing.JFrame {
     }//GEN-LAST:event_menuItemSobreNosotrosActionPerformed
 
     private void menuItemConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemConfiguracionActionPerformed
-        AyudaDlg ayuda = new AyudaDlg(this, true, persona);
-        ayuda.setVisible(true);
+//        AyudaDlg ayuda = new AyudaDlg(this, true);
+//        ayuda.setVisible(true);
     }//GEN-LAST:event_menuItemConfiguracionActionPerformed
+
+    private void menuItemTramiteLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemTramiteLicenciaActionPerformed
+        TramitesLicencia tramiteLicencia = new TramitesLicencia();
+        this.dispose();
+        tramiteLicencia.setVisible(true);
+    }//GEN-LAST:event_menuItemTramiteLicenciaActionPerformed
 
     private void menuTramitesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTramitesActionPerformed
         
     }//GEN-LAST:event_menuTramitesActionPerformed
+
+    private void menuItemTramitePlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemTramitePlacaActionPerformed
+        
+        
+    }//GEN-LAST:event_menuItemTramitePlacaActionPerformed
 
     private void menuItemConsultaTramitesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemConsultaTramitesActionPerformed
         // TODO add your handling code here:
@@ -274,16 +275,7 @@ public class PrincipalForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane desktopPane;
-<<<<<<< HEAD
     private javax.swing.JFormattedTextField jFormattedTextField1;
-=======
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
->>>>>>> 6862a16a7507114c0a3eaea9003c3531af6d5c18
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblAgencia;
     private javax.swing.JLabel lblFecha;
@@ -296,6 +288,8 @@ public class PrincipalForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuItemConsultaTramites;
     private javax.swing.JMenuItem menuItemSalir;
     private javax.swing.JMenuItem menuItemSobreNosotros;
+    private javax.swing.JMenuItem menuItemTramiteLicencia;
+    private javax.swing.JMenuItem menuItemTramitePlaca;
     private javax.swing.JMenu menuSistema;
     private javax.swing.JMenu menuTramites;
     private javax.swing.JPanel panelInicio;
