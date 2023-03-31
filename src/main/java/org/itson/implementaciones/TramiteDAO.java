@@ -28,6 +28,14 @@ public class TramiteDAO implements ITramiteDAO {
         em = conexion.getConexion();
     }
 
+    /**
+     * Metódo que registra tramite
+     *
+     * @param tramite a ingresar
+     * @return el tramite ya registrado
+     * @throws PersistenciaException cuando ya exista un registro igual en la
+     * base en la base de datos
+     */
     @Override
     public Tramite agregarTramite(Tramite tramite) throws PersistenciaException {
         try {
