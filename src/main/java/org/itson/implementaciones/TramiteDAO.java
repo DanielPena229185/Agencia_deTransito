@@ -107,7 +107,7 @@ public class TramiteDAO implements ITramiteDAO {
 
     @Override
     public List<Tramite> consultarTramitesPersona(Persona persona) throws PersistenciaException {
-     try {
+        try {
             em.getTransaction().begin();
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery<Tramite> criteria = builder.createQuery(Tramite.class);
@@ -115,7 +115,7 @@ public class TramiteDAO implements ITramiteDAO {
             criteria.where(
                     builder.equal(root.get("persona").get("idPersona"), persona.getIdPersona())
             );
-            
+
             TypedQuery<Tramite> query = em.createQuery(criteria);
             List<Tramite> tramites = query.getResultList();
             em.getTransaction().commit();
