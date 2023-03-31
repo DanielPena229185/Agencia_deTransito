@@ -23,20 +23,45 @@ public class PagoDAO implements IPagoDAO {
 
     /**
      *
-     * @param factory
+     * @param conexion
      */
+<<<<<<< HEAD
     public PagoDAO(Conexion conexion) {
         this.em = conexion.obtenerConexion();
+=======
+    public PagoDAO(ConexionBD conexion) {
+        this.em = conexion.getConexion();
+>>>>>>> 6862a16a7507114c0a3eaea9003c3531af6d5c18
     }
 
     @Override
     public Pago agregarPago(Pago pago) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            this.em.getTransaction().begin();
+            this.em.persist(pago);
+            this.em.getTransaction().commit();
+            return pago;
+        } catch (Exception e) {
+            this.em.getTransaction().rollback();
+            throw new PersistenciaException("No se pudo agregar el pago");
+        } finally {
+            em.close();
+        }
     }
 
     @Override
-    public Pago eliminarPago(Pago pago) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void eliminarPago(Pago pago) throws PersistenciaException {
+        try {
+            this.em.getTransaction().begin();
+            Pago pagoEnBaseDeDatos = this.em.find(Pago.class, pago.getIdPago());
+            if (pagoEnBaseDeDatos != null) {
+                this.em.remove(pagoEnBaseDeDatos);
+            }
+            this.em.getTransaction().commit();
+        } catch (Exception e) {
+            this.em.getTransaction().rollback();
+            throw new PersistenciaException("No se pudo eliminar el pago");
+        }
     }
 
     @Override

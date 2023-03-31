@@ -18,7 +18,7 @@ import org.itson.excepciones.PersistenciaException;
 public interface IPagoDAO {
 
     public Pago agregarPago(Pago pago)throws PersistenciaException;
-    public Pago eliminarPago(Pago pago)throws PersistenciaException;
+    public void eliminarPago(Pago pago)throws PersistenciaException;
     public Pago actualizarPago(Pago pago)throws PersistenciaException;
     public Pago consultarPago(Pago pago)throws PersistenciaException;
     public List<Pago> consultarPago()throws PersistenciaException;

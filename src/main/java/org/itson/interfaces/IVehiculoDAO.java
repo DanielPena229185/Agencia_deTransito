@@ -6,7 +6,6 @@
 package org.itson.interfaces;
 
 import java.util.List;
-import org.itson.dominio.Persona;
 import org.itson.dominio.Placa;
 import org.itson.dominio.Vehiculo;
 import org.itson.excepciones.PersistenciaException;
@@ -22,6 +21,5 @@ public interface IVehiculoDAO {
     public Vehiculo actualizarVehiculo(Vehiculo vehiculo)throws PersistenciaException;
     public Vehiculo eliminarVehiculo(Vehiculo vehiculo)throws PersistenciaException;
     public List<Vehiculo> consultarVehiculos()throws PersistenciaException;
-    public List<Vehiculo> consultarVehiculos(Persona persona)throws PersistenciaException;
     public List<Vehiculo> consultarVehiculo(Placa placa)throws PersistenciaException;
 }

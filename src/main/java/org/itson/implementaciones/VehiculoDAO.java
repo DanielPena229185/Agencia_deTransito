@@ -7,7 +7,7 @@ package org.itson.implementaciones;
 
 import java.util.LinkedList;
 import java.util.List;
-import org.itson.dominio.Persona;
+import javax.persistence.EntityManager;
 import org.itson.dominio.Placa;
 import org.itson.dominio.Vehiculo;
 import org.itson.excepciones.PersistenciaException;
@@ -20,8 +20,10 @@ import org.itson.interfaces.IVehiculoDAO;
  */
 public class VehiculoDAO implements IVehiculoDAO {
 
-    public VehiculoDAO() {
-
+    private EntityManager em;
+    
+    public VehiculoDAO(ConexionBD conexion) {
+        this.em = conexion.getConexion();
     }
 
     @Override
@@ -41,11 +43,6 @@ public class VehiculoDAO implements IVehiculoDAO {
 
     @Override
     public List<Vehiculo> consultarVehiculos() throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public List<Vehiculo> consultarVehiculos(Persona persona) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

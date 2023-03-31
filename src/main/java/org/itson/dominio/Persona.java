@@ -46,9 +46,6 @@ public class Persona implements Serializable {
     // Relacion Tramite
     @OneToMany(mappedBy = "persona")
     private List<Tramite> tramites;
-    //Relaciones
-    @OneToMany(mappedBy = "persona")
-    private List<Vehiculo> vehiculos;
 
     /**
      * Contructor por ausencia
@@ -254,21 +251,6 @@ public class Persona implements Serializable {
 
     public void setTramite(List<Tramite> tramite) {
         this.tramites = tramite;
-    }
-
-    public List<Vehiculo> getVehiculos() {
-        return vehiculos;
-    }
-
-    public void setVehiculos(List<Vehiculo> vehiculos) {
-        this.vehiculos = vehiculos;
-    }
-
-    public void agregarVehiculo(Vehiculo vehiculo) {
-        if (this.vehiculos == null) {
-            this.vehiculos = new LinkedList<>();
-        }
-        this.vehiculos.add(vehiculo);
     }
 
     public void agregarALista(Tramite tramite) {
