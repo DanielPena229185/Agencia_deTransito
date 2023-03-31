@@ -34,11 +34,9 @@ public class Vehiculo implements Serializable {
     private String linea;
 
     //Relaciones
-    
     // Relacion a placas
     @OneToMany(mappedBy = "vehiculo")
-    private List<Placa> placas;   
-
+    private List<Placa> placas;
 
     public Vehiculo() {
     }
@@ -60,6 +58,17 @@ public class Vehiculo implements Serializable {
         this.color = color;
         this.modelo = modelo;
         this.linea = linea;
+    }
+
+    public void validarDatos(String numeroSerie, String marca, String color,
+            String modelo, String linea) {
+        
+        if (numeroSerie == null || numeroSerie.trim().isEmpty()) {
+            throw new IllegalArgumentException("El numero de serie no puede estar vacío");
+        } else if (numeroSerie.length() > 50) {
+            throw new IllegalArgumentException("El numero de serie del vehiculo no debe exceder los 50 caracteres");
+        }
+        
     }
 
     public Long getIdVehiculo() {
@@ -117,9 +126,9 @@ public class Vehiculo implements Serializable {
     public void setPlaca(List<Placa> placa) {
         this.placas = placa;
     }
-    
-    public void agregarPlaca(Placa placa){
-        if(this.placas == null){
+
+    public void agregarPlaca(Placa placa) {
+        if (this.placas == null) {
             this.placas = new LinkedList<>();
         }
         this.placas.add(placa);
@@ -132,7 +141,5 @@ public class Vehiculo implements Serializable {
     public void setPlacas(List<Placa> placas) {
         this.placas = placas;
     }
-    
-  
-  
+
 }

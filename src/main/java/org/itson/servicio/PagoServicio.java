@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.List;
 import org.itson.dominio.Pago;
 import org.itson.implementaciones.DAOFactory;
-import org.itson.implementaciones.*;
 import org.itson.interfaces.*;
 
 /**
@@ -60,7 +59,7 @@ public class PagoServicio {
         try {
             this.validarDatos(pago);
             return pagoDAO.agregarPago(pago);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("No se puede agregar el pago " + e.getMessage());
         }
 
@@ -75,7 +74,7 @@ public class PagoServicio {
         try {
             this.validarDatos(pago);
             pagoDAO.eliminarPago(pago);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("No se pudo eliminar el pago " + e.getMessage());
         }
 

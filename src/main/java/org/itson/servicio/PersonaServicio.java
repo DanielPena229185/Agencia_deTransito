@@ -77,7 +77,7 @@ public class PersonaServicio {
         try {
             this.validarDatos(persona);
             return personaDAO.agregarPersona(persona);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("No se puede agregar la persona " + e.getMessage());
         }
     }
@@ -92,7 +92,7 @@ public class PersonaServicio {
         try {
             this.validarDatos(persona);
             return personaDAO.actualizarPersona(persona);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("No se puede actualizar la persona " + e.getMessage());
         }
     }
@@ -108,7 +108,7 @@ public class PersonaServicio {
     public List<Persona> consultarPersonas(String filtro, String busqueda) throws IllegalArgumentException {
         try {
             return personaDAO.consultarPersonas(filtro, busqueda);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("No se puede realizar la consulta " + e.getMessage());
         }
     }
@@ -120,7 +120,7 @@ public class PersonaServicio {
     public List<Persona> consultarPersonas() throws IllegalArgumentException {
         try {
             return personaDAO.consultarPersonas();
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("No se puede realizar la consulta " + e.getMessage());
         }
     }

@@ -101,6 +101,16 @@ public class Persona implements Serializable {
         this.telefono = telefono;
     }
 
+    /**
+     * 
+     * @param nombres
+     * @param apellido_paterno
+     * @param apellido_materno
+     * @param rfc
+     * @param fechaNacimiento
+     * @param discapacidad
+     * @param telefono 
+     */
     public void validarPersona(String nombres, String apellido_paterno,
             String apellido_materno, String rfc, Calendar fechaNacimiento,
             Boolean discapacidad, String telefono) {

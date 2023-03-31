@@ -69,18 +69,30 @@ public class TramiteDAO implements ITramiteDAO {
         try {
             em.getTransaction().begin();
             Tramite tramiteActualizado = em.find(Tramite.class, tramite.getIdTramite());
+            if (tramiteActualizado == null) {
+                throw new PersistenciaException("El tramite no existe en la base de datos");
+            }
             tramiteActualizado.actualizarTramite(tramite);
             em.merge(tramite);
             em.getTransaction().commit();
             return tramiteActualizado;
-        } catch (Exception b) {
+        } catch (IllegalArgumentException b) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar el tramite");
+            throw new PersistenciaException("No se pudo actualizar el tramite " + b.getMessage());
+        } catch (PersistenciaException b) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("No se pudo actualizar el tramite " + b.getMessage());
         } finally {
             em.close();
         }
     }
 
+    /**
+     *
+     * @param tramite
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public Tramite eliminarTramite(Tramite tramite) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -105,6 +117,12 @@ public class TramiteDAO implements ITramiteDAO {
         }
     }
 
+    /**
+     *
+     * @param persona
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public List<Tramite> consultarTramitesPersona(Persona persona) throws PersistenciaException {
         try {
@@ -115,7 +133,6 @@ public class TramiteDAO implements ITramiteDAO {
             criteria.where(
                     builder.equal(root.get("persona").get("idPersona"), persona.getIdPersona())
             );
-
             TypedQuery<Tramite> query = em.createQuery(criteria);
             List<Tramite> tramites = query.getResultList();
             em.getTransaction().commit();
@@ -130,6 +147,26 @@ public class TramiteDAO implements ITramiteDAO {
 
     @Override
     public List<Tramite> consultarTramitesPeriodo(Calendar desde, Calendar hasta, Persona persona) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            em.getTransaction().begin();
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Tramite> criteria = builder.createQuery(Tramite.class);
+            Root<Tramite> root = criteria.from(Tramite.class);
+            criteria.select(root).where(
+                    builder.and(
+                            builder.between(root.get("fecha"), desde, hasta),
+                            builder.equal(root.get("persona"), persona)
+                    )
+            );
+            TypedQuery<Tramite> query = em.createQuery(criteria);
+            List<Tramite> tramites = query.getResultList();
+            em.getTransaction().commit();
+            return tramites;
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("No se pudo generar la busqueda de tramites");
+        } finally {
+            em.close();
+        }
     }
 }

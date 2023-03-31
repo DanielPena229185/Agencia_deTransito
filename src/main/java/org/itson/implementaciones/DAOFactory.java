@@ -17,17 +17,19 @@ public class DAOFactory {
     ConexionBD conexion = new ConexionBD("base");
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public IPagoDAO getPagoDAO() {
         return new PagoDAO(conexion);
     }
-    
+
     public IPersonaDAO getPersonaDAO() {
         return new PersonaDAO(conexion);
     }
-    
-    
+
+    public ITramiteDAO getTramiteDAO() {
+        return new TramiteDAO(conexion);
+    }
 
 }
