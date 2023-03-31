@@ -32,4 +32,8 @@ public class DAOFactory {
         return new TramiteDAO(conexion);
     }
 
+    public IVehiculoDAO getVehiculoDAO() {
+        return new VehiculoDAO(conexion);
+    }
+
 }

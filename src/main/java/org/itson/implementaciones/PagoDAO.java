@@ -50,7 +50,7 @@ public class PagoDAO implements IPagoDAO {
             return pago;
         } catch (EntityExistsException a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("Esta pago ya exite en la base de datos" + a.getMessage());
+            throw new PersistenciaException("Este pago ya exite en la base de datos" + a.getMessage());
         } catch (Exception e) {
             this.em.getTransaction().rollback();
             throw new PersistenciaException("No se pudo agregar el pago" + e.getMessage());
@@ -170,7 +170,7 @@ public class PagoDAO implements IPagoDAO {
             return pagos;
         } catch (PersistenciaException e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("\"Error al consultar los pagos en la base de datos " + e.getMessage());
+            throw new PersistenciaException("Error al consultar los pagos en la base de datos " + e.getMessage());
         } finally {
             em.close();
         }

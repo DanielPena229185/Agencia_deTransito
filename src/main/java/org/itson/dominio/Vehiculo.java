@@ -43,6 +43,7 @@ public class Vehiculo implements Serializable {
 
     public Vehiculo(String numeroSerie, String marca, String color,
             String modelo, String linea) {
+        this.validarDatos(numeroSerie, marca, color, modelo, linea);
         this.numeroSerie = numeroSerie;
         this.marca = marca;
         this.color = color;
@@ -52,6 +53,7 @@ public class Vehiculo implements Serializable {
 
     public Vehiculo(Long idVehiculo, String numeroSerie, String marca,
             String color, String modelo, String linea) {
+        this.validarDatos(numeroSerie, marca, color, modelo, linea);
         this.idVehiculo = idVehiculo;
         this.numeroSerie = numeroSerie;
         this.marca = marca;
@@ -62,13 +64,37 @@ public class Vehiculo implements Serializable {
 
     public void validarDatos(String numeroSerie, String marca, String color,
             String modelo, String linea) {
-        
+
         if (numeroSerie == null || numeroSerie.trim().isEmpty()) {
             throw new IllegalArgumentException("El numero de serie no puede estar vacío");
         } else if (numeroSerie.length() > 50) {
             throw new IllegalArgumentException("El numero de serie del vehiculo no debe exceder los 50 caracteres");
         }
-        
+
+        if (marca == null || marca.trim().isEmpty()) {
+            throw new IllegalArgumentException("La marca no puede estar vacía");
+        } else if (marca.length() > 100) {
+            throw new IllegalArgumentException("La marca del vehiculo no debe exceder los 100 caracteres");
+        }
+
+        if (color == null || color.trim().isEmpty()) {
+            throw new IllegalArgumentException("El color no puede estar vacío");
+        } else if (color.length() > 100) {
+            throw new IllegalArgumentException("El color del vehiculo no debe exceder los 100 caracteres");
+        }
+
+        if (modelo == null || modelo.trim().isEmpty()) {
+            throw new IllegalArgumentException("El modelo no puede estar vacío");
+        } else if (modelo.length() > 100) {
+            throw new IllegalArgumentException("El modelo del vehiculo no debe exceder los 100 caracteres");
+        }
+
+        if (linea == null || linea.trim().isEmpty()) {
+            throw new IllegalArgumentException("La linea no puede estar vacía");
+        } else if (linea.length() > 100) {
+            throw new IllegalArgumentException("La linea del vehiculo no debe exceder los 100 caracteres");
+        }
+
     }
 
     public Long getIdVehiculo() {
@@ -84,6 +110,11 @@ public class Vehiculo implements Serializable {
     }
 
     public void setNumeroSerie(String numeroSerie) {
+        if (numeroSerie == null || numeroSerie.trim().isEmpty()) {
+            throw new IllegalArgumentException("El numero de serie no puede estar vacío");
+        } else if (numeroSerie.length() > 50) {
+            throw new IllegalArgumentException("El numero de serie del vehiculo no debe exceder los 50 caracteres");
+        }
         this.numeroSerie = numeroSerie;
     }
 
@@ -92,6 +123,11 @@ public class Vehiculo implements Serializable {
     }
 
     public void setMarca(String marca) {
+        if (marca == null || marca.trim().isEmpty()) {
+            throw new IllegalArgumentException("La marca no puede estar vacía");
+        } else if (marca.length() > 100) {
+            throw new IllegalArgumentException("La marca del vehiculo no debe exceder los 100 caracteres");
+        }
         this.marca = marca;
     }
 
@@ -100,6 +136,11 @@ public class Vehiculo implements Serializable {
     }
 
     public void setColor(String color) {
+        if (color == null || color.trim().isEmpty()) {
+            throw new IllegalArgumentException("El color no puede estar vacío");
+        } else if (color.length() > 100) {
+            throw new IllegalArgumentException("El color del vehiculo no debe exceder los 100 caracteres");
+        }
         this.color = color;
     }
 
@@ -108,6 +149,11 @@ public class Vehiculo implements Serializable {
     }
 
     public void setModelo(String modelo) {
+        if (modelo == null || modelo.trim().isEmpty()) {
+            throw new IllegalArgumentException("El modelo no puede estar vacío");
+        } else if (modelo.length() > 100) {
+            throw new IllegalArgumentException("El modelo del vehiculo no debe exceder los 100 caracteres");
+        }
         this.modelo = modelo;
     }
 
@@ -116,6 +162,11 @@ public class Vehiculo implements Serializable {
     }
 
     public void setLinea(String linea) {
+        if (linea == null || linea.trim().isEmpty()) {
+            throw new IllegalArgumentException("La linea no puede estar vacía");
+        } else if (linea.length() > 100) {
+            throw new IllegalArgumentException("La linea del vehiculo no debe exceder los 100 caracteres");
+        }
         this.linea = linea;
     }
 
