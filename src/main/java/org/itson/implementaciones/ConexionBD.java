@@ -15,7 +15,7 @@ import org.itson.excepciones.PersistenciaException;
  *
  * @author Daniel Armando Peña Garcia ID:229185
  */
-public class Conexion{
+public class ConexionBD{
 
     private final EntityManagerFactory factory;
 
@@ -23,7 +23,7 @@ public class Conexion{
      *
      * @param direccionPersistencia
      */
-    public Conexion(String direccionPersistencia) {
+    public ConexionBD(String direccionPersistencia) {
         factory = Persistence.createEntityManagerFactory(direccionPersistencia);
     }
 
