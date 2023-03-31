@@ -25,13 +25,9 @@ public class PagoDAO implements IPagoDAO {
      *
      * @param conexion
      */
-<<<<<<< HEAD
-    public PagoDAO(Conexion conexion) {
-        this.em = conexion.obtenerConexion();
-=======
     public PagoDAO(ConexionBD conexion) {
         this.em = conexion.getConexion();
->>>>>>> 6862a16a7507114c0a3eaea9003c3531af6d5c18
+
     }
 
     @Override

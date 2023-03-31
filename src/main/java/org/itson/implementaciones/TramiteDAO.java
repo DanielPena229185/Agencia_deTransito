@@ -107,7 +107,25 @@ public class TramiteDAO implements ITramiteDAO {
 
     @Override
     public List<Tramite> consultarTramitesPersona(Persona persona) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+     try {
+            em.getTransaction().begin();
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Tramite> criteria = builder.createQuery(Tramite.class);
+            Root<Tramite> root = criteria.from(Tramite.class);
+            criteria.where(
+                    builder.equal(root.get("persona").get("idPersona"), persona.getIdPersona())
+            );
+            
+            TypedQuery<Tramite> query = em.createQuery(criteria);
+            List<Tramite> tramites = query.getResultList();
+            em.getTransaction().commit();
+            return tramites;
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("No se pudo generar la busqueda de tramites");
+        } finally {
+            em.close();
+        }
     }
 
     @Override
