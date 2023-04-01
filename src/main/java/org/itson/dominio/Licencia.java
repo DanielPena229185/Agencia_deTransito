@@ -45,7 +45,7 @@ public class Licencia extends Tramite implements Serializable {
         this.fechaExpiracion = fechaExpiracion;
     }
 
-    private void setFechaExpiracion(Calendar fechaExpedicion, int años) {
+    public void setFechaExpiracion(Calendar fechaExpedicion, int años) {
         //Calendar fecha = new Calendar(fechaExpedicion.get(Calendar.YEAR,Calendar.MONTH,Calendar.DAY_OF_MONTH));
         fechaExpiracion = (Calendar) fechaExpedicion.clone();
         this.fechaExpiracion.add(Calendar.YEAR, años);

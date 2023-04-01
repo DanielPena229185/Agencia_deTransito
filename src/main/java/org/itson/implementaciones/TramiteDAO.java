@@ -49,10 +49,10 @@ public class TramiteDAO implements ITramiteDAO {
             return tramite;
         } catch (EntityExistsException a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("Esta tramite ya exite");
+            throw new PersistenciaException("Esta tramite ya exite " + a.getMessage());
         } catch (Exception b) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo registrar a el tramite");
+            throw new PersistenciaException("No se pudo registrar a el tramite " + b.getMessage());
         } finally {
             em.close();
         }
@@ -72,8 +72,12 @@ public class TramiteDAO implements ITramiteDAO {
             if (tramiteActualizado == null) {
                 throw new PersistenciaException("El tramite no existe en la base de datos");
             }
-            tramiteActualizado.actualizarTramite(tramite);
-            em.merge(tramite);
+            tramiteActualizado.setEstado(tramite.getEstado());
+            tramiteActualizado.setPrecio(tramite.getPrecio());
+            tramiteActualizado.setFechaExpedicion(tramite.getFechaExpedicion());
+            tramiteActualizado.setPago(tramite.getPago());
+            tramiteActualizado.setPersona(tramite.getPersona());
+            em.merge(tramiteActualizado);
             em.getTransaction().commit();
             return tramiteActualizado;
         } catch (IllegalArgumentException b) {
@@ -154,7 +158,7 @@ public class TramiteDAO implements ITramiteDAO {
             Root<Tramite> root = criteria.from(Tramite.class);
             criteria.select(root).where(
                     builder.and(
-                            builder.between(root.get("fecha"), desde, hasta),
+                            builder.between(root.get("fechaExpedicion"), desde, hasta),
                             builder.equal(root.get("persona"), persona)
                     )
             );
