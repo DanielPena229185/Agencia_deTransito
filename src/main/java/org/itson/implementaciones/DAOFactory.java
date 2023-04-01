@@ -39,9 +39,13 @@ public class DAOFactory {
     public IAutomovilDAO getAutomovilDAO() {
         return new AutomovilDAO(conexion);
     }
-    
+
     public ILicenciaDAO getLicenciaDAO() {
         return new LicenciaDAO(conexion);
+    }
+
+    public IPlacaDAO getPlacaDAO() {
+        return new PlacaDAO(conexion);
     }
 
 }

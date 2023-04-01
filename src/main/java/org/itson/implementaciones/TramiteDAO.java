@@ -115,7 +115,7 @@ public class TramiteDAO implements ITramiteDAO {
             return tramites;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de tramites");
+            throw new PersistenciaException("No se pudo generar la busqueda de tramites "+e.getMessage());
         } finally {
             em.close();
         }
@@ -149,6 +149,14 @@ public class TramiteDAO implements ITramiteDAO {
         }
     }
 
+    /**
+     * 
+     * @param desde
+     * @param hasta
+     * @param persona
+     * @return
+     * @throws PersistenciaException 
+     */
     @Override
     public List<Tramite> consultarTramitesPeriodo(Calendar desde, Calendar hasta, Persona persona) throws PersistenciaException {
         try {
