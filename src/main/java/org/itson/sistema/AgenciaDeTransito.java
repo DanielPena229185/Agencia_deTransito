@@ -1,10 +1,10 @@
 package org.itson.sistema;
 
-import java.util.Calendar;
-import org.itson.dominio.Persona;
-import org.itson.implementaciones.ConexionBD;
-import org.itson.implementaciones.PersonaDAO;
-import org.itson.interfaces.IPersonaDAO;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import org.itson.dominio.CostoLicencia;
+import org.itson.dominio.TipoVehiculo;
 
 /**
  *
@@ -14,12 +14,13 @@ import org.itson.interfaces.IPersonaDAO;
 public class AgenciaDeTransito {
 
     public static void main(String[] args) {
+        EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU");
+        EntityManager entityManager = emFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.getTransaction().commit();
 
-        ConexionBD conexion = new ConexionBD("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU");
-        IPersonaDAO personas = new PersonaDAO(conexion);
-        
-//        EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU");
-//        EntityManager entityManager = emFactory.createEntityManager();
+//        ConexionBD conexion = new ConexionBD("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU");
+//        IPersonaDAO personas = new PersonaDAO(conexion);
 //        entityManager.getTransaction().begin();
 //        Calendar fechaNacimientoJuan = Calendar.getInstance();
 //        fechaNacimientoJuan.set(1990, 5, 15);

@@ -48,7 +48,6 @@ public class LicenciaServicio {
         if (licencia.getPersona() == null) {
             throw new IllegalArgumentException("El persona de la licencia es requerido");
         }
-
     }
 
     /**
