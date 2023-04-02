@@ -1,10 +1,9 @@
 package org.itson.sistema;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import org.itson.dominio.CostoLicencia;
-import org.itson.dominio.TipoVehiculo;
+import org.itson.implementaciones.ConexionBD;
+import org.itson.implementaciones.PersonaDAO;
+import org.itson.interfaces.IPersonaDAO;
+import org.itson.presentacion.PrincipalForm;
 
 /**
  *
@@ -14,10 +13,10 @@ import org.itson.dominio.TipoVehiculo;
 public class AgenciaDeTransito {
 
     public static void main(String[] args) {
-        EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU");
-        EntityManager entityManager = emFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.getTransaction().commit();
+        ConexionBD con = new ConexionBD("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU");
+        IPersonaDAO personaDAO = new PersonaDAO(con);
+        PrincipalForm principal = new PrincipalForm(personaDAO);
+        principal.setVisible(true);
 
 //        ConexionBD conexion = new ConexionBD("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU");
 //        IPersonaDAO personas = new PersonaDAO(conexion);

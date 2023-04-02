@@ -47,12 +47,10 @@ public class PersonaDAO implements IPersonaDAO {
             return persona;
         } catch (EntityExistsException a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("Esta persona ya existe");
+            throw new PersistenciaException("Esta persona ya existe" + a.getMessage());
         } catch (Exception b) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo registrar a la persona");
-        } finally {
-            em.close();
+            throw new PersistenciaException("No se pudo registrar a la persona" + b.getMessage());
         }
     }
 

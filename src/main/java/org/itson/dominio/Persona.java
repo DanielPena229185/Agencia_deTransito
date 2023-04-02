@@ -102,14 +102,14 @@ public class Persona implements Serializable {
     }
 
     /**
-     * 
+     *
      * @param nombres
      * @param apellido_paterno
      * @param apellido_materno
      * @param rfc
      * @param fechaNacimiento
      * @param discapacidad
-     * @param telefono 
+     * @param telefono
      */
     public void validarPersona(String nombres, String apellido_paterno,
             String apellido_materno, String rfc, Calendar fechaNacimiento,
@@ -139,9 +139,9 @@ public class Persona implements Serializable {
             throw new IllegalArgumentException("El RFC de la persona no debe exceder los 150 caracteres");
         }
 
-        if (fechaNacimiento == null) {
-            throw new IllegalArgumentException("La fecha de nacimiento no puede ser nula");
-        }
+//        if (fechaNacimiento == null) {
+//            throw new IllegalArgumentException("La fecha de nacimiento no puede ser nula");
+//        }
 
         if (telefono == null || telefono.trim().isEmpty()) {
             throw new IllegalArgumentException("El número de teléfono no puede estar vacío");
@@ -275,9 +275,6 @@ public class Persona implements Serializable {
      * @param fechaNacimiento
      */
     public void setFechaNacimiento(Calendar fechaNacimiento) {
-        if (fechaNacimiento == null) {
-            throw new IllegalArgumentException("La fecha de nacimiento no puede ser nula");
-        }
         this.fechaNacimiento = fechaNacimiento;
     }
 

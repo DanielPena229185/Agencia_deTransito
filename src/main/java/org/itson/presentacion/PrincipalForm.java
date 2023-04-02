@@ -7,6 +7,7 @@ package org.itson.presentacion;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
+import org.itson.interfaces.IPersonaDAO;
 
 /**
  * DescripciÃ³n de la clase:
@@ -15,12 +16,15 @@ import javax.swing.JOptionPane;
  */
 public class PrincipalForm extends javax.swing.JFrame {
 
+    IPersonaDAO personaDAO;
+    
     /**
      * Creates new form PrincipalForm
      */
-    public PrincipalForm() {
+    public PrincipalForm(IPersonaDAO personaDAO) {
         initComponents();
         valoresIniciales();
+        this.personaDAO = personaDAO;
     }
 
     private String fecha() {
@@ -246,8 +250,9 @@ public class PrincipalForm extends javax.swing.JFrame {
     }//GEN-LAST:event_menuItemSobreNosotrosActionPerformed
 
     private void menuItemConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemConfiguracionActionPerformed
-//        AyudaDlg ayuda = new AyudaDlg(this, true);
-//        ayuda.setVisible(true);
+        
+        AyudaDlg ayuda = new AyudaDlg(this, true, personaDAO);
+        ayuda.setVisible(true);
     }//GEN-LAST:event_menuItemConfiguracionActionPerformed
 
     private void menuItemTramiteLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemTramiteLicenciaActionPerformed

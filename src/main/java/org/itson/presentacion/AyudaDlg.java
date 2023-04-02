@@ -263,6 +263,7 @@ public class AyudaDlg extends javax.swing.JDialog {
     private void insertarPersonas(){
         List<Persona> listaPersonas = asignarFechaNacimientoToPersona();
         for (Persona persona : listaPersonas) {
+            System.out.println(persona.getFechaNacimiento());
             this.personaDAO.agregarPersona(persona);
         }
     }

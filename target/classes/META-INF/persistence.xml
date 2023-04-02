@@ -5,6 +5,13 @@
     <class>org.itson.dominio.Costo</class>
     <class>org.itson.dominio.CostoLicencia</class>
     <class>org.itson.dominio.CostoPlaca</class>
+    <class>org.itson.dominio.Persona</class>
+    <class>org.itson.dominio.Automovil</class>
+    <class>org.itson.dominio.Licencia</class>
+    <class>org.itson.dominio.Pago</class>
+    <class>org.itson.dominio.Placa</class>
+    <class>org.itson.dominio.Tramite</class>
+    <class>org.itson.dominio.Vehiculo</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/transito?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
