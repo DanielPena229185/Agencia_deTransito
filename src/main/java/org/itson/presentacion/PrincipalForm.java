@@ -61,12 +61,10 @@ public class PrincipalForm extends javax.swing.JFrame {
         menuSistema = new javax.swing.JMenu();
         menuItemSalir = new javax.swing.JMenuItem();
         menuTramites = new javax.swing.JMenu();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        menuItemTramiteLicencia = new javax.swing.JMenuItem();
+        menuTramitesPlacas = new javax.swing.JMenu();
+        menuItemPlacasNueva = new javax.swing.JMenuItem();
+        menuItemPlacasCambiar = new javax.swing.JMenuItem();
         menuConsulta = new javax.swing.JMenu();
         menuItemConsultaTramites = new javax.swing.JMenuItem();
         menuItemConsultaReporte = new javax.swing.JMenuItem();
@@ -159,25 +157,28 @@ public class PrincipalForm extends javax.swing.JFrame {
             }
         });
 
-        jMenu1.setText("Licencia");
+        menuItemTramiteLicencia.setText("Licencia");
+        menuItemTramiteLicencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemTramiteLicenciaActionPerformed(evt);
+            }
+        });
+        menuTramites.add(menuItemTramiteLicencia);
 
-        jMenuItem1.setText("Nueva");
-        jMenu1.add(jMenuItem1);
+        menuTramitesPlacas.setText("Placas");
 
-        jMenuItem2.setText("Renovar");
-        jMenu1.add(jMenuItem2);
+        menuItemPlacasNueva.setText("Nueva");
+        menuItemPlacasNueva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemPlacasNuevaActionPerformed(evt);
+            }
+        });
+        menuTramitesPlacas.add(menuItemPlacasNueva);
 
-        menuTramites.add(jMenu1);
+        menuItemPlacasCambiar.setText("Cambiar");
+        menuTramitesPlacas.add(menuItemPlacasCambiar);
 
-        jMenu2.setText("Placas");
-
-        jMenuItem3.setText("Nueva");
-        jMenu2.add(jMenuItem3);
-
-        jMenuItem4.setText("Cambiar");
-        jMenu2.add(jMenuItem4);
-
-        menuTramites.add(jMenu2);
+        menuTramites.add(menuTramitesPlacas);
 
         menuBar.add(menuTramites);
 
@@ -274,15 +275,14 @@ public class PrincipalForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_menuItemConsultaTramitesActionPerformed
 
+    private void menuItemPlacasNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPlacasNuevaActionPerformed
+        RegistrarAutoForm nuevoAuto = new RegistrarAutoForm();
+        nuevoAuto.setVisible(true);
+    }//GEN-LAST:event_menuItemPlacasNuevaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane desktopPane;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblAgencia;
     private javax.swing.JLabel lblFecha;
@@ -293,10 +293,14 @@ public class PrincipalForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuItemConfiguracion;
     private javax.swing.JMenuItem menuItemConsultaReporte;
     private javax.swing.JMenuItem menuItemConsultaTramites;
+    private javax.swing.JMenuItem menuItemPlacasCambiar;
+    private javax.swing.JMenuItem menuItemPlacasNueva;
     private javax.swing.JMenuItem menuItemSalir;
     private javax.swing.JMenuItem menuItemSobreNosotros;
+    private javax.swing.JMenuItem menuItemTramiteLicencia;
     private javax.swing.JMenu menuSistema;
     private javax.swing.JMenu menuTramites;
+    private javax.swing.JMenu menuTramitesPlacas;
     private javax.swing.JPanel panelInicio;
     // End of variables declaration//GEN-END:variables
 

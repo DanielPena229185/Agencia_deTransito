@@ -20,15 +20,15 @@ public class ConexionBD{
     private final EntityManagerFactory factory;
 
     /**
-     *
-     * @param direccionPersistencia
+     * Constructor para dar acceso a la base de datos.
+     * @param direccionPersistencia Direccion a la persistencia para la conexión a la base de datos
      */
     public ConexionBD(String direccionPersistencia) {
         factory = Persistence.createEntityManagerFactory(direccionPersistencia);
     }
 
     /**
-     * 
+     * Método que regresa la conexión para el entityManager
      * @return
      * @throws PersistenciaException 
      */

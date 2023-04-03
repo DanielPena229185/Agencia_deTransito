@@ -96,7 +96,7 @@ public class TramitesLicencia extends javax.swing.JFrame {
 
         lblDatosCliente.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblDatosCliente.setForeground(new java.awt.Color(0, 0, 0));
-        lblDatosCliente.setText("Datos del Cliente: ");
+        lblDatosCliente.setText("Datos del Cliente");
 
         lblNombres.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblNombres.setForeground(new java.awt.Color(0, 0, 0));
@@ -212,7 +212,7 @@ public class TramitesLicencia extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panCuerpoLayout.createSequentialGroup()
-                        .addGap(0, 35, Short.MAX_VALUE)
+                        .addGap(0, 39, Short.MAX_VALUE)
                         .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnBuscarCliente)
                             .addGroup(panCuerpoLayout.createSequentialGroup()
@@ -333,7 +333,7 @@ public class TramitesLicencia extends javax.swing.JFrame {
 
     private void txtRfcKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRfcKeyTyped
         // Limitar la cantidad de caracteres a 13
-        if (txtRfc.getText().length() >= 13) {
+        if (txtRfc.getText().length() > 12) {
             evt.consume(); // Evita que se agreguen más caracteres
         }
     }//GEN-LAST:event_txtRfcKeyTyped
