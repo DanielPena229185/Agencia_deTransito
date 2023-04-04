@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import org.itson.interfaces.IPersonaDAO;
+import org.itson.servicio.PersonaServicio;
 
 /**
  * DescripciÃ³n de la clase:
@@ -16,15 +17,15 @@ import org.itson.interfaces.IPersonaDAO;
  */
 public class PrincipalForm extends javax.swing.JFrame {
 
-    IPersonaDAO personaDAO;
-    
+    PersonaServicio es;
+
     /**
      * Creates new form PrincipalForm
      */
-    public PrincipalForm(IPersonaDAO personaDAO) {
+    public PrincipalForm() {
         initComponents();
         valoresIniciales();
-        this.personaDAO = personaDAO;
+        es = new PersonaServicio();
     }
 
     private String fecha() {
@@ -240,7 +241,7 @@ public class PrincipalForm extends javax.swing.JFrame {
     private void menuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSalirActionPerformed
         int salir = JOptionPane.showConfirmDialog(this, "Â¿Segur(a) que desea salir\n"
                 + "del sistema?", "Â¡PrecauciÃ³n!", JOptionPane.YES_NO_OPTION);
-        if(salir == JOptionPane.YES_OPTION){
+        if (salir == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }//GEN-LAST:event_menuItemSalirActionPerformed
@@ -251,8 +252,8 @@ public class PrincipalForm extends javax.swing.JFrame {
     }//GEN-LAST:event_menuItemSobreNosotrosActionPerformed
 
     private void menuItemConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemConfiguracionActionPerformed
-        
-        AyudaDlg ayuda = new AyudaDlg(this, true, personaDAO);
+
+        AyudaDlg ayuda = new AyudaDlg(this, true);
         ayuda.setVisible(true);
     }//GEN-LAST:event_menuItemConfiguracionActionPerformed
 
@@ -263,12 +264,12 @@ public class PrincipalForm extends javax.swing.JFrame {
     }//GEN-LAST:event_menuItemTramiteLicenciaActionPerformed
 
     private void menuTramitesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTramitesActionPerformed
-        
+
     }//GEN-LAST:event_menuTramitesActionPerformed
 
     private void menuItemTramitePlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemTramitePlacaActionPerformed
-        
-        
+
+
     }//GEN-LAST:event_menuItemTramitePlacaActionPerformed
 
     private void menuItemConsultaTramitesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemConsultaTramitesActionPerformed

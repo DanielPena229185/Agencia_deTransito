@@ -1,3 +1,4 @@
+
 /**
  * AyudaForm.java
  * 25 mar. 2023 13:34:32
@@ -8,8 +9,9 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.itson.dominio.Persona;
-import org.itson.interfaces.IPersonaDAO;
+import org.itson.servicio.PersonaServicio;
 
 /**
  * Descripción de la clase:
@@ -18,7 +20,7 @@ import org.itson.interfaces.IPersonaDAO;
  */
 public class AyudaDlg extends javax.swing.JDialog {
 
-    private IPersonaDAO personaDAO;
+    private PersonaServicio es;
 
     /**
      *
@@ -26,10 +28,11 @@ public class AyudaDlg extends javax.swing.JDialog {
      * @param modal
      * @param personaDAO
      */
-    public AyudaDlg(java.awt.Frame parent, boolean modal, IPersonaDAO personaDAO) {
+    public AyudaDlg(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        es = new PersonaServicio();
         initComponents();
-        this.personaDAO = personaDAO;
+       
     }
 
     /**
@@ -107,7 +110,7 @@ public class AyudaDlg extends javax.swing.JDialog {
                     .addComponent(btnCostosTramites)
                     .addComponent(btnCerrar)
                     .addComponent(btnInsertarClientes))
-                .addContainerGap(202, Short.MAX_VALUE))
+                .addContainerGap(184, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,9 +120,9 @@ public class AyudaDlg extends javax.swing.JDialog {
                 .addComponent(btnCostosTramites)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnInsertarClientes)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCerrar)
-                .addGap(101, 101, 101))
+                .addGap(113, 113, 113))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -134,6 +137,7 @@ public class AyudaDlg extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInsertarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarClientesActionPerformed
@@ -142,6 +146,7 @@ public class AyudaDlg extends javax.swing.JDialog {
 
     /**
      * Método que crea 20 objetos de tipo Persona
+     *
      * @return Lista de objetos de tipo Persona
      */
     private List<Persona> crearPersonas() {
@@ -192,6 +197,7 @@ public class AyudaDlg extends javax.swing.JDialog {
     /**
      * Método que crea 20 objetos de tipo Calendar para crear 20 fechas de
      * nacimiento
+     *
      * @return Lista de 20 objetos de tipo Calendar
      */
     private List<Calendar> crearFechaNacimiento() {
@@ -242,13 +248,14 @@ public class AyudaDlg extends javax.swing.JDialog {
     /**
      * Método que le asigna a una lista de personas sin fecha de nacimiento una
      * fecha de nacimiento con otra lista de tipo Calendar
+     *
      * @return Lista de objetos de tipo Persona con fecha de nacimiento
      */
     private List<Persona> asignarFechaNacimientoToPersona() {
-        
+
         List<Persona> listaPersonas = crearPersonas();
         List<Calendar> listaFechasNacimiento = crearFechaNacimiento();
-        
+
         for (int i = 0; i < listaPersonas.size(); i++) {
             Persona persona = listaPersonas.get(i);
             Calendar fechaNacimiento = listaFechasNacimiento.get(i);
@@ -256,16 +263,19 @@ public class AyudaDlg extends javax.swing.JDialog {
         }
         return listaPersonas;
     }
-    
+
     /**
      * Inserta de manera masiva 20 personas a la base de datos
      */
-    private void insertarPersonas(){
+    private void insertarPersonas() {
         List<Persona> listaPersonas = asignarFechaNacimientoToPersona();
         for (Persona persona : listaPersonas) {
-            System.out.println(persona.getFechaNacimiento());
-            this.personaDAO.agregarPersona(persona);
+            //System.out.println(persona.getFechaNacimiento());
+            //System.out.println(persona.toString());
+            es.agregarPersona(persona);
+            
         }
+        JOptionPane.showMessageDialog(null, "Registro masivo exitoso");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

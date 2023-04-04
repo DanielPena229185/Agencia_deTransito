@@ -350,4 +350,11 @@ public class Persona implements Serializable {
 
     }
 
+    @Override
+    public String toString() {
+        return "Persona{" + "idPersona=" + idPersona + ", nombres=" + nombres + ", apellido_paterno=" + apellido_paterno + ", apellido_materno=" + apellido_materno + ", rfc=" + rfc + ", fechaNacimiento=" + fechaNacimiento + ", discapacidad=" + discapacidad + ", telefono=" + telefono + ", tramites=" + tramites + '}';
+    }
+    
+    
+
 }

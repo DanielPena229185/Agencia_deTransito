@@ -1,9 +1,12 @@
 package org.itson.sistema;
 
+import java.util.Calendar;
+import org.itson.dominio.Persona;
 import org.itson.implementaciones.ConexionBD;
 import org.itson.implementaciones.PersonaDAO;
 import org.itson.interfaces.IPersonaDAO;
 import org.itson.presentacion.PrincipalForm;
+import org.itson.servicio.PersonaServicio;
 
 /**
  *
@@ -13,9 +16,11 @@ import org.itson.presentacion.PrincipalForm;
 public class AgenciaDeTransito {
 
     public static void main(String[] args) {
-        ConexionBD con = new ConexionBD("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU");
-        IPersonaDAO personaDAO = new PersonaDAO(con);
-        PrincipalForm principal = new PrincipalForm(personaDAO);
+
+//        PersonaServicio es = new PersonaServicio();
+//        Persona p = new Persona("da", "asd", "asd", "asd", Calendar.getInstance(), Boolean.FALSE, "644");
+//        es.agregarPersona(p);
+        PrincipalForm principal = new PrincipalForm();
         principal.setVisible(true);
 
 //        ConexionBD conexion = new ConexionBD("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU");
