@@ -15,7 +15,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Placa;
-import org.itson.dominio.Tramite;
 import org.itson.excepciones.PersistenciaException;
 import org.itson.interfaces.IPlacaDAO;
 
@@ -45,12 +44,9 @@ public class PlacaDAO implements IPlacaDAO {
             em.persist(placa);
             em.getTransaction().commit();
             return placa;
-        } catch (EntityExistsException a) {
-            em.getTransaction().rollback();
-            throw new PersistenciaException("Esta placa ya exite " + a.getMessage());
         } catch (Exception b) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo registrar la placa " + b.getMessage());
+            throw new PersistenciaException("No se pudo registrar la placa: " + b.getMessage(), b);
         } finally {
             em.close();
         }
@@ -80,12 +76,9 @@ public class PlacaDAO implements IPlacaDAO {
             em.merge(plactaActualizada);
             em.getTransaction().commit();
             return plactaActualizada;
-        } catch (IllegalArgumentException b) {
+        } catch (Exception b) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar la placa " + b.getMessage());
-        } catch (PersistenciaException b) {
-            em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar la placa " + b.getMessage());
+            throw new PersistenciaException("No se pudo actualizar la placa " + b.getMessage(), b);
         } finally {
             em.close();
         }
@@ -113,7 +106,7 @@ public class PlacaDAO implements IPlacaDAO {
             return placas;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de placas " + e.getMessage());
+            throw new PersistenciaException("No se pudo generar la busqueda de placas: " + e.getMessage(), e);
         } finally {
             em.close();
         }
@@ -141,7 +134,7 @@ public class PlacaDAO implements IPlacaDAO {
             return placas;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de placas");
+            throw new PersistenciaException("No se pudo generar la busqueda de placas: " + e.getMessage(), e);
         } finally {
             em.close();
         }
@@ -174,7 +167,7 @@ public class PlacaDAO implements IPlacaDAO {
             return placas;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de placas");
+            throw new PersistenciaException("No se pudo generar la busqueda de placas: " + e.getMessage(), e);
         } finally {
             em.close();
         }

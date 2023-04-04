@@ -14,7 +14,6 @@ import org.itson.dominio.CostoLicencia;
 import org.itson.dominio.CostoPlaca;
 import org.itson.dominio.Persona;
 import org.itson.dominio.TipoVehiculo;
-import org.itson.implementaciones.CostoDAO;
 import org.itson.servicio.PersonaServicio;
 import org.itson.servicio.CostoServicio;
 
@@ -139,7 +138,7 @@ public class AyudaDlg extends javax.swing.JDialog {
                 .addComponent(btnInsertarClientes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCerrar)
-                .addGap(113, 113, 113))
+                .addGap(101, 101, 101))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -162,15 +161,16 @@ public class AyudaDlg extends javax.swing.JDialog {
     }//GEN-LAST:event_btnInsertarClientesActionPerformed
 
     private void btnCostosTramitesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCostosTramitesActionPerformed
-        // TODO add your handling code here:
         this.insertarCostos();
     }//GEN-LAST:event_btnCostosTramitesActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
+    /**
+     * Ingresa respectivamente los costos
+     */
     private void insertarCostos() {
         Costo licencia1 = new CostoLicencia("1 año", 200, 600);
         Costo licencia2 = new CostoLicencia("2 años", 500, 900);
@@ -312,12 +312,10 @@ public class AyudaDlg extends javax.swing.JDialog {
     private void insertarPersonas() {
         List<Persona> listaPersonas = asignarFechaNacimientoToPersona();
         for (Persona persona : listaPersonas) {
-            //System.out.println(persona.getFechaNacimiento());
-            //System.out.println(persona.toString());
             personaDAO.agregarPersona(persona);
 
         }
-        JOptionPane.showMessageDialog(null, "Registro masivo exitoso");
+        JOptionPane.showMessageDialog(null, "Registro masivo de personas exitoso");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

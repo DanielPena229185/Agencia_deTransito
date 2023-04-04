@@ -41,12 +41,9 @@ public class AutomovilDAO implements IAutomovilDAO {
             this.em.persist(automovil);
             this.em.getTransaction().commit();
             return automovil;
-        } catch (EntityExistsException a) {
-            em.getTransaction().rollback();
-            throw new PersistenciaException("Este automovil ya exite en la base de datos" + a.getMessage());
         } catch (Exception e) {
             this.em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo agregar el automovil" + e.getMessage());
+            throw new PersistenciaException("No se pudo agregar el automovil" + e.getMessage(), e);
         } finally {
             em.close();
         }
@@ -57,9 +54,6 @@ public class AutomovilDAO implements IAutomovilDAO {
         try {
             em.getTransaction().begin();
             Automovil automovilActualizado = em.find(Automovil.class, automovil.getIdVehiculo());
-            if (automovilActualizado == null) {
-                throw new PersistenciaException("El automovil no existe en la base de datos");
-            }
             automovilActualizado.setNumeroSerie(automovil.getNumeroSerie());
             automovilActualizado.setMarca(automovil.getMarca());
             automovilActualizado.setColor(automovil.getColor());
@@ -68,12 +62,9 @@ public class AutomovilDAO implements IAutomovilDAO {
             em.merge(automovilActualizado);
             em.getTransaction().commit();
             return automovilActualizado;
-        } catch (IllegalArgumentException b) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar el automovil " + b.getMessage());
-        } catch (PersistenciaException b) {
-            em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar el automovil " + b.getMessage());
+            throw new PersistenciaException("No se pudo actualizar el automovil " + a.getMessage());
         } finally {
             em.close();
         }
@@ -104,10 +95,10 @@ public class AutomovilDAO implements IAutomovilDAO {
     }
 
     /**
-     * 
+     *
      * @param placa
      * @return
-     * @throws PersistenciaException 
+     * @throws PersistenciaException
      */
     @Override
     public List<Automovil> consultarVehiculo(Placa placa) throws PersistenciaException {
@@ -125,7 +116,7 @@ public class AutomovilDAO implements IAutomovilDAO {
             return automoviles;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de automoviles " + e.getMessage());
+            throw new PersistenciaException("No se pudo generar la busqueda de automoviles " + e.getMessage(), e);
         } finally {
             em.close();
         }

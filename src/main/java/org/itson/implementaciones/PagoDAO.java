@@ -48,9 +48,6 @@ public class PagoDAO implements IPagoDAO {
             this.em.persist(pago);
             this.em.getTransaction().commit();
             return pago;
-        } catch (EntityExistsException a) {
-            em.getTransaction().rollback();
-            throw new PersistenciaException("Este pago ya exite en la base de datos" + a.getMessage());
         } catch (Exception e) {
             this.em.getTransaction().rollback();
             throw new PersistenciaException("No se pudo agregar el pago" + e.getMessage());
@@ -122,14 +119,11 @@ public class PagoDAO implements IPagoDAO {
         try {
             em.getTransaction().begin();
             Pago pagoConsulta = em.find(Pago.class, pago.getIdPago());
-            if (pagoConsulta == null) {
-                throw new PersistenciaException("El pago no existe en la base de datos");
-            }
             em.getTransaction().commit();
             return pagoConsulta;
-        } catch (PersistenciaException b) {
+        } catch (Exception b) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("Error al consultar el pago en la base de datos " + b.getMessage());
+            throw new PersistenciaException("Error al consultar el pago en la base de datos: " + b.getMessage(), b);
         } finally {
             em.close();
         }
@@ -168,9 +162,9 @@ public class PagoDAO implements IPagoDAO {
             List<Pago> pagos = query.getResultList();
             em.getTransaction().commit();
             return pagos;
-        } catch (PersistenciaException e) {
+        } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("Error al consultar los pagos en la base de datos " + e.getMessage());
+            throw new PersistenciaException("Error al consultar los pagos en la base de datos " + e.getMessage(), e);
         } finally {
             em.close();
         }

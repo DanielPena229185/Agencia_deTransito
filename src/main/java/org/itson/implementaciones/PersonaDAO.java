@@ -46,12 +46,9 @@ public class PersonaDAO implements IPersonaDAO {
             em.persist(persona);
             em.getTransaction().commit();
             return persona;
-        } catch (EntityExistsException a) {
-            em.getTransaction().rollback();
-            throw new PersistenciaException("Esta persona ya existe" + a.getMessage());
         } catch (Exception b) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo registrar a la persona" + b.getMessage());
+            throw new PersistenciaException("No se pudo registrar a la persona:" + b.getMessage(), b);
         } finally {
             em.close();
         }
@@ -70,9 +67,6 @@ public class PersonaDAO implements IPersonaDAO {
         try {
             em.getTransaction().begin();
             Persona personaActualizado = em.find(Persona.class, persona.getIdPersona());
-            if (personaActualizado == null) {
-                throw new PersistenciaException("La persona no existe en la base de datos");
-            }
             personaActualizado.setNombres(persona.getNombres());
             personaActualizado.setApellido_paterno(persona.getApellido_paterno());
             personaActualizado.setApellido_materno(persona.getApellido_materno());
@@ -83,12 +77,9 @@ public class PersonaDAO implements IPersonaDAO {
             em.merge(personaActualizado);
             em.getTransaction().commit();
             return personaActualizado;
-        } catch (IllegalArgumentException b) {
+        } catch (Exception b) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar el pago " + b.getMessage());
-        } catch (PersistenciaException b) {
-            em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar el pago " + b.getMessage());
+            throw new PersistenciaException("No se pudo actualizar el pago: " + b.getMessage(), b);
         } finally {
             em.close();
         }
@@ -125,7 +116,7 @@ public class PersonaDAO implements IPersonaDAO {
             return personas;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de personas");
+            throw new PersistenciaException("No se pudo generar la busqueda de personas: " + e.getMessage(), e);
         } finally {
             em.close();
         }
@@ -145,9 +136,24 @@ public class PersonaDAO implements IPersonaDAO {
             return personas;
         } catch (PersistenciaException e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("Error al consultar las personas en la base de datos " + e.getMessage());
+            throw new PersistenciaException("Error al consultar las personas en la base de datos: " + e.getMessage(), e);
         } finally {
             em.close();
         }
+    }
+
+    @Override
+    public Persona buscarPersona(Long id) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
+        Persona persona = null;
+        try {
+            em.getTransaction().begin();
+            persona = em.find(Persona.class, id);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("Error al encontrar al usuario con id: " + id + ": "+ e.getMessage(), e);
+        }
+        return persona;
     }
 }

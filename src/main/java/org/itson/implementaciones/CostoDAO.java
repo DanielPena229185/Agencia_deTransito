@@ -9,8 +9,13 @@ import java.util.List;
 import javax.persistence.EntityExistsException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.itson.dominio.Costo;
+import org.itson.dominio.CostoLicencia;
 import org.itson.excepciones.PersistenciaException;
 import org.itson.interfaces.ICostoDAO;
 
@@ -21,25 +26,23 @@ import org.itson.interfaces.ICostoDAO;
  */
 public class CostoDAO implements ICostoDAO {
 
-    EntityManager em;
+    ConexionBD conexion;
 
     /**
      *
      */
     public CostoDAO(ConexionBD conexion) {
-        this.em = conexion.getConexion();
+        this.conexion = conexion;
     }
 
     @Override
     public Costo agregarCosto(Costo costo) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             em.persist(costo);
             em.getTransaction().commit();
             return costo;
-        } catch (EntityExistsException a) {
-            em.getTransaction().rollback();
-            throw new PersistenciaException("Este costo ya existe" + a.getMessage());
         } catch (Exception b) {
             em.getTransaction().rollback();
             throw new PersistenciaException("No se pudo registrar el costo" + b.getMessage());
@@ -69,5 +72,25 @@ public class CostoDAO implements ICostoDAO {
     @Override
     public List<Costo> consultarCostosPlacas() throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<CostoLicencia> consultarCostoLicencias(String vigencia) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
+        try {
+            em.getTransaction().begin();
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<CostoLicencia> criteria = builder.createQuery(CostoLicencia.class);
+            Root<CostoLicencia> root = criteria.from(CostoLicencia.class);
+            criteria.select(root).where(
+                    builder.equal(root.get("vigencia"), vigencia)
+            );
+            TypedQuery<CostoLicencia> query = em.createQuery(criteria);
+            List<CostoLicencia> listaCostos = query.getResultList();
+            em.getTransaction().commit();
+            return listaCostos;
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al conseguir los costos" + e.getMessage());
+        }
     }
 }

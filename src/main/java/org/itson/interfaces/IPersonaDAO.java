@@ -19,7 +19,7 @@ public interface IPersonaDAO {
     public Persona agregarPersona(Persona persona)throws PersistenciaException;
     public Persona actualizarPersona(Persona persona)throws PersistenciaException;
     public Persona eliminarPersona(Persona persona)throws PersistenciaException;
-    
+    public Persona buscarPersona(Long id)throws PersistenciaException;
     /**
      * Consulta que se condiciona en la busqueda por filtro
      * @param filtro De que manera quiere buscar

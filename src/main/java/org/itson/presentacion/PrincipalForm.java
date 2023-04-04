@@ -7,8 +7,6 @@ package org.itson.presentacion;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
-import org.itson.interfaces.IPersonaDAO;
-import org.itson.servicio.PersonaServicio;
 
 /**
  * DescripciÃ³n de la clase:
@@ -17,7 +15,6 @@ import org.itson.servicio.PersonaServicio;
  */
 public class PrincipalForm extends javax.swing.JFrame {
 
-    PersonaServicio es;
 
     /**
      * Creates new form PrincipalForm
@@ -25,7 +22,6 @@ public class PrincipalForm extends javax.swing.JFrame {
     public PrincipalForm() {
         initComponents();
         valoresIniciales();
-        es = new PersonaServicio();
     }
 
     private String fecha() {
@@ -104,7 +100,7 @@ public class PrincipalForm extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblAgencia)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 351, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 362, Short.MAX_VALUE)
                         .addComponent(lblFecha)))
                 .addContainerGap())
         );
@@ -114,7 +110,7 @@ public class PrincipalForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lblItson)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblAgencia)
                     .addComponent(lblFecha))
                 .addContainerGap(7, Short.MAX_VALUE))
@@ -135,6 +131,8 @@ public class PrincipalForm extends javax.swing.JFrame {
 
         desktopPane.add(panelInicio);
         panelInicio.setBounds(0, 0, 580, 390);
+
+        menuBar.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
 
         menuSistema.setMnemonic('f');
         menuSistema.setText("Sistema");

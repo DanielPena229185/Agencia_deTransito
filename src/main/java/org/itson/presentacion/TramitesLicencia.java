@@ -5,7 +5,14 @@
  */
 package org.itson.presentacion;
 
+import java.util.Calendar;
+import java.util.List;
 import javax.swing.JOptionPane;
+import org.itson.dominio.Costo;
+import org.itson.dominio.CostoLicencia;
+import org.itson.dominio.Licencia;
+import org.itson.dominio.Persona;
+import org.itson.servicio.CostoServicio;
 
 /**
  * Descripción de la clase:
@@ -14,18 +21,23 @@ import javax.swing.JOptionPane;
  */
 public class TramitesLicencia extends javax.swing.JFrame {
 
+    Persona persona = null;
+    CostoServicio costoDAO;
+
     /**
      * Creates new form TramiteLicencia
      */
     public TramitesLicencia() {
         initComponents();
+        costoDAO = new CostoServicio();
     }
 
-    /**
-     * Debe cargar los datos de la tabla
-     */
-    private void cargarTabla() {
-
+    public TramitesLicencia(Persona persona) {
+        initComponents();
+        costoDAO = new CostoServicio();
+        this.persona = persona;
+        this.llenarCamposCliente();
+        this.llenarCamposTramite();
     }
 
     /**
@@ -49,16 +61,17 @@ public class TramitesLicencia extends javax.swing.JFrame {
         lblTelefono = new javax.swing.JLabel();
         txtTelefono = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        lblFecha = new javax.swing.JLabel();
+        txtFechaHoy = new javax.swing.JTextField();
+        lbl = new javax.swing.JLabel();
+        cbxVigencia = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
+        txtFechaVigencia = new javax.swing.JTextField();
+        lblDatosLicencia = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtCosto = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        checkDiscapacitado = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Trámite de Licencia");
@@ -105,6 +118,9 @@ public class TramitesLicencia extends javax.swing.JFrame {
         txtNombres.setBackground(new java.awt.Color(255, 255, 255));
         txtNombres.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtNombres.setForeground(new java.awt.Color(0, 0, 0));
+        txtNombres.setCaretColor(new java.awt.Color(0, 0, 0));
+        txtNombres.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtNombres.setEnabled(false);
 
         lblRFC.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblRFC.setForeground(new java.awt.Color(0, 0, 0));
@@ -113,6 +129,9 @@ public class TramitesLicencia extends javax.swing.JFrame {
         txtRfc.setBackground(new java.awt.Color(255, 255, 255));
         txtRfc.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtRfc.setForeground(new java.awt.Color(0, 0, 0));
+        txtRfc.setCaretColor(new java.awt.Color(0, 0, 0));
+        txtRfc.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtRfc.setEnabled(false);
         txtRfc.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtRfcKeyTyped(evt);
@@ -137,6 +156,9 @@ public class TramitesLicencia extends javax.swing.JFrame {
         txtTelefono.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtTelefono.setForeground(new java.awt.Color(0, 0, 0));
         txtTelefono.setToolTipText("10 dígitos");
+        txtTelefono.setCaretColor(new java.awt.Color(0, 0, 0));
+        txtTelefono.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtTelefono.setEnabled(false);
         txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtTelefonoKeyTyped(evt);
@@ -153,96 +175,114 @@ public class TramitesLicencia extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Fecha:");
+        lblFecha.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        lblFecha.setForeground(new java.awt.Color(0, 0, 0));
+        lblFecha.setText("Fecha:");
 
-        jTextField1.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField1.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(0, 0, 0));
+        txtFechaHoy.setBackground(new java.awt.Color(255, 255, 255));
+        txtFechaHoy.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        txtFechaHoy.setForeground(new java.awt.Color(0, 0, 0));
 
-        jLabel3.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Vigencia:");
+        lbl.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        lbl.setForeground(new java.awt.Color(0, 0, 0));
+        lbl.setText("Vigencia:");
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jComboBox1.setForeground(new java.awt.Color(0, 0, 0));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 Año", "2 Años", "3 Años" }));
+        cbxVigencia.setBackground(new java.awt.Color(255, 255, 255));
+        cbxVigencia.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        cbxVigencia.setForeground(new java.awt.Color(0, 0, 0));
+        cbxVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 Año", "2 Años", "3 Años" }));
+        cbxVigencia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbxVigenciaMouseClicked(evt);
+            }
+        });
+        cbxVigencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxVigenciaActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Costo:");
 
-        jTextField2.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField2.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(0, 0, 0));
+        txtFechaVigencia.setBackground(new java.awt.Color(255, 255, 255));
+        txtFechaVigencia.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        txtFechaVigencia.setForeground(new java.awt.Color(0, 0, 0));
 
-        jLabel7.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("Datos de la Licencia:");
+        lblDatosLicencia.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        lblDatosLicencia.setForeground(new java.awt.Color(0, 0, 0));
+        lblDatosLicencia.setText("Datos de la Licencia:");
 
         jLabel6.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Fecha de Vigencia:");
 
-        jTextField3.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField3.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jTextField3.setForeground(new java.awt.Color(0, 0, 0));
+        txtCosto.setBackground(new java.awt.Color(255, 255, 255));
+        txtCosto.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        txtCosto.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel8.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("$");
 
+        checkDiscapacitado.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        checkDiscapacitado.setForeground(new java.awt.Color(0, 0, 0));
+        checkDiscapacitado.setText("Discapacitado");
+        checkDiscapacitado.setEnabled(false);
+
         javax.swing.GroupLayout panCuerpoLayout = new javax.swing.GroupLayout(panCuerpo);
         panCuerpo.setLayout(panCuerpoLayout);
         panCuerpoLayout.setHorizontalGroup(
             panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panEncabezado, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
+            .addComponent(panEncabezado, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
             .addGroup(panCuerpoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panCuerpoLayout.createSequentialGroup()
-                        .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panCuerpoLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnAceptar))
-                            .addGroup(panCuerpoLayout.createSequentialGroup()
-                                .addComponent(lblDatosCliente)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
+                        .addComponent(lblDatosCliente)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panCuerpoLayout.createSequentialGroup()
-                        .addGap(0, 39, Short.MAX_VALUE)
                         .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnBuscarCliente)
                             .addGroup(panCuerpoLayout.createSequentialGroup()
-                                .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblNombres)
-                                    .addComponent(lblRFC)
-                                    .addComponent(lblTelefono))
-                                .addGap(18, 18, 18)
-                                .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtNombres)
-                                        .addComponent(txtRfc, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(panCuerpoLayout.createSequentialGroup()
+                                .addComponent(lblDatosLicencia)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panCuerpoLayout.createSequentialGroup()
                                         .addComponent(jLabel8)
-                                        .addGap(8, 8, 8)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtFechaVigencia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnAceptar, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(panCuerpoLayout.createSequentialGroup()
+                                .addGap(0, 19, Short.MAX_VALUE)
+                                .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnBuscarCliente)
+                                    .addGroup(panCuerpoLayout.createSequentialGroup()
+                                        .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(lblNombres)
+                                            .addComponent(lblRFC)
+                                            .addComponent(lblTelefono))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtNombres)
+                                            .addComponent(txtRfc, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(panCuerpoLayout.createSequentialGroup()
+                                        .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(lbl)
+                                            .addComponent(lblFecha)
+                                            .addComponent(jLabel6)
+                                            .addComponent(jLabel5))
                                         .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                        .addGap(38, 38, 38))
-                    .addGroup(panCuerpoLayout.createSequentialGroup()
-                        .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                            .addGroup(panCuerpoLayout.createSequentialGroup()
+                                                .addGap(63, 63, 63)
+                                                .addComponent(txtFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panCuerpoLayout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(cbxVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(checkDiscapacitado))))
+                        .addGap(38, 38, 38))))
         );
         panCuerpoLayout.setVerticalGroup(
             panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,25 +305,25 @@ public class TramitesLicencia extends javax.swing.JFrame {
                     .addComponent(lblTelefono)
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel7)
+                .addComponent(checkDiscapacitado)
                 .addGap(9, 9, 9)
-                .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panCuerpoLayout.createSequentialGroup()
-                        .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(panCuerpoLayout.createSequentialGroup()
-                                .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel3))
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel6))
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lblDatosLicencia)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFecha))
+                .addGap(12, 12, 12)
+                .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtFechaVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAceptar)
@@ -294,11 +334,11 @@ public class TramitesLicencia extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panCuerpo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panCuerpo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panCuerpo, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panCuerpo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -306,19 +346,20 @@ public class TramitesLicencia extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        
+
     }//GEN-LAST:event_formWindowClosed
 
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
         BuscadorClientesForm buscador = new BuscadorClientesForm();
         buscador.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        if(validarCamposVacios()){
+        if (validarCamposVacios()) {
             PagarDlg cobrar = new PagarDlg(this, true);
             cobrar.setVisible(true);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Error: Campos vacíos",
                     "No procede el trámite", JOptionPane.ERROR_MESSAGE);
         }
@@ -338,30 +379,98 @@ public class TramitesLicencia extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtRfcKeyTyped
 
+    private void cbxVigenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxVigenciaMouseClicked
+        llenarCampoFechas();
+    }//GEN-LAST:event_cbxVigenciaMouseClicked
+
+    private void cbxVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxVigenciaActionPerformed
+        llenarCamposTramite();
+    }//GEN-LAST:event_cbxVigenciaActionPerformed
+
     private boolean validarCamposVacios() {
         return true;
+    }
+
+    private void llenarCampoFechas() {
+        // Fecha de Hoy
+        Calendar hoy = Calendar.getInstance();
+        int diaHoy = hoy.get(Calendar.DAY_OF_MONTH);
+        int mesHoy = hoy.get(Calendar.MONTH) + 1; // Los meses van de 0 a 11, así que se le suma 1 para obtener el mes actual.
+        int anioHoy = hoy.get(Calendar.YEAR);
+
+        // Fecha de Vigencia
+        String seleccion = cbxVigencia.getSelectedItem().toString();
+        int numero = Integer.parseInt(seleccion.split(" ")[0]); // Obtener el número de años seleccionados en el JComboBox
+        Calendar vigencia = Calendar.getInstance();
+        vigencia.set(anioHoy, mesHoy - 1, diaHoy); // Establecer la fecha de hoy en el objeto Calendar vigencia
+        vigencia.add(Calendar.YEAR, 1); // Sumar un año
+        vigencia.add(Calendar.YEAR, numero - 1); // Sumar el número de años seleccionados en el JComboBox
+
+        // Actualizar los campos de texto con las fechas de hoy y de vigencia
+        txtFechaHoy.setText(String.format("%02d/%02d/%d", diaHoy, mesHoy, anioHoy));
+        txtFechaVigencia.setText(String.format("%02d/%02d/%d", vigencia.get(Calendar.DAY_OF_MONTH), vigencia.get(Calendar.MONTH) + 1, vigencia.get(Calendar.YEAR)));
+
+    }
+
+    private void llenarCamposCliente() {
+        String nombreCompleto = persona.getNombres() + " " + persona.getApellido_paterno() + " " + persona.getApellido_materno();
+        String rfc = persona.getRfc();
+        String telefono = persona.getTelefono();
+        this.txtNombres.setText(nombreCompleto);
+        this.txtRfc.setText(rfc);
+        this.txtTelefono.setText(telefono);
+        checkDiscapacitado.setSelected(persona.getDiscapacidad());
+    }
+
+    private void llenarCamposTramite() {
+        llenarCampoFechas();
+        llenarCamposCosto();
+    }
+
+    private void llenarCamposCosto() {
+        Double costo = costoDeTramite();
+        txtCosto.setText(String.valueOf(costo));
+    }
+
+    private Double costoDeTramite() {
+        List<CostoLicencia> costos = obtenerCostoTramite();
+
+        for (CostoLicencia costo : costos) {
+            if (persona.getDiscapacidad()) {
+                return costo.getCostoDiscapacitados();
+            } else {
+                return costo.getCostoNormal();
+            }
+        }
+        return null;
+    }
+
+    private List<CostoLicencia> obtenerCostoTramite() {
+        String vigencia = cbxVigencia.getSelectedItem().toString();
+        return costoDAO.consultarCostoLicencias(vigencia);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnBuscarCliente;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cbxVigencia;
+    private javax.swing.JCheckBox checkDiscapacitado;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel lbl;
     private javax.swing.JLabel lblDatosCliente;
+    private javax.swing.JLabel lblDatosLicencia;
+    private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblNombres;
     private javax.swing.JLabel lblRFC;
     private javax.swing.JLabel lblTelefono;
     private javax.swing.JPanel panCuerpo;
     private javax.swing.JPanel panEncabezado;
+    private javax.swing.JTextField txtCosto;
+    private javax.swing.JTextField txtFechaHoy;
+    private javax.swing.JTextField txtFechaVigencia;
     private javax.swing.JTextField txtNombres;
     private javax.swing.JTextField txtRfc;
     private javax.swing.JTextField txtTelefono;

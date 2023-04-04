@@ -47,12 +47,9 @@ public class TramiteDAO implements ITramiteDAO {
             em.persist(tramite);
             em.getTransaction().commit();
             return tramite;
-        } catch (EntityExistsException a) {
-            em.getTransaction().rollback();
-            throw new PersistenciaException("Esta tramite ya exite " + a.getMessage());
         } catch (Exception b) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo registrar a el tramite " + b.getMessage());
+            throw new PersistenciaException("No se pudo registrar a el tramite " + b.getMessage(), b);
         } finally {
             em.close();
         }
@@ -80,12 +77,9 @@ public class TramiteDAO implements ITramiteDAO {
             em.merge(tramiteActualizado);
             em.getTransaction().commit();
             return tramiteActualizado;
-        } catch (IllegalArgumentException b) {
+        } catch (Exception b) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar el tramite " + b.getMessage());
-        } catch (PersistenciaException b) {
-            em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar el tramite " + b.getMessage());
+            throw new PersistenciaException("No se pudo actualizar el tramite " + b.getMessage(), b);
         } finally {
             em.close();
         }
@@ -108,14 +102,13 @@ public class TramiteDAO implements ITramiteDAO {
             em.getTransaction().begin();
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery<Tramite> criteria = builder.createQuery(Tramite.class);
-            Root<Tramite> root = criteria.from(Tramite.class);
             TypedQuery<Tramite> query = em.createQuery(criteria);
             List<Tramite> tramites = query.getResultList();
             em.getTransaction().commit();
             return tramites;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de tramites "+e.getMessage());
+            throw new PersistenciaException("No se pudo generar la busqueda de tramites: "+ e.getMessage(), e);
         } finally {
             em.close();
         }
@@ -143,7 +136,7 @@ public class TramiteDAO implements ITramiteDAO {
             return tramites;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de tramites");
+            throw new PersistenciaException("No se pudo generar la busqueda de tramites: " + e.getMessage(), e);
         } finally {
             em.close();
         }
@@ -176,7 +169,7 @@ public class TramiteDAO implements ITramiteDAO {
             return tramites;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de tramites");
+            throw new PersistenciaException("No se pudo generar la busqueda de tramites: " + e.getMessage(), e);
         } finally {
             em.close();
         }

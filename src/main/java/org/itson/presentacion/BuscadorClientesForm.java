@@ -19,7 +19,8 @@ import org.itson.servicio.PersonaServicio;
 public class BuscadorClientesForm extends javax.swing.JFrame {
 
     private PersonaServicio personaDAO;
-    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+    private Persona persona;
 
     /**
      * Creates new form BuscadorForm
@@ -92,6 +93,11 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("Aceptar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         btnBuscar.setBackground(new java.awt.Color(255, 255, 255));
         btnBuscar.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -126,11 +132,21 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblPersonas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPersonasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblPersonas);
 
         txtBuscar.setBackground(new java.awt.Color(255, 255, 255));
         txtBuscar.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtBuscar.setForeground(new java.awt.Color(0, 0, 0));
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -146,9 +162,9 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                         .addComponent(cbxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnBuscar)
                     .addComponent(txtBuscar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -242,17 +258,33 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        this.BuscarPersona();
+        
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
+        this.BuscarPersona();
+    }//GEN-LAST:event_txtBuscarKeyTyped
+
+    private void tblPersonasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPersonasMouseClicked
+        int seleccionar = tblPersonas.rowAtPoint(evt.getPoint());
+        String idString = String.valueOf(tblPersonas.getValueAt(seleccionar, 0));
+        Long idLong = Long.valueOf(idString);
+        this.persona = personaDAO.consultarPersona(idLong);
+    }//GEN-LAST:event_tblPersonasMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        TramitesLicencia tramite = new TramitesLicencia(persona);
+        tramite.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * Método que regresa el cliente que encontró
      *
      * @return cliente que encontró
      */
-//    public Cliente getCliente(){
-//        return this.cliente;
-//    }
+    public Persona getCliente(){
+        return this.persona;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;

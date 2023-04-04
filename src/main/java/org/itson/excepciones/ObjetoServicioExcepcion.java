@@ -21,6 +21,14 @@ public class ObjetoServicioExcepcion extends RuntimeException{
 
     /**
      * 
+     * @param message 
+     */
+    public ObjetoServicioExcepcion(String message) {
+        super(message);
+    }
+
+    /**
+     * 
      * @param msj
      * @param err
      */

@@ -44,12 +44,9 @@ public class LicenciaDAO implements ILicenciaDAO {
             em.persist(licencia);
             em.getTransaction().commit();
             return licencia;
-        } catch (EntityExistsException a) {
-            em.getTransaction().rollback();
-            throw new PersistenciaException("Esta licencia ya exite " + a.getMessage());
         } catch (Exception b) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo registrar la licencia");
+            throw new PersistenciaException("No se pudo registrar la licencia: " + b.getMessage(), b);
         } finally {
             em.close();
         }
@@ -67,9 +64,6 @@ public class LicenciaDAO implements ILicenciaDAO {
         try {
             em.getTransaction().begin();
             Licencia licenciaActualizada = em.find(Licencia.class, licencia.getIdTramite());
-            if (licenciaActualizada == null) {
-                throw new PersistenciaException("La licencia no existe en la base de datos");
-            }
             licenciaActualizada.setEstado(licencia.getEstado());
             licenciaActualizada.setPrecio(licencia.getPrecio());
             licenciaActualizada.setFechaExpedicion(licencia.getFechaExpedicion());
@@ -78,12 +72,9 @@ public class LicenciaDAO implements ILicenciaDAO {
             em.merge(licencia);
             em.getTransaction().commit();
             return licenciaActualizada;
-        } catch (IllegalArgumentException b) {
+        } catch (Exception b) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar la licencia " + b.getMessage());
-        } catch (PersistenciaException b) {
-            em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar la licencia " + b.getMessage());
+            throw new PersistenciaException("No se pudo actualizar la licencia: " + b.getMessage(), b);
         } finally {
             em.close();
         }
@@ -111,7 +102,7 @@ public class LicenciaDAO implements ILicenciaDAO {
             return licencias;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de licencias");
+            throw new PersistenciaException("No se pudo generar la busqueda de licencias: " + e.getMessage(), e);
         } finally {
             em.close();
         }
@@ -171,7 +162,7 @@ public class LicenciaDAO implements ILicenciaDAO {
             return licencias;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de licencias " + e.getMessage());
+            throw new PersistenciaException("No se pudo generar la busqueda de licencias " + e.getMessage(), e);
         } finally {
             em.close();
         }

@@ -10,7 +10,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import javax.swing.JOptionPane;
-import org.itson.excepciones.PersistenciaException;
 
 /**
  * Descripción de la clase:
@@ -28,8 +27,7 @@ public class ConexionBD {
     public ConexionBD(String direccionPersistencia) {
         try {
             factory = Persistence.createEntityManagerFactory(direccionPersistencia);
-        } catch (PersistenceException e) {
-            JOptionPane.showMessageDialog(null, "Error al obtener la conexión a la base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
             throw new PersistenceException("Error al obtener la conexión a la base de datos: " + e.getMessage());
         }
 

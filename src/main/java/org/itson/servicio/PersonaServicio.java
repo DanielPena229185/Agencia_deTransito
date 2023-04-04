@@ -125,4 +125,12 @@ public class PersonaServicio {
         }
     }
 
+    public Persona consultarPersona(Long id) throws IllegalArgumentException {
+        try {
+            return personaDAO.buscarPersona(id);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("No se puede realizar la busqueda " + e.getMessage());
+        }
+    }
+
 }
