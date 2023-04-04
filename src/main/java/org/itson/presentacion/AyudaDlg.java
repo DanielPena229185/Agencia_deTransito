@@ -1,4 +1,3 @@
-
 /**
  * AyudaForm.java
  * 25 mar. 2023 13:34:32
@@ -10,8 +9,14 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import org.itson.dominio.Costo;
+import org.itson.dominio.CostoLicencia;
+import org.itson.dominio.CostoPlaca;
 import org.itson.dominio.Persona;
+import org.itson.dominio.TipoVehiculo;
+import org.itson.implementaciones.CostoDAO;
 import org.itson.servicio.PersonaServicio;
+import org.itson.servicio.CostoServicio;
 
 /**
  * Descripción de la clase:
@@ -20,7 +25,8 @@ import org.itson.servicio.PersonaServicio;
  */
 public class AyudaDlg extends javax.swing.JDialog {
 
-    private PersonaServicio es;
+    private PersonaServicio personaDAO;
+    private CostoServicio costoDAO;
 
     /**
      *
@@ -30,9 +36,10 @@ public class AyudaDlg extends javax.swing.JDialog {
      */
     public AyudaDlg(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        es = new PersonaServicio();
+        personaDAO = new PersonaServicio();
+        costoDAO = new CostoServicio();
         initComponents();
-       
+
     }
 
     /**
@@ -93,11 +100,21 @@ public class AyudaDlg extends javax.swing.JDialog {
         btnCostosTramites.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         btnCostosTramites.setForeground(new java.awt.Color(0, 0, 0));
         btnCostosTramites.setText("Costos de Trámites");
+        btnCostosTramites.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCostosTramitesActionPerformed(evt);
+            }
+        });
 
         btnCerrar.setBackground(new java.awt.Color(255, 255, 255));
         btnCerrar.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         btnCerrar.setForeground(new java.awt.Color(0, 0, 0));
         btnCerrar.setText("Cerrar");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -143,6 +160,31 @@ public class AyudaDlg extends javax.swing.JDialog {
     private void btnInsertarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarClientesActionPerformed
         this.insertarPersonas();
     }//GEN-LAST:event_btnInsertarClientesActionPerformed
+
+    private void btnCostosTramitesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCostosTramitesActionPerformed
+        // TODO add your handling code here:
+        this.insertarCostos();
+    }//GEN-LAST:event_btnCostosTramitesActionPerformed
+
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
+
+    private void insertarCostos() {
+        Costo licencia1 = new CostoLicencia("1 año", 200, 600);
+        Costo licencia2 = new CostoLicencia("2 años", 500, 900);
+        Costo licencia3 = new CostoLicencia("3 años", 700, 1100);
+        costoDAO.agregarCosto(licencia1);
+        costoDAO.agregarCosto(licencia2);
+        costoDAO.agregarCosto(licencia3);
+
+        Costo placa1 = new CostoPlaca(TipoVehiculo.NUEVO, 1500);
+        Costo placa2 = new CostoPlaca(TipoVehiculo.USADO, 1000);
+        costoDAO.agregarCosto(placa1);
+        costoDAO.agregarCosto(placa2);
+        JOptionPane.showMessageDialog(null, "Registro masivo de costos exitoso");
+    }
 
     /**
      * Método que crea 20 objetos de tipo Persona
@@ -272,8 +314,8 @@ public class AyudaDlg extends javax.swing.JDialog {
         for (Persona persona : listaPersonas) {
             //System.out.println(persona.getFechaNacimiento());
             //System.out.println(persona.toString());
-            es.agregarPersona(persona);
-            
+            personaDAO.agregarPersona(persona);
+
         }
         JOptionPane.showMessageDialog(null, "Registro masivo exitoso");
     }

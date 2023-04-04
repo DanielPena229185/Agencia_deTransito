@@ -34,14 +34,14 @@ public class CostoLicencia extends Costo implements Serializable {
         super();
     }
 
-    public CostoLicencia(String vigencia, double costoDiscapacitados, Long id, double costoNormal, String concepto) {
-        super(id, costoNormal, concepto);
+    public CostoLicencia(String vigencia, double costoDiscapacitados, Long id, double costoNormal) {
+        super(id, costoNormal);
         this.vigencia = vigencia;
         this.costoDiscapacitados = costoDiscapacitados;
     }
 
-    public CostoLicencia(String vigencia, double costoDiscapacitados, double costoNormal, String concepto) {
-        super(costoNormal, concepto);
+    public CostoLicencia(String vigencia, double costoDiscapacitados, double costoNormal) {
+        super(costoNormal);
         this.vigencia = vigencia;
         this.costoDiscapacitados = costoDiscapacitados;
     }
@@ -61,5 +61,5 @@ public class CostoLicencia extends Costo implements Serializable {
     public void setCostoDiscapacitados(double costoDiscapacitados) {
         this.costoDiscapacitados = costoDiscapacitados;
     }
-    
+
 }

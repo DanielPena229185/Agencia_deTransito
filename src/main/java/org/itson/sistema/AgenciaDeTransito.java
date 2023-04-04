@@ -17,9 +17,6 @@ public class AgenciaDeTransito {
 
     public static void main(String[] args) {
 
-//        PersonaServicio es = new PersonaServicio();
-//        Persona p = new Persona("da", "asd", "asd", "asd", Calendar.getInstance(), Boolean.FALSE, "644");
-//        es.agregarPersona(p);
         PrincipalForm principal = new PrincipalForm();
         principal.setVisible(true);
 

@@ -1,8 +1,7 @@
 /**
-* Costo.java
-* 1 abr. 2023 15:26:41
-*/ 
-
+ * Costo.java
+ * 1 abr. 2023 15:26:41
+ */
 package org.itson.dominio;
 //importanciones
 
@@ -18,8 +17,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 /**
- * Descripción de la clase: 
- * 
+ * Descripción de la clase:
+ *
  * @author Daniel Armando Peña Garcia ID:229185
  */
 @Entity
@@ -30,31 +29,28 @@ public class Costo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(name = "Costo_Normal")
     private double costoNormal;
-    
-    @Column(name = "Concepto", length = 100)
-    private String concepto;
-    
+
     /**
-     * 
+     *
      */
-    public Costo(){
+    public Costo() {
 
     }
 
-    public Costo(Long id, double costoNormal, String concepto) {
+    public Costo(Long id, double costoNormal) {
         this.id = id;
         this.costoNormal = costoNormal;
-        this.concepto = concepto;
+
     }
 
-    public Costo(double costoNormal, String concepto) {
+    public Costo(double costoNormal) {
         this.costoNormal = costoNormal;
-        this.concepto = concepto;
+
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -69,14 +65,6 @@ public class Costo implements Serializable {
 
     public void setCostoNormal(double costoNormal) {
         this.costoNormal = costoNormal;
-    }
-
-    public String getConcepto() {
-        return concepto;
-    }
-
-    public void setConcepto(String concepto) {
-        this.concepto = concepto;
     }
 
     @Override

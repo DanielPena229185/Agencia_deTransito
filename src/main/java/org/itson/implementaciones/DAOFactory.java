@@ -48,4 +48,7 @@ public class DAOFactory {
         return new PlacaDAO(conexion);
     }
 
+    public ICostoDAO getCostoDAO() {
+        return new CostoDAO(conexion);
+    }
 }

@@ -5,6 +5,12 @@
 
 package org.itson.servicio;
 //importanciones
+
+import org.itson.dominio.Costo;
+import org.itson.excepciones.PersistenciaException;
+import org.itson.implementaciones.DAOFactory;
+import org.itson.interfaces.ICostoDAO;
+
 /**
  * Descripción de la clase: 
  * 
@@ -12,10 +18,20 @@ package org.itson.servicio;
  */
 public class CostoServicio {
 
-    /**
-     * 
-     */
-    public CostoServicio(){
+    private ICostoDAO costoDAO;
 
+    /**
+     *
+     */
+    public CostoServicio() {
+        this.costoDAO = new DAOFactory().getCostoDAO();
+    }
+    
+    public Costo agregarCosto(Costo costo)throws PersistenciaException{
+         try {
+            return costoDAO.agregarCosto(costo);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("No se puede agregar la persona " + e.getMessage());
+        }
     }
 }

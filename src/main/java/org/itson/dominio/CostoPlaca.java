@@ -1,8 +1,7 @@
 /**
-* CostoPlaca.java
-* 1 abr. 2023 16:06:26
-*/ 
-
+ * CostoPlaca.java
+ * 1 abr. 2023 16:06:26
+ */
 package org.itson.dominio;
 //importanciones
 
@@ -15,8 +14,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 /**
- * Descripción de la clase: 
- * 
+ * Descripción de la clase:
+ *
  * @author Daniel Armando Peña Garcia ID:229185
  */
 @Entity
@@ -32,13 +31,13 @@ public class CostoPlaca extends Costo implements Serializable {
         super();
     }
 
-    public CostoPlaca(TipoVehiculo tipo, Long id, double costoNormal, String concepto) {
-        super(id, costoNormal, concepto);
+    public CostoPlaca(TipoVehiculo tipo, Long id, double costoNormal) {
+        super(id, costoNormal);
         this.tipo = tipo;
     }
 
-    public CostoPlaca(TipoVehiculo tipo, double costoNormal, String concepto) {
-        super(costoNormal, concepto);
+    public CostoPlaca(TipoVehiculo tipo, double costoNormal) {
+        super(costoNormal);
         this.tipo = tipo;
     }
 
@@ -49,5 +48,5 @@ public class CostoPlaca extends Costo implements Serializable {
     public void setTipo(TipoVehiculo tipo) {
         this.tipo = tipo;
     }
-    
+
 }

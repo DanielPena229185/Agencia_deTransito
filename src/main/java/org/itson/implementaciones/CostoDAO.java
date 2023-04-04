@@ -1,12 +1,12 @@
 /**
-* CostoDAO.java
-* 1 abr. 2023 17:17:58
-*/ 
-
+ * CostoDAO.java
+ * 1 abr. 2023 17:17:58
+ */
 package org.itson.implementaciones;
 //importanciones
 
 import java.util.List;
+import javax.persistence.EntityExistsException;
 
 import javax.persistence.EntityManager;
 
@@ -15,24 +15,35 @@ import org.itson.excepciones.PersistenciaException;
 import org.itson.interfaces.ICostoDAO;
 
 /**
- * Descripción de la clase: 
- * 
+ * Descripción de la clase:
+ *
  * @author Daniel Armando Peña Garcia ID:229185
  */
-public class CostoDAO implements ICostoDAO{
+public class CostoDAO implements ICostoDAO {
 
     EntityManager em;
 
     /**
-     * 
+     *
      */
-    public CostoDAO(ConexionBD conexion){
-        em = conexion.getConexion();
+    public CostoDAO(ConexionBD conexion) {
+        this.em = conexion.getConexion();
     }
 
     @Override
     public Costo agregarCosto(Costo costo) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            em.getTransaction().begin();
+            em.persist(costo);
+            em.getTransaction().commit();
+            return costo;
+        } catch (EntityExistsException a) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("Este costo ya existe" + a.getMessage());
+        } catch (Exception b) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("No se pudo registrar el costo" + b.getMessage());
+        }
     }
 
     @Override
