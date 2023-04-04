@@ -23,13 +23,13 @@ import org.itson.interfaces.IPersonaDAO;
  */
 public class PersonaDAO implements IPersonaDAO {
 
-    private EntityManager em;
+    private ConexionBD conexion;
 
     /**
      *
      */
     public PersonaDAO(ConexionBD conexion) {
-        this.em = conexion.getConexion();
+        this.conexion = conexion;
     }
 
     /**
@@ -40,6 +40,7 @@ public class PersonaDAO implements IPersonaDAO {
      */
     @Override
     public Persona agregarPersona(Persona persona) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             em.persist(persona);
@@ -51,6 +52,8 @@ public class PersonaDAO implements IPersonaDAO {
         } catch (Exception b) {
             em.getTransaction().rollback();
             throw new PersistenciaException("No se pudo registrar a la persona" + b.getMessage());
+        } finally {
+            em.close();
         }
     }
 
@@ -63,6 +66,7 @@ public class PersonaDAO implements IPersonaDAO {
      */
     @Override
     public Persona actualizarPersona(Persona persona) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             Persona personaActualizado = em.find(Persona.class, persona.getIdPersona());
@@ -105,15 +109,14 @@ public class PersonaDAO implements IPersonaDAO {
      */
     @Override
     public List<Persona> consultarPersonas(String filtro, String busqueda) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery<Persona> criteria = builder.createQuery(Persona.class);
             Root<Persona> root = criteria.from(Persona.class);
             criteria.select(root).where(
-                    builder.and(
-                            builder.equal(root.get(filtro), busqueda)
-                    )
+                    builder.like(root.get(filtro), "%" + busqueda + "%")
             );
             TypedQuery<Persona> query = em.createQuery(criteria);
 
@@ -130,6 +133,7 @@ public class PersonaDAO implements IPersonaDAO {
 
     @Override
     public List<Persona> consultarPersonas() throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             CriteriaBuilder builder = em.getCriteriaBuilder();
