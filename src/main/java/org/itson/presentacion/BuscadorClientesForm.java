@@ -7,6 +7,8 @@ package org.itson.presentacion;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import org.itson.dominio.Persona;
 import org.itson.servicio.PersonaServicio;
@@ -28,6 +30,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     public BuscadorClientesForm() {
         personaDAO = new PersonaServicio();
         initComponents();
+        this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.cargarTablaPersonas();
     }
 
@@ -43,16 +46,19 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblBuscarPor = new javax.swing.JLabel();
         cbxFiltro = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        btnBuscar = new javax.swing.JButton();
+        btnAceptar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPersonas = new javax.swing.JTable();
         txtBuscar = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Buscador de Cliente");
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                formComponentHidden(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -75,9 +81,9 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        jLabel1.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Buscar Por: ");
+        lblBuscarPor.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        lblBuscarPor.setForeground(new java.awt.Color(0, 0, 0));
+        lblBuscarPor.setText("Buscar Por: ");
 
         cbxFiltro.setBackground(new java.awt.Color(255, 255, 255));
         cbxFiltro.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -89,23 +95,13 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
-        jButton1.setText("Aceptar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAceptar.setBackground(new java.awt.Color(255, 255, 255));
+        btnAceptar.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        btnAceptar.setForeground(new java.awt.Color(0, 0, 0));
+        btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        btnBuscar.setBackground(new java.awt.Color(255, 255, 255));
-        btnBuscar.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        btnBuscar.setForeground(new java.awt.Color(0, 0, 0));
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
+                btnAceptarActionPerformed(evt);
             }
         });
 
@@ -136,8 +132,18 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblPersonasMouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tblPersonasMousePressed(evt);
+            }
         });
         jScrollPane1.setViewportView(tblPersonas);
+        if (tblPersonas.getColumnModel().getColumnCount() > 0) {
+            tblPersonas.getColumnModel().getColumn(0).setResizable(false);
+            tblPersonas.getColumnModel().getColumn(1).setResizable(false);
+            tblPersonas.getColumnModel().getColumn(2).setResizable(false);
+            tblPersonas.getColumnModel().getColumn(3).setResizable(false);
+            tblPersonas.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         txtBuscar.setBackground(new java.awt.Color(255, 255, 255));
         txtBuscar.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -157,15 +163,14 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(lblBuscarPor)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnBuscar)
                     .addComponent(txtBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(btnAceptar)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -174,16 +179,14 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnAceptar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
+                            .addComponent(lblBuscarPor)
                             .addComponent(cbxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscar)
-                        .addGap(304, 304, 304))
+                        .addGap(340, 340, 340))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -256,11 +259,6 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxFiltroActionPerformed
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
         this.BuscarPersona();
     }//GEN-LAST:event_txtBuscarKeyTyped
@@ -272,30 +270,57 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         this.persona = personaDAO.consultarPersona(idLong);
     }//GEN-LAST:event_tblPersonasMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        TramitesLicencia tramite = new TramitesLicencia(persona);
-        tramite.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        if (persona == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Selecciona correctamente a la persona",
+                    "Error al seleccionar al cliente",
+                    JOptionPane.ERROR_MESSAGE);
+        } else {
+            TramitesLicencia tramite = new TramitesLicencia(persona);
+            tramite.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void tblPersonasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPersonasMousePressed
+        int seleccionar = tblPersonas.rowAtPoint(evt.getPoint());
+        String idString = String.valueOf(tblPersonas.getValueAt(seleccionar, 0));
+        Long idLong = Long.valueOf(idString);
+        this.persona = personaDAO.consultarPersona(idLong);
+    }//GEN-LAST:event_tblPersonasMousePressed
+
+    private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
+        int opcion;
+        opcion = JOptionPane.showConfirmDialog(this,
+                "¿Desea Cancelar la búsqueda?", "¡Cuidado!",
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if(opcion == JOptionPane.YES_OPTION){
+            TramitesLicencia tramite = new TramitesLicencia();
+            tramite.setVisible(true);
+            this.dispose();
+        }else{
+            this.setVisible(true);
+        }
+    }//GEN-LAST:event_formComponentHidden
 
     /**
      * Método que regresa el cliente que encontró
      *
      * @return cliente que encontró
      */
-    public Persona getCliente(){
+    public Persona getCliente() {
         return this.persona;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnAceptar;
     private javax.swing.JComboBox<String> cbxFiltro;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblBuscarPor;
     private javax.swing.JTable tblPersonas;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables

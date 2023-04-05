@@ -4,11 +4,12 @@
  */
 package org.itson.presentacion;
 
+import java.awt.Frame;
 import java.util.Calendar;
-import javax.swing.JOptionPane;
 import org.itson.dominio.EstadoTramite;
 import org.itson.dominio.Licencia;
 import org.itson.dominio.Pago;
+import org.itson.dominio.Placa;
 import org.itson.servicio.PagoServicio;
 import org.itson.servicio.LicenciaServicio;
 
@@ -25,27 +26,63 @@ public class PagarDlg extends javax.swing.JDialog {
     private PagoServicio PagoDAO;
     private LicenciaServicio licenciaDAO;
     private Pago pago;
+    private Placa placa;
+    private Placa placaAnterior;
+    private boolean salir;
 
     /**
-     * Creates new form CobrarDlg
+     * En este constructor, recivimos trámites de licencia, para saber a qué
+     * tipo de trámite se le va a pagar, en este caso es para una nueva licencia
+     * @param parent
+     * @param modal
+     * @param licencia
+     * @param concepto 
      */
-    public PagarDlg(java.awt.Frame parent, boolean modal, Licencia licencia) {
+    public PagarDlg(java.awt.Frame parent, boolean modal, Licencia licencia, String concepto) {
         super(parent, modal);
         initComponents();
         this.PagoDAO = new PagoServicio();
         this.licencia = licencia;
-        this.txtMonto.setText(licencia.getPrecio().toString());
+        this.concepto = concepto;
+        this.llenarCamposTexto();
     }
 
-    public PagarDlg(java.awt.Frame parent, boolean modal, Licencia licencia, Licencia licenciaAnterior) {
+    /**
+     * En este constructor, recivimos trámites de licencia, para saber a qué
+     * tipo de trámite se le va a pagar, en este caso es para una trámitar otra 
+     * licencia
+     * @param parent
+     * @param modal
+     * @param licencia
+     * @param licenciaAnterior 
+     */
+    public PagarDlg(java.awt.Frame parent, boolean modal, Licencia licencia, Licencia licenciaAnterior, String concepto) {
         super(parent, modal);
         initComponents();
         this.PagoDAO = new PagoServicio();
         this.licenciaDAO = new LicenciaServicio();
         this.licencia = licencia;
+        this.concepto = concepto;
         this.licenciaAnterior = licenciaAnterior;
-        this.txtMonto.setText(licencia.getPrecio().toString());
+        this.llenarCamposTexto();
     }
+
+    public PagarDlg(Placa placa, Placa placaAnterior, Frame owner, boolean modal, String concepto) {
+        super(owner, modal);
+        initComponents();
+        this.placa = placa;
+        this.placaAnterior = placaAnterior;
+        this.concepto = concepto;
+    }
+    
+    public PagarDlg(Placa placa, Frame owner, boolean modal, String concepto) {
+        super(owner, modal);
+        initComponents();
+        this.placa = placa;
+        this.concepto = concepto;
+    }
+    
+    
 
     public void agregarPago() {
         pago = new Pago(licencia.getPrecio(), Calendar.getInstance(), this.txtConcepto.getText(), licencia);
@@ -77,6 +114,7 @@ public class PagarDlg extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pagos");
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -110,6 +148,8 @@ public class PagarDlg extends javax.swing.JDialog {
         txtMonto.setBackground(new java.awt.Color(255, 255, 255));
         txtMonto.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtMonto.setForeground(new java.awt.Color(0, 0, 0));
+        txtMonto.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtMonto.setEnabled(false);
 
         btnCobro.setBackground(new java.awt.Color(255, 255, 255));
         btnCobro.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -128,6 +168,8 @@ public class PagarDlg extends javax.swing.JDialog {
         txtConcepto.setBackground(new java.awt.Color(255, 255, 255));
         txtConcepto.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtConcepto.setForeground(new java.awt.Color(0, 0, 0));
+        txtConcepto.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtConcepto.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -162,9 +204,9 @@ public class PagarDlg extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnCobro)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -175,18 +217,29 @@ public class PagarDlg extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCobroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCobroActionPerformed
-        // TODO add your handling code here:
         this.agregarPago();
+        this.salir = true;
         this.dispose();
     }//GEN-LAST:event_btnCobroActionPerformed
 
+    private void llenarCamposTexto(){
+        String monto = String.valueOf(licencia.getPrecio());
+        this.txtMonto.setText(monto);
+        this.txtConcepto.setText(concepto);
+    }
+
+    public boolean isSalir() {
+        return salir;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCobro;
     private javax.swing.JLabel jLabel1;

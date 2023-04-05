@@ -8,17 +8,14 @@ package org.itson.presentacion;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.itson.dominio.CostoLicencia;
 import org.itson.dominio.EstadoTramite;
 import org.itson.dominio.Licencia;
 import org.itson.dominio.Persona;
-import org.itson.dominio.Tramite;
 import org.itson.servicio.CostoServicio;
 import org.itson.servicio.LicenciaServicio;
-import org.itson.servicio.TramitesServicio;
 
 /**
  * Descripción de la clase:
@@ -30,7 +27,6 @@ public class TramitesLicencia extends javax.swing.JFrame {
     private Persona persona = null;
     private CostoServicio costoDAO;
     private LicenciaServicio licenciaDAO;
-    private String concepto;
     private Licencia licencia;
     private Licencia licenciaAnterior;
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
@@ -47,29 +43,7 @@ public class TramitesLicencia extends javax.swing.JFrame {
         initComponents();
         costoDAO = new CostoServicio();
         licenciaDAO = new LicenciaServicio();
-        List<Licencia> licencias = licenciaDAO.consultarLicenciasPersona(persona);
-        if (licencias.isEmpty()) {
-            this.persona = persona;
-            this.llenarCamposCliente();
-            this.llenarCamposTramite();
-        } else {
-            for (Licencia licencia : licencias) {
-                if (licencia.getEstado() == EstadoTramite.ACTIVO) {
-                    int respuesta = JOptionPane.showConfirmDialog(null,
-                            "Esta persona ya tiene una licencia\n"
-                            + "¿Está seguro que desea continuar y cancelar la licencia anterior?", "Confirmación",
-                            JOptionPane.YES_NO_CANCEL_OPTION);
-                    if (respuesta == JOptionPane.YES_OPTION) {
-                        this.licenciaAnterior = licencia;
-                        this.persona = persona;
-                        this.llenarCamposCliente();
-                        this.llenarCamposTramite();
-                        break;
-                    }
-                }
-            }
-        }
-
+        validarLicenciaActiva(persona);
     }
 
     /**
@@ -83,7 +57,7 @@ public class TramitesLicencia extends javax.swing.JFrame {
 
         panCuerpo = new javax.swing.JPanel();
         panEncabezado = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblGenerarTramiteLicencia = new javax.swing.JLabel();
         lblDatosCliente = new javax.swing.JLabel();
         lblNombres = new javax.swing.JLabel();
         txtNombres = new javax.swing.JTextField();
@@ -100,12 +74,13 @@ public class TramitesLicencia extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtFechaVigencia = new javax.swing.JTextField();
         lblDatosLicencia = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        lblFechaVigencia = new javax.swing.JLabel();
         txtCosto = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
+        lblSimboloPeso = new javax.swing.JLabel();
         checkDiscapacitado = new javax.swing.JCheckBox();
 
         setTitle("Trámite de Licencia");
+        setResizable(false);
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentHidden(java.awt.event.ComponentEvent evt) {
                 formComponentHidden(evt);
@@ -122,9 +97,9 @@ public class TramitesLicencia extends javax.swing.JFrame {
         panEncabezado.setBackground(new java.awt.Color(0, 102, 255));
         panEncabezado.setPreferredSize(new java.awt.Dimension(400, 55));
 
-        jLabel1.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Generar Trámite de Licencia");
+        lblGenerarTramiteLicencia.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        lblGenerarTramiteLicencia.setForeground(new java.awt.Color(255, 255, 255));
+        lblGenerarTramiteLicencia.setText("Generar Trámite de Licencia");
 
         javax.swing.GroupLayout panEncabezadoLayout = new javax.swing.GroupLayout(panEncabezado);
         panEncabezado.setLayout(panEncabezadoLayout);
@@ -132,14 +107,14 @@ public class TramitesLicencia extends javax.swing.JFrame {
             panEncabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panEncabezadoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(lblGenerarTramiteLicencia)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panEncabezadoLayout.setVerticalGroup(
             panEncabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panEncabezadoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(lblGenerarTramiteLicencia)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -254,9 +229,9 @@ public class TramitesLicencia extends javax.swing.JFrame {
         lblDatosLicencia.setForeground(new java.awt.Color(0, 0, 0));
         lblDatosLicencia.setText("Datos de la Licencia:");
 
-        jLabel6.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("Fecha de Vigencia:");
+        lblFechaVigencia.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        lblFechaVigencia.setForeground(new java.awt.Color(0, 0, 0));
+        lblFechaVigencia.setText("Fecha de Vigencia:");
 
         txtCosto.setBackground(new java.awt.Color(255, 255, 255));
         txtCosto.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -264,9 +239,9 @@ public class TramitesLicencia extends javax.swing.JFrame {
         txtCosto.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtCosto.setEnabled(false);
 
-        jLabel8.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel8.setText("$");
+        lblSimboloPeso.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        lblSimboloPeso.setForeground(new java.awt.Color(0, 0, 0));
+        lblSimboloPeso.setText("$");
 
         checkDiscapacitado.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         checkDiscapacitado.setForeground(new java.awt.Color(0, 0, 0));
@@ -302,7 +277,7 @@ public class TramitesLicencia extends javax.swing.JFrame {
                                 .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(txtFechaVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(panCuerpoLayout.createSequentialGroup()
-                                        .addComponent(jLabel8)
+                                        .addComponent(lblSimboloPeso)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(cbxVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -313,7 +288,7 @@ public class TramitesLicencia extends javax.swing.JFrame {
                             .addComponent(lblFecha)
                             .addComponent(lblDatosLicencia)
                             .addComponent(lbl)
-                            .addComponent(jLabel6)
+                            .addComponent(lblFechaVigencia)
                             .addComponent(jLabel5))
                         .addGap(238, 238, 238)))
                 .addContainerGap(13, Short.MAX_VALUE))
@@ -357,12 +332,12 @@ public class TramitesLicencia extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtFechaVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+                    .addComponent(lblFechaVigencia))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
+                    .addComponent(lblSimboloPeso))
                 .addGap(37, 37, 37)
                 .addComponent(btnAceptar)
                 .addContainerGap())
@@ -394,16 +369,22 @@ public class TramitesLicencia extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // if (persona != null && licencia != null) {
         PagarDlg cobrar;
+        String concepto;
         licencia = this.nuevaLicencia();
         if (licenciaAnterior != null) {
-            cobrar = new PagarDlg(this, true, licencia, licenciaAnterior);
+            concepto = "Renovación de Licencia";
+            cobrar = new PagarDlg(this, true, licencia, licenciaAnterior, concepto);
         } else {
-            cobrar = new PagarDlg(this, true, licencia);
+            concepto = "Nueva Licencia";
+            cobrar = new PagarDlg(this, true, licencia, concepto);
         }
         cobrar.setVisible(true);
-        //  }
+        if (cobrar.isSalir()) {
+            PrincipalForm principal = new PrincipalForm();
+            principal.setVisible(true);
+            dispose();
+        }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
@@ -426,45 +407,52 @@ public class TramitesLicencia extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxVigenciaActionPerformed
 
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
-        int cancelarTodo = JOptionPane.showConfirmDialog(this,
-                "¿Seguro(a) que deseas salir?"
-                + "\nSe cancelará todo el proceso",
-                "¡Peligro!",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE);
-        if (JOptionPane.YES_OPTION == cancelarTodo) {
-            dispose();
+
+        if (persona != null) {
+            int cancelarTodo = JOptionPane.showConfirmDialog(this,
+                    "¿Seguro(a) que deseas salir?"
+                    + "\nSe cancelará todo el proceso",
+                    "¡Peligro!",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+            if(cancelarTodo == JOptionPane.YES_OPTION){
+                regresarPantallaPrincipal();
+            }else{
+                this.setVisible(true);
+            }
         } else {
-            this.setVisible(true);
+            regresarPantallaPrincipal();
         }
+
     }//GEN-LAST:event_formComponentHidden
 
-//    private List<String> validarCamposTexto() {
-//        List<String> camposVacios = new ArrayList<>();
-//        if (txtCosto.getText().isEmpty()) {
-//            camposVacios.add("Costo");
-//        }
-//        if (txtFechaHoy.getText().isEmpty()) {
-//            camposVacios.add("Fecha de hoy");
-//        }
-//        if (txtFechaVigencia.getText().isEmpty()) {
-//            camposVacios.add("Fecha de vigencia");
-//        }
-//        if (txtNombres.getText().isEmpty()) {
-//            camposVacios.add("Nombres");
-//        }
-//        if (txtRfc.getText().isEmpty()) {
-//            camposVacios.add("RFC");
-//        }
-//        if (txtTelefono.getText().isEmpty()) {
-//            camposVacios.add("Teléfono");
-//        }
-//        if (!camposVacios.isEmpty()) {
-//            String mensaje = "Los siguientes campos están vacíos:\n" + String.join(", ", camposVacios);
-//            JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
-//        }
-//        return camposVacios;
-//    }
+    private List<String> validarCamposTexto() {
+        List<String> camposVacios = new ArrayList<>();
+        if (txtCosto.getText().isEmpty()) {
+            camposVacios.add("Costo");
+        }
+        if (txtFechaHoy.getText().isEmpty()) {
+            camposVacios.add("Fecha de hoy");
+        }
+        if (txtFechaVigencia.getText().isEmpty()) {
+            camposVacios.add("Fecha de vigencia");
+        }
+        if (txtNombres.getText().isEmpty()) {
+            camposVacios.add("Nombres");
+        }
+        if (txtRfc.getText().isEmpty()) {
+            camposVacios.add("RFC");
+        }
+        if (txtTelefono.getText().isEmpty()) {
+            camposVacios.add("Teléfono");
+        }
+        if (!camposVacios.isEmpty()) {
+            String mensaje = "Los siguientes campos están vacíos:\n" + String.join(", ", camposVacios);
+            JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return camposVacios;
+    }
+
     private void llenarCampoFechas() {
 
         Calendar hoy = Calendar.getInstance();
@@ -511,8 +499,29 @@ public class TramitesLicencia extends javax.swing.JFrame {
         return costoDAO.consultarCostoLicencias(vigencia);
     }
 
-    private void validarLicenciaActiva() {
-
+    private void validarLicenciaActiva(Persona persona) {
+        List<Licencia> licencias = licenciaDAO.consultarLicenciasPersona(persona);
+        if (licencias.isEmpty()) {
+            this.persona = persona;
+            this.llenarCamposCliente();
+            this.llenarCamposTramite();
+        } else {
+            for (Licencia licencia : licencias) {
+                if (licencia.getEstado() == EstadoTramite.ACTIVO) {
+                    int respuesta = JOptionPane.showConfirmDialog(null,
+                            "Esta persona ya tiene una licencia\n"
+                            + "¿Está seguro que desea continuar y cancelar la licencia anterior?", "Confirmación",
+                            JOptionPane.YES_NO_CANCEL_OPTION);
+                    if (respuesta == JOptionPane.YES_OPTION) {
+                        this.licenciaAnterior = licencia;
+                        this.persona = persona;
+                        this.llenarCamposCliente();
+                        this.llenarCamposTramite();
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     private Licencia nuevaLicencia() {
@@ -544,21 +553,27 @@ public class TramitesLicencia extends javax.swing.JFrame {
         return vigencia;
     }
 
+    private void regresarPantallaPrincipal() {
+        PrincipalForm principal = new PrincipalForm();
+        principal.setVisible(true);
+        dispose();
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnBuscarCliente;
     private javax.swing.JComboBox<String> cbxVigencia;
     private javax.swing.JCheckBox checkDiscapacitado;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel lbl;
     private javax.swing.JLabel lblDatosCliente;
     private javax.swing.JLabel lblDatosLicencia;
     private javax.swing.JLabel lblFecha;
+    private javax.swing.JLabel lblFechaVigencia;
+    private javax.swing.JLabel lblGenerarTramiteLicencia;
     private javax.swing.JLabel lblNombres;
     private javax.swing.JLabel lblRFC;
+    private javax.swing.JLabel lblSimboloPeso;
     private javax.swing.JLabel lblTelefono;
     private javax.swing.JPanel panCuerpo;
     private javax.swing.JPanel panEncabezado;
