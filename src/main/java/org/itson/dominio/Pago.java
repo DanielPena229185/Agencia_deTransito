@@ -35,7 +35,7 @@ public class Pago implements Serializable {
      * Relaciones
      */
     //Relación con tramite
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_tramite", nullable = false)
     private Tramite tramite;
 
@@ -59,7 +59,7 @@ public class Pago implements Serializable {
         this.tramite = tramite;
     }
 
-    public void validarPago(Float monto, Calendar fechaHora, String concepto, Tramite tramite) throws IllegalArgumentException{
+    public void validarPago(Float monto, Calendar fechaHora, String concepto, Tramite tramite) throws IllegalArgumentException {
         if (monto <= 0) {
             throw new IllegalArgumentException("El monto debe ser mayor a 0");
         }
@@ -129,4 +129,10 @@ public class Pago implements Serializable {
         }
         this.tramite = tramite;
     }
+
+    @Override
+    public String toString() {
+        return "Pago{" + "idPago=" + idPago + ", monto=" + monto + ", fechaHora=" + fechaHora + ", concepto=" + concepto + ", tramite=" + tramite + '}';
+    }
+
 }

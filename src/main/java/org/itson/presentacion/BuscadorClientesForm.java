@@ -275,6 +275,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         TramitesLicencia tramite = new TramitesLicencia(persona);
         tramite.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

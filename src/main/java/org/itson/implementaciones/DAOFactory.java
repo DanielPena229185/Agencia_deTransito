@@ -14,7 +14,7 @@ import org.itson.interfaces.*;
 public class DAOFactory {
 
     //Cambiar para que corra
-    ConexionBD conexion = new ConexionBD("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU");
+    ConexionBD conexion = new ConexionBD("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU2");
 
     /**
      *

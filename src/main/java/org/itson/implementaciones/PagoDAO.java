@@ -24,15 +24,13 @@ import org.itson.interfaces.IPagoDAO;
  */
 public class PagoDAO implements IPagoDAO {
 
-    private EntityManager em;
+    private ConexionBD conexion;
 
     /**
      *
-     * @param conexion
      */
     public PagoDAO(ConexionBD conexion) {
-        this.em = conexion.getConexion();
-
+        this.conexion = conexion;
     }
 
     /**
@@ -43,13 +41,14 @@ public class PagoDAO implements IPagoDAO {
      */
     @Override
     public Pago agregarPago(Pago pago) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
-            this.em.getTransaction().begin();
-            this.em.persist(pago);
-            this.em.getTransaction().commit();
+            em.getTransaction().begin();
+            em.persist(pago);
+            em.getTransaction().commit();
             return pago;
         } catch (Exception e) {
-            this.em.getTransaction().rollback();
+            em.getTransaction().rollback();
             throw new PersistenciaException("No se pudo agregar el pago" + e.getMessage());
         } finally {
             em.close();
@@ -63,19 +62,20 @@ public class PagoDAO implements IPagoDAO {
      */
     @Override
     public void eliminarPago(Pago pago) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
-            this.em.getTransaction().begin();
-            Pago pagoEnBaseDeDatos = this.em.find(Pago.class, pago.getIdPago());
+            em.getTransaction().begin();
+            Pago pagoEnBaseDeDatos = em.find(Pago.class, pago.getIdPago());
             if (pagoEnBaseDeDatos == null) {
                 throw new PersistenciaException("El pago no existe en la base de datos");
             }
-            this.em.remove(pagoEnBaseDeDatos);
-            this.em.getTransaction().commit();
+            em.remove(pagoEnBaseDeDatos);
+            em.getTransaction().commit();
         } catch (IllegalArgumentException e) {
-            this.em.getTransaction().rollback();
+            em.getTransaction().rollback();
             throw new PersistenciaException("No se pudo eliminar el pago " + e.getMessage());
         } catch (Exception e) {
-            this.em.getTransaction().rollback();
+            em.getTransaction().rollback();
             throw new PersistenciaException("No se pudo eliminar el pago " + e.getMessage());
         } finally {
             em.close();
@@ -90,6 +90,7 @@ public class PagoDAO implements IPagoDAO {
      */
     @Override
     public Pago actualizarPago(Pago pago) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             Pago pagoActualizado = em.find(Pago.class, pago.getIdPago());
@@ -116,6 +117,7 @@ public class PagoDAO implements IPagoDAO {
 
     @Override
     public Pago consultarPago(Pago pago) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             Pago pagoConsulta = em.find(Pago.class, pago.getIdPago());
@@ -131,6 +133,7 @@ public class PagoDAO implements IPagoDAO {
 
     @Override
     public List<Pago> consultarPago() throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -150,6 +153,7 @@ public class PagoDAO implements IPagoDAO {
 
     @Override
     public List<Pago> consultarPago(Calendar fecha) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             CriteriaBuilder builder = em.getCriteriaBuilder();

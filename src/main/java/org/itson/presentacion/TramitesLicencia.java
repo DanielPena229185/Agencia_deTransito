@@ -15,7 +15,10 @@ import org.itson.dominio.CostoLicencia;
 import org.itson.dominio.EstadoTramite;
 import org.itson.dominio.Licencia;
 import org.itson.dominio.Persona;
+import org.itson.dominio.Tramite;
 import org.itson.servicio.CostoServicio;
+import org.itson.servicio.LicenciaServicio;
+import org.itson.servicio.TramitesServicio;
 
 /**
  * Descripción de la clase:
@@ -26,8 +29,11 @@ public class TramitesLicencia extends javax.swing.JFrame {
 
     private Persona persona = null;
     private CostoServicio costoDAO;
+    private LicenciaServicio licenciaDAO;
     private String concepto;
     private Licencia licencia;
+    private Licencia licenciaAnterior;
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * Creates new form TramiteLicencia
@@ -40,9 +46,30 @@ public class TramitesLicencia extends javax.swing.JFrame {
     public TramitesLicencia(Persona persona) {
         initComponents();
         costoDAO = new CostoServicio();
-        this.persona = persona;
-        this.llenarCamposCliente();
-        this.llenarCamposTramite();
+        licenciaDAO = new LicenciaServicio();
+        List<Licencia> licencias = licenciaDAO.consultarLicenciasPersona(persona);
+        if (licencias.isEmpty()) {
+            this.persona = persona;
+            this.llenarCamposCliente();
+            this.llenarCamposTramite();
+        } else {
+            for (Licencia licencia : licencias) {
+                if (licencia.getEstado() == EstadoTramite.ACTIVO) {
+                    int respuesta = JOptionPane.showConfirmDialog(null,
+                            "Esta persona ya tiene una licencia\n"
+                            + "¿Está seguro que desea continuar y cancelar la licencia anterior?", "Confirmación",
+                            JOptionPane.YES_NO_CANCEL_OPTION);
+                    if (respuesta == JOptionPane.YES_OPTION) {
+                        this.licenciaAnterior = licencia;
+                        this.persona = persona;
+                        this.llenarCamposCliente();
+                        this.llenarCamposTramite();
+                        break;
+                    }
+                }
+            }
+        }
+
     }
 
     /**
@@ -367,10 +394,16 @@ public class TramitesLicencia extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-//        if (validarCamposTexto().isEmpty()) {
-//            PagarDlg cobrar = new PagarDlg(this, true);
-//            cobrar.setVisible(true);
-//        }
+        // if (persona != null && licencia != null) {
+        PagarDlg cobrar;
+        licencia = this.nuevaLicencia();
+        if (licenciaAnterior != null) {
+            cobrar = new PagarDlg(this, true, licencia, licenciaAnterior);
+        } else {
+            cobrar = new PagarDlg(this, true, licencia);
+        }
+        cobrar.setVisible(true);
+        //  }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
@@ -406,39 +439,36 @@ public class TramitesLicencia extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formComponentHidden
 
-    private List<String> validarCamposTexto() {
-        List<String> camposVacios = new ArrayList<>();
-        if (txtCosto.getText().isEmpty()) {
-            camposVacios.add("Costo");
-        }
-        if (txtFechaHoy.getText().isEmpty()) {
-            camposVacios.add("Fecha de hoy");
-        }
-        if (txtFechaVigencia.getText().isEmpty()) {
-            camposVacios.add("Fecha de vigencia");
-        }
-        if (txtNombres.getText().isEmpty()) {
-            camposVacios.add("Nombres");
-        }
-        if (txtRfc.getText().isEmpty()) {
-            camposVacios.add("RFC");
-        }
-        if (txtTelefono.getText().isEmpty()) {
-            camposVacios.add("Teléfono");
-        }
-        if (!camposVacios.isEmpty()) {
-            String mensaje = "Los siguientes campos están vacíos:\n" + String.join(", ", camposVacios);
-            JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        return camposVacios;
-    }
-
+//    private List<String> validarCamposTexto() {
+//        List<String> camposVacios = new ArrayList<>();
+//        if (txtCosto.getText().isEmpty()) {
+//            camposVacios.add("Costo");
+//        }
+//        if (txtFechaHoy.getText().isEmpty()) {
+//            camposVacios.add("Fecha de hoy");
+//        }
+//        if (txtFechaVigencia.getText().isEmpty()) {
+//            camposVacios.add("Fecha de vigencia");
+//        }
+//        if (txtNombres.getText().isEmpty()) {
+//            camposVacios.add("Nombres");
+//        }
+//        if (txtRfc.getText().isEmpty()) {
+//            camposVacios.add("RFC");
+//        }
+//        if (txtTelefono.getText().isEmpty()) {
+//            camposVacios.add("Teléfono");
+//        }
+//        if (!camposVacios.isEmpty()) {
+//            String mensaje = "Los siguientes campos están vacíos:\n" + String.join(", ", camposVacios);
+//            JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+//        }
+//        return camposVacios;
+//    }
     private void llenarCampoFechas() {
-        
-        Calendar hoy = ObtenerFechaHoy();
-        Calendar fechaVigencia = ObtenerFechaVigencia();
 
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar hoy = Calendar.getInstance();
+        Calendar fechaVigencia = ObtenerFechaVigencia();
         txtFechaHoy.setText(formatoFecha.format(hoy.getTime()));
         txtFechaVigencia.setText(formatoFecha.format(fechaVigencia.getTime()));
     }
@@ -486,28 +516,28 @@ public class TramitesLicencia extends javax.swing.JFrame {
     }
 
     private Licencia nuevaLicencia() {
-        Licencia nuevaLicencia;
-        EstadoTramite estado = EstadoTramite.INACTIVO;
-        Calendar fechaExpedicion = ObtenerFechaHoy();
+        // Licencia licencia;
+        EstadoTramite estado = EstadoTramite.ACTIVO;
+        Calendar fechaExpedicion = Calendar.getInstance();
+
         Float precio = Float.valueOf(txtCosto.getText());
         Calendar fechaVigencia = ObtenerFechaVigencia();
-        nuevaLicencia = new Licencia(estado, precio, fechaExpedicion, fechaVigencia, persona);
-        return nuevaLicencia;
+        this.licencia = new Licencia(estado, precio, fechaExpedicion, fechaVigencia, persona);
+        return licencia;
     }
 
-    private Calendar ObtenerFechaHoy() {
-        Calendar fecha;
-        int dia = Calendar.DAY_OF_MONTH;
-        int mes = Calendar.MONTH + 1;
-        int anio = Calendar.YEAR;
-        fecha = new GregorianCalendar(anio, mes, dia);
-        return fecha;
-    }
-
+//    private Calendar ObtenerFechaHoy() {
+//        Calendar fecha;
+//        int dia = Calendar.DAY_OF_MONTH;
+//        int mes = Calendar.MONTH + 1;
+//        int anio = Calendar.YEAR;
+//        fecha = new GregorianCalendar(anio, mes, dia);
+//        return fecha;
+//    }
     private Calendar ObtenerFechaVigencia() {
 
-        Calendar hoy = ObtenerFechaHoy();
-        Calendar vigencia = hoy;
+        //  Calendar hoy = 
+        Calendar vigencia = Calendar.getInstance();
         String seleccion = cbxVigencia.getSelectedItem().toString();
         int numero = Integer.parseInt(seleccion.split(" ")[0]);
         vigencia.add(Calendar.YEAR, numero);

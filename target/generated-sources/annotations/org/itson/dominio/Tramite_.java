@@ -9,7 +9,7 @@ import org.itson.dominio.EstadoTramite;
 import org.itson.dominio.Pago;
 import org.itson.dominio.Persona;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2023-04-03T23:11:38")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2023-04-05T10:42:09")
 @StaticMetamodel(Tramite.class)
 public class Tramite_ { 
 

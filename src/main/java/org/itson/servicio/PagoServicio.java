@@ -7,6 +7,7 @@ package org.itson.servicio;
 
 import java.util.Calendar;
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.itson.dominio.Pago;
 import org.itson.implementaciones.DAOFactory;
 import org.itson.interfaces.*;
@@ -58,6 +59,7 @@ public class PagoServicio {
     public Pago agregarPago(Pago pago) throws IllegalArgumentException {
         try {
             this.validarDatos(pago);
+            JOptionPane.showMessageDialog(null, "Pago realizado");
             return pagoDAO.agregarPago(pago);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("No se puede agregar el pago " + e.getMessage());
