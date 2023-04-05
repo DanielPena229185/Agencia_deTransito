@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.List;
 import org.itson.dominio.Licencia;
 import org.itson.dominio.Persona;
+import org.itson.excepciones.PersistenciaException;
 import org.itson.implementaciones.DAOFactory;
 import org.itson.interfaces.ILicenciaDAO;
 
@@ -101,7 +102,7 @@ public class LicenciaServicio {
         try {
             this.validarDatos(licencia);
             return licenciaDAO.agregarLicencia(licencia);
-        } catch (IllegalArgumentException e) {
+        } catch (PersistenciaException e) {
             throw new IllegalArgumentException("No se puede agregar la licencia " + e.getMessage());
         }
     }
@@ -109,17 +110,13 @@ public class LicenciaServicio {
     /**
      *
      * @param licencia
-     * @param vigencia
      * @return
      * @throws IllegalArgumentException
      */
-    public Licencia actualizarLicencia(Licencia licencia, int vigencia) throws IllegalArgumentException {
+    public Licencia actualizarLicencia(Licencia licencia) throws IllegalArgumentException {
         try {
             this.validarDatos(licencia);
-            if (vigencia <= 0) {
-                throw new IllegalArgumentException("La vigencia debe ser mayor a 0");
-            }
-            return licenciaDAO.actualizarLicencia(licencia, vigencia);
+            return licenciaDAO.actualizarLicencia(licencia);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("No se puede actualizar la licencia " + e.getMessage());
         }

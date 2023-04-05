@@ -6,7 +6,6 @@ package org.itson.implementaciones;
 //importanciones
 
 import java.util.List;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -62,9 +61,6 @@ public class VehiculoDAO implements IVehiculoDAO {
         try {
             em.getTransaction().begin();
             Vehiculo vehiculoActualizado = em.find(Vehiculo.class, vehiculo.getIdVehiculo());
-            if (vehiculoActualizado == null) {
-                throw new PersistenciaException("El vehiculo no existe en la base de datos");
-            }
             vehiculoActualizado.setNumeroSerie(vehiculo.getNumeroSerie());
             vehiculoActualizado.setMarca(vehiculo.getMarca());
             vehiculoActualizado.setColor(vehiculo.getColor());

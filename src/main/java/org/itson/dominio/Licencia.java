@@ -23,18 +23,16 @@ public class Licencia extends Tramite implements Serializable {
     }
 
     public Licencia(EstadoTramite estado, Float precio,
-            Calendar fechaExpedicion, int vigencia, Persona persona) {
+            Calendar fechaExpedicion, Calendar fechaVigencia, Persona persona) {
         super(estado, precio, fechaExpedicion, persona);
-
-        this.setFechaExpiracion(fechaExpedicion, vigencia);
+        this.fechaExpiracion = fechaVigencia;
     }
 
     public Licencia(Long idTramite, EstadoTramite estado, Float precio,
-            Calendar fechaExpedicion, List<Pago> pago, int vigencia,
+            Calendar fechaExpedicion, List<Pago> pago, Calendar fechaVigencia,
             Persona persona) {
         super(idTramite, estado, precio, fechaExpedicion, pago, persona);
-
-        this.setFechaExpiracion(fechaExpedicion, vigencia);
+        this.fechaExpiracion = fechaVigencia;
     }
 
     public Calendar getFechaExpiracion() {
@@ -43,11 +41,5 @@ public class Licencia extends Tramite implements Serializable {
 
     public void setFechaExpiracion(Calendar fechaExpiracion) {
         this.fechaExpiracion = fechaExpiracion;
-    }
-
-    public void setFechaExpiracion(Calendar fechaExpedicion, int años) {
-        //Calendar fecha = new Calendar(fechaExpedicion.get(Calendar.YEAR,Calendar.MONTH,Calendar.DAY_OF_MONTH));
-        fechaExpiracion = (Calendar) fechaExpedicion.clone();
-        this.fechaExpiracion.add(Calendar.YEAR, años);
     }
 }

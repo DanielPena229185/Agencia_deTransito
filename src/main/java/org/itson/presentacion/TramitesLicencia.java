@@ -5,11 +5,14 @@
  */
 package org.itson.presentacion;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.swing.JOptionPane;
-import org.itson.dominio.Costo;
 import org.itson.dominio.CostoLicencia;
+import org.itson.dominio.EstadoTramite;
 import org.itson.dominio.Licencia;
 import org.itson.dominio.Persona;
 import org.itson.servicio.CostoServicio;
@@ -21,8 +24,10 @@ import org.itson.servicio.CostoServicio;
  */
 public class TramitesLicencia extends javax.swing.JFrame {
 
-    Persona persona = null;
-    CostoServicio costoDAO;
+    private Persona persona = null;
+    private CostoServicio costoDAO;
+    private String concepto;
+    private Licencia licencia;
 
     /**
      * Creates new form TramiteLicencia
@@ -73,8 +78,12 @@ public class TramitesLicencia extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         checkDiscapacitado = new javax.swing.JCheckBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Trámite de Licencia");
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                formComponentHidden(evt);
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -182,6 +191,8 @@ public class TramitesLicencia extends javax.swing.JFrame {
         txtFechaHoy.setBackground(new java.awt.Color(255, 255, 255));
         txtFechaHoy.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtFechaHoy.setForeground(new java.awt.Color(0, 0, 0));
+        txtFechaHoy.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtFechaHoy.setEnabled(false);
 
         lbl.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lbl.setForeground(new java.awt.Color(0, 0, 0));
@@ -209,6 +220,8 @@ public class TramitesLicencia extends javax.swing.JFrame {
         txtFechaVigencia.setBackground(new java.awt.Color(255, 255, 255));
         txtFechaVigencia.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtFechaVigencia.setForeground(new java.awt.Color(0, 0, 0));
+        txtFechaVigencia.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtFechaVigencia.setEnabled(false);
 
         lblDatosLicencia.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblDatosLicencia.setForeground(new java.awt.Color(0, 0, 0));
@@ -221,6 +234,8 @@ public class TramitesLicencia extends javax.swing.JFrame {
         txtCosto.setBackground(new java.awt.Color(255, 255, 255));
         txtCosto.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtCosto.setForeground(new java.awt.Color(0, 0, 0));
+        txtCosto.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtCosto.setEnabled(false);
 
         jLabel8.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
@@ -235,54 +250,50 @@ public class TramitesLicencia extends javax.swing.JFrame {
         panCuerpo.setLayout(panCuerpoLayout);
         panCuerpoLayout.setHorizontalGroup(
             panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panEncabezado, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+            .addComponent(panEncabezado, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
             .addGroup(panCuerpoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panCuerpoLayout.createSequentialGroup()
-                        .addComponent(lblDatosCliente)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panCuerpoLayout.createSequentialGroup()
                         .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblNombres)
+                            .addComponent(lblDatosCliente)
+                            .addComponent(lblRFC)
+                            .addComponent(lblTelefono))
+                        .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panCuerpoLayout.createSequentialGroup()
-                                .addComponent(lblDatosLicencia)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panCuerpoLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtRfc, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(checkDiscapacitado)
+                                    .addComponent(btnBuscarCliente)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panCuerpoLayout.createSequentialGroup()
+                                .addGap(81, 81, 81)
+                                .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtFechaVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(panCuerpoLayout.createSequentialGroup()
                                         .addComponent(jLabel8)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(txtFechaVigencia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAceptar, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addGroup(panCuerpoLayout.createSequentialGroup()
-                                .addGap(0, 19, Short.MAX_VALUE)
-                                .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnBuscarCliente)
-                                    .addGroup(panCuerpoLayout.createSequentialGroup()
-                                        .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lblNombres)
-                                            .addComponent(lblRFC)
-                                            .addComponent(lblTelefono))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtNombres)
-                                            .addComponent(txtRfc, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(panCuerpoLayout.createSequentialGroup()
-                                        .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lbl)
-                                            .addComponent(lblFecha)
-                                            .addComponent(jLabel6)
-                                            .addComponent(jLabel5))
-                                        .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(panCuerpoLayout.createSequentialGroup()
-                                                .addGap(63, 63, 63)
-                                                .addComponent(txtFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panCuerpoLayout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(cbxVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addComponent(checkDiscapacitado))))
-                        .addGap(38, 38, 38))))
+                                    .addComponent(cbxVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(2, 2, 2))))
+                    .addGroup(panCuerpoLayout.createSequentialGroup()
+                        .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblFecha)
+                            .addComponent(lblDatosLicencia)
+                            .addComponent(lbl)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5))
+                        .addGap(238, 238, 238)))
+                .addContainerGap(13, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panCuerpoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAceptar)
+                .addContainerGap())
         );
         panCuerpoLayout.setVerticalGroup(
             panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -304,9 +315,9 @@ public class TramitesLicencia extends javax.swing.JFrame {
                 .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTelefono)
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(checkDiscapacitado)
-                .addGap(9, 9, 9)
+                .addGap(15, 15, 15)
                 .addComponent(lblDatosLicencia)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -325,16 +336,16 @@ public class TramitesLicencia extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(37, 37, 37)
                 .addComponent(btnAceptar)
-                .addGap(37, 37, 37))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panCuerpo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panCuerpo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -356,13 +367,10 @@ public class TramitesLicencia extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        if (validarCamposVacios()) {
-            PagarDlg cobrar = new PagarDlg(this, true);
-            cobrar.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "Error: Campos vacíos",
-                    "No procede el trámite", JOptionPane.ERROR_MESSAGE);
-        }
+//        if (validarCamposTexto().isEmpty()) {
+//            PagarDlg cobrar = new PagarDlg(this, true);
+//            cobrar.setVisible(true);
+//        }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
@@ -373,10 +381,7 @@ public class TramitesLicencia extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTelefonoKeyTyped
 
     private void txtRfcKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRfcKeyTyped
-        // Limitar la cantidad de caracteres a 13
-        if (txtRfc.getText().length() > 12) {
-            evt.consume(); // Evita que se agreguen más caracteres
-        }
+
     }//GEN-LAST:event_txtRfcKeyTyped
 
     private void cbxVigenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxVigenciaMouseClicked
@@ -387,29 +392,55 @@ public class TramitesLicencia extends javax.swing.JFrame {
         llenarCamposTramite();
     }//GEN-LAST:event_cbxVigenciaActionPerformed
 
-    private boolean validarCamposVacios() {
-        return true;
+    private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
+        int cancelarTodo = JOptionPane.showConfirmDialog(this,
+                "¿Seguro(a) que deseas salir?"
+                + "\nSe cancelará todo el proceso",
+                "¡Peligro!",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+        if (JOptionPane.YES_OPTION == cancelarTodo) {
+            dispose();
+        } else {
+            this.setVisible(true);
+        }
+    }//GEN-LAST:event_formComponentHidden
+
+    private List<String> validarCamposTexto() {
+        List<String> camposVacios = new ArrayList<>();
+        if (txtCosto.getText().isEmpty()) {
+            camposVacios.add("Costo");
+        }
+        if (txtFechaHoy.getText().isEmpty()) {
+            camposVacios.add("Fecha de hoy");
+        }
+        if (txtFechaVigencia.getText().isEmpty()) {
+            camposVacios.add("Fecha de vigencia");
+        }
+        if (txtNombres.getText().isEmpty()) {
+            camposVacios.add("Nombres");
+        }
+        if (txtRfc.getText().isEmpty()) {
+            camposVacios.add("RFC");
+        }
+        if (txtTelefono.getText().isEmpty()) {
+            camposVacios.add("Teléfono");
+        }
+        if (!camposVacios.isEmpty()) {
+            String mensaje = "Los siguientes campos están vacíos:\n" + String.join(", ", camposVacios);
+            JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return camposVacios;
     }
 
     private void llenarCampoFechas() {
-        // Fecha de Hoy
-        Calendar hoy = Calendar.getInstance();
-        int diaHoy = hoy.get(Calendar.DAY_OF_MONTH);
-        int mesHoy = hoy.get(Calendar.MONTH) + 1; // Los meses van de 0 a 11, así que se le suma 1 para obtener el mes actual.
-        int anioHoy = hoy.get(Calendar.YEAR);
+        
+        Calendar hoy = ObtenerFechaHoy();
+        Calendar fechaVigencia = ObtenerFechaVigencia();
 
-        // Fecha de Vigencia
-        String seleccion = cbxVigencia.getSelectedItem().toString();
-        int numero = Integer.parseInt(seleccion.split(" ")[0]); // Obtener el número de años seleccionados en el JComboBox
-        Calendar vigencia = Calendar.getInstance();
-        vigencia.set(anioHoy, mesHoy - 1, diaHoy); // Establecer la fecha de hoy en el objeto Calendar vigencia
-        vigencia.add(Calendar.YEAR, 1); // Sumar un año
-        vigencia.add(Calendar.YEAR, numero - 1); // Sumar el número de años seleccionados en el JComboBox
-
-        // Actualizar los campos de texto con las fechas de hoy y de vigencia
-        txtFechaHoy.setText(String.format("%02d/%02d/%d", diaHoy, mesHoy, anioHoy));
-        txtFechaVigencia.setText(String.format("%02d/%02d/%d", vigencia.get(Calendar.DAY_OF_MONTH), vigencia.get(Calendar.MONTH) + 1, vigencia.get(Calendar.YEAR)));
-
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        txtFechaHoy.setText(formatoFecha.format(hoy.getTime()));
+        txtFechaVigencia.setText(formatoFecha.format(fechaVigencia.getTime()));
     }
 
     private void llenarCamposCliente() {
@@ -448,6 +479,39 @@ public class TramitesLicencia extends javax.swing.JFrame {
     private List<CostoLicencia> obtenerCostoTramite() {
         String vigencia = cbxVigencia.getSelectedItem().toString();
         return costoDAO.consultarCostoLicencias(vigencia);
+    }
+
+    private void validarLicenciaActiva() {
+
+    }
+
+    private Licencia nuevaLicencia() {
+        Licencia nuevaLicencia;
+        EstadoTramite estado = EstadoTramite.INACTIVO;
+        Calendar fechaExpedicion = ObtenerFechaHoy();
+        Float precio = Float.valueOf(txtCosto.getText());
+        Calendar fechaVigencia = ObtenerFechaVigencia();
+        nuevaLicencia = new Licencia(estado, precio, fechaExpedicion, fechaVigencia, persona);
+        return nuevaLicencia;
+    }
+
+    private Calendar ObtenerFechaHoy() {
+        Calendar fecha;
+        int dia = Calendar.DAY_OF_MONTH;
+        int mes = Calendar.MONTH + 1;
+        int anio = Calendar.YEAR;
+        fecha = new GregorianCalendar(anio, mes, dia);
+        return fecha;
+    }
+
+    private Calendar ObtenerFechaVigencia() {
+
+        Calendar hoy = ObtenerFechaHoy();
+        Calendar vigencia = hoy;
+        String seleccion = cbxVigencia.getSelectedItem().toString();
+        int numero = Integer.parseInt(seleccion.split(" ")[0]);
+        vigencia.add(Calendar.YEAR, numero);
+        return vigencia;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

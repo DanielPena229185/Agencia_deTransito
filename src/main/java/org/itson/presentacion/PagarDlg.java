@@ -5,6 +5,9 @@
 
 package org.itson.presentacion;
 
+import org.itson.dominio.Licencia;
+import org.itson.dominio.Tramite;
+
 /**
  * Descripción de la clase: 
  * 
@@ -12,10 +15,15 @@ package org.itson.presentacion;
  */
 public class PagarDlg extends javax.swing.JDialog {
 
+    private Licencia licencia;
+    private String concepto;
+    
     /** Creates new form CobrarDlg */
-    public PagarDlg(java.awt.Frame parent, boolean modal) {
+    public PagarDlg(java.awt.Frame parent, boolean modal, Licencia licencia, String concepto) {
         super(parent, modal);
         initComponents();
+        this.licencia = licencia;
+        this.concepto = concepto;
     }
 
     /** This method is called from within the constructor to

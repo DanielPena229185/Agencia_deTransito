@@ -55,12 +55,11 @@ public class LicenciaDAO implements ILicenciaDAO {
     /**
      *
      * @param licencia
-     * @param vigencia
      * @return
      * @throws PersistenciaException
      */
     @Override
-    public Licencia actualizarLicencia(Licencia licencia, int vigencia) throws PersistenciaException {
+    public Licencia actualizarLicencia(Licencia licencia) throws PersistenciaException {
         try {
             em.getTransaction().begin();
             Licencia licenciaActualizada = em.find(Licencia.class, licencia.getIdTramite());
@@ -68,7 +67,7 @@ public class LicenciaDAO implements ILicenciaDAO {
             licenciaActualizada.setPrecio(licencia.getPrecio());
             licenciaActualizada.setFechaExpedicion(licencia.getFechaExpedicion());
             licenciaActualizada.setPersona(licencia.getPersona());
-            licenciaActualizada.setFechaExpiracion(licencia.getFechaExpedicion(), vigencia);
+            licenciaActualizada.setFechaExpiracion(licencia.getFechaExpiracion());
             em.merge(licencia);
             em.getTransaction().commit();
             return licenciaActualizada;

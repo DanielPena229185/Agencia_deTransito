@@ -17,8 +17,8 @@ import org.itson.excepciones.PersistenciaException;
  */
 public interface ILicenciaDAO {
     
-     public Licencia agregarLicencia(Licencia licencia)throws PersistenciaException;
-    public Licencia actualizarLicencia(Licencia licencia, int vigencia)throws PersistenciaException;
+    public Licencia agregarLicencia(Licencia licencia)throws PersistenciaException;
+    public Licencia actualizarLicencia(Licencia licencia)throws PersistenciaException;
     public Licencia eliminarLicencia(Licencia licencia)throws PersistenciaException;
     public List<Licencia> consultarLicencias()throws PersistenciaException;
     public List<Licencia> consultarLicenciasPersona(Persona persona)throws PersistenciaException;
