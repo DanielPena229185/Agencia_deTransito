@@ -152,7 +152,7 @@ public class PersonaDAO implements IPersonaDAO {
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("Error al encontrar al usuario con id: " + id + ": "+ e.getMessage(), e);
+            throw new PersistenciaException("Error al encontrar al usuario con id: " + id + ": " + e.getMessage(), e);
         }
         return persona;
     }

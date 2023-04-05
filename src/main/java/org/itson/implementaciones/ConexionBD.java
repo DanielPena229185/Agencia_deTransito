@@ -28,7 +28,7 @@ public class ConexionBD {
         try {
             factory = Persistence.createEntityManagerFactory(direccionPersistencia);
         } catch (Exception e) {
-            throw new PersistenceException("Error al obtener la conexión a la base de datos: " + e.getMessage());
+            throw new PersistenceException("Error al obtener la conexión a la base de datos: " + e.getMessage(), e);
         }
 
     }

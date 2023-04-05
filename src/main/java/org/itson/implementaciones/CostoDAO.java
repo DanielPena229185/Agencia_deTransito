@@ -45,7 +45,7 @@ public class CostoDAO implements ICostoDAO {
             return costo;
         } catch (Exception b) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo registrar el costo" + b.getMessage());
+            throw new PersistenciaException("No se pudo registrar el costo: " + b.getMessage(), b);
         }
     }
 
@@ -90,7 +90,7 @@ public class CostoDAO implements ICostoDAO {
             em.getTransaction().commit();
             return listaCostos;
         } catch (Exception e) {
-            throw new PersistenciaException("Error al conseguir los costos" + e.getMessage());
+            throw new PersistenciaException("Error al conseguir los costos: " + e.getMessage(), e);
         }
     }
 }
