@@ -37,6 +37,7 @@ public class TramitesLicencia extends javax.swing.JFrame {
     public TramitesLicencia() {
         initComponents();
         costoDAO = new CostoServicio();
+        licenciaDAO = new LicenciaServicio();
     }
 
     public TramitesLicencia(Persona persona) {
@@ -79,6 +80,7 @@ public class TramitesLicencia extends javax.swing.JFrame {
         lblSimboloPeso = new javax.swing.JLabel();
         checkDiscapacitado = new javax.swing.JCheckBox();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Trámite de Licencia");
         setResizable(false);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -89,6 +91,9 @@ public class TramitesLicencia extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -252,7 +257,7 @@ public class TramitesLicencia extends javax.swing.JFrame {
         panCuerpo.setLayout(panCuerpoLayout);
         panCuerpoLayout.setHorizontalGroup(
             panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panEncabezado, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+            .addComponent(panEncabezado, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
             .addGroup(panCuerpoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -281,7 +286,8 @@ public class TramitesLicencia extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(cbxVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnAceptar))
                                 .addGap(2, 2, 2))))
                     .addGroup(panCuerpoLayout.createSequentialGroup()
                         .addGroup(panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -292,10 +298,6 @@ public class TramitesLicencia extends javax.swing.JFrame {
                             .addComponent(jLabel5))
                         .addGap(238, 238, 238)))
                 .addContainerGap(13, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panCuerpoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAceptar)
-                .addContainerGap())
         );
         panCuerpoLayout.setVerticalGroup(
             panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -338,9 +340,9 @@ public class TramitesLicencia extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSimboloPeso))
-                .addGap(37, 37, 37)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAceptar)
-                .addContainerGap())
+                .addGap(37, 37, 37))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -351,7 +353,7 @@ public class TramitesLicencia extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panCuerpo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panCuerpo, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -365,25 +367,28 @@ public class TramitesLicencia extends javax.swing.JFrame {
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
         BuscadorClientesForm buscador = new BuscadorClientesForm();
         buscador.setVisible(true);
-        this.dispose();
+        
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        PagarDlg cobrar;
-        String concepto;
-        licencia = this.nuevaLicencia();
-        if (licenciaAnterior != null) {
-            concepto = "Renovación de Licencia";
-            cobrar = new PagarDlg(this, true, licencia, licenciaAnterior, concepto);
-        } else {
-            concepto = "Nueva Licencia";
-            cobrar = new PagarDlg(this, true, licencia, concepto);
-        }
-        cobrar.setVisible(true);
-        if (cobrar.isSalir()) {
-            PrincipalForm principal = new PrincipalForm();
-            principal.setVisible(true);
-            dispose();
+        List<String> validarCamposVacios = this.validarCamposTexto();
+        if (validarCamposVacios.isEmpty()) {
+            PagarDlg cobrar;
+            String concepto;
+            licencia = this.nuevaLicencia();
+            if (licenciaAnterior != null) {
+                concepto = "Renovación de Licencia";
+                cobrar = new PagarDlg(this, true, licencia, licenciaAnterior, concepto);
+            } else {
+                concepto = "Nueva Licencia";
+                cobrar = new PagarDlg(this, true, licencia, concepto);
+            }
+            cobrar.setVisible(true);
+            if (cobrar.isSalir()) {
+                PrincipalForm principal = new PrincipalForm();
+                principal.setVisible(true);
+                dispose();
+            }
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -408,23 +413,21 @@ public class TramitesLicencia extends javax.swing.JFrame {
 
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
 
-        if (persona != null) {
-            int cancelarTodo = JOptionPane.showConfirmDialog(this,
-                    "¿Seguro(a) que deseas salir?"
-                    + "\nSe cancelará todo el proceso",
-                    "¡Peligro!",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE);
-            if(cancelarTodo == JOptionPane.YES_OPTION){
-                regresarPantallaPrincipal();
-            }else{
-                this.setVisible(true);
-            }
-        } else {
+    }//GEN-LAST:event_formComponentHidden
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION);
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            // Si el usuario confirma la salida, puedes permitir que el marco se cierre
+            this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             regresarPantallaPrincipal();
+        } else {
+            // Si el usuario cancela la salida, evita que el marco se cierre
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         }
 
-    }//GEN-LAST:event_formComponentHidden
+    }//GEN-LAST:event_formWindowClosing
 
     private List<String> validarCamposTexto() {
         List<String> camposVacios = new ArrayList<>();
@@ -462,7 +465,7 @@ public class TramitesLicencia extends javax.swing.JFrame {
     }
 
     private void llenarCamposCliente() {
-        String nombreCompleto = persona.getNombres() + " " + persona.getApellido_paterno() + " " + persona.getApellido_materno();
+        String nombreCompleto = persona.getNombreCompleto();
         String rfc = persona.getRfc();
         String telefono = persona.getTelefono();
         this.txtNombres.setText(nombreCompleto);
@@ -557,6 +560,11 @@ public class TramitesLicencia extends javax.swing.JFrame {
         PrincipalForm principal = new PrincipalForm();
         principal.setVisible(true);
         dispose();
+    }
+    
+    public void setPersona(Persona persona){
+        this.persona = persona;
+        this.validarLicenciaActiva(persona);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

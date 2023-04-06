@@ -275,7 +275,7 @@ public class PrincipalForm extends javax.swing.JFrame {
     }//GEN-LAST:event_menuItemConsultaTramitesActionPerformed
 
     private void menuItemPlacasNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPlacasNuevaActionPerformed
-        RegistrarAutoForm nuevoAuto = new RegistrarAutoForm();
+        RegistrarVehiculoForm nuevoAuto = new RegistrarVehiculoForm();
         nuevoAuto.setVisible(true);
     }//GEN-LAST:event_menuItemPlacasNuevaActionPerformed
 

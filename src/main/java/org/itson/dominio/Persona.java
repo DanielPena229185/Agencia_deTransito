@@ -349,6 +349,10 @@ public class Persona implements Serializable {
         return anios;
 
     }
+    
+    public String getNombreCompleto(){
+        return this.nombres + " " + this.apellido_paterno + " " + this.apellido_materno;
+    }
 
     @Override
     public String toString() {
