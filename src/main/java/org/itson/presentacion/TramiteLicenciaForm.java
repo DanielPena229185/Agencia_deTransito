@@ -22,7 +22,7 @@ import org.itson.servicio.LicenciaServicio;
  *
  * @author Daniel Armando Peña Garcia ID:229185
  */
-public class TramitesLicencia extends javax.swing.JFrame {
+public class TramiteLicenciaForm extends javax.swing.JFrame {
 
     private Persona persona = null;
     private CostoServicio costoDAO;
@@ -34,13 +34,13 @@ public class TramitesLicencia extends javax.swing.JFrame {
     /**
      * Creates new form TramiteLicencia
      */
-    public TramitesLicencia() {
+    public TramiteLicenciaForm() {
         initComponents();
         costoDAO = new CostoServicio();
         licenciaDAO = new LicenciaServicio();
     }
 
-    public TramitesLicencia(Persona persona) {
+    public TramiteLicenciaForm(Persona persona) {
         initComponents();
         costoDAO = new CostoServicio();
         licenciaDAO = new LicenciaServicio();
@@ -297,7 +297,7 @@ public class TramitesLicencia extends javax.swing.JFrame {
                             .addComponent(lblFechaVigencia)
                             .addComponent(jLabel5))
                         .addGap(238, 238, 238)))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         panCuerpoLayout.setVerticalGroup(
             panCuerpoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -365,9 +365,9 @@ public class TramitesLicencia extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
-        BuscadorClientesForm buscador = new BuscadorClientesForm();
+        BuscadorClientesForm buscador = new BuscadorClientesForm(this);
         buscador.setVisible(true);
-        
+        this.dispose();
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed

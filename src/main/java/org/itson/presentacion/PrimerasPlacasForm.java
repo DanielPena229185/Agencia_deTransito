@@ -4,23 +4,45 @@
  */
 package org.itson.presentacion;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
+import org.itson.dominio.CostoPlaca;
+import org.itson.dominio.Persona;
+import org.itson.dominio.Vehiculo;
+import org.itson.servicio.CostoServicio;
 import org.itson.utils.GeneradorPlacas;
 
 /**
  *
  * @author Dapgp
  */
-public class PrimerasPlacasForm extends javax.swing.JDialog {
+public class PrimerasPlacasForm extends javax.swing.JFrame {
+
+    private Persona persona;
+    private Vehiculo vehiculo;
+    private Vehiculo vehiculoUsado;
+    private CostoServicio costoDAO = new CostoServicio();
+    private SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * Creates new form AsignarPlacasDlg
      */
-    public PrimerasPlacasForm(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public PrimerasPlacasForm(Vehiculo vehiculo) {
         initComponents();
+        this.vehiculo = vehiculo;
+        this.llenarCamposVehiculo();
+        this.llenarCamposTramite();
+    }
+
+    public PrimerasPlacasForm(Persona persona, Vehiculo vehiculo) {
+        initComponents();
+        this.persona = persona;
+        this.vehiculo = vehiculo;
+        this.llenarCamposPersona();
+        this.llenarCamposTramite();
+        this.llenarCamposVehiculo();
     }
 
     /**
@@ -48,7 +70,6 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
         lblLinea = new javax.swing.JLabel();
         txtLinea = new javax.swing.JTextField();
         lblModelo = new javax.swing.JLabel();
-        txtModelo = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         formatoNumeroSerie = new javax.swing.JFormattedTextField();
         lblSimboloPesos = new javax.swing.JLabel();
@@ -56,12 +77,14 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
         btnGenerarDatosPlacas = new javax.swing.JButton();
         lblDatosCliente = new javax.swing.JLabel();
         lblNombre = new javax.swing.JLabel();
-        txrNombre = new javax.swing.JTextField();
+        txtNombres = new javax.swing.JTextField();
         lblRfc = new javax.swing.JLabel();
         txtRfc = new javax.swing.JTextField();
         lblTelefono = new javax.swing.JLabel();
         txtTelefono = new javax.swing.JTextField();
         btnBuscarCliente = new javax.swing.JButton();
+        checkDiscapacitado = new javax.swing.JCheckBox();
+        formatModelo = new javax.swing.JFormattedTextField();
 
         setTitle("Nuevas Placas");
         setResizable(false);
@@ -112,6 +135,8 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
         txtFecha.setBackground(new java.awt.Color(255, 255, 255));
         txtFecha.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtFecha.setForeground(new java.awt.Color(0, 0, 0));
+        txtFecha.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtFecha.setEnabled(false);
 
         lblPrecio.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblPrecio.setForeground(new java.awt.Color(0, 0, 0));
@@ -120,6 +145,8 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
         txtPrecio.setBackground(new java.awt.Color(255, 255, 255));
         txtPrecio.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtPrecio.setForeground(new java.awt.Color(0, 0, 0));
+        txtPrecio.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtPrecio.setEnabled(false);
 
         lblDatosPlaca.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblDatosPlaca.setForeground(new java.awt.Color(0, 0, 0));
@@ -140,6 +167,7 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
         txtMarca.setBackground(new java.awt.Color(255, 255, 255));
         txtMarca.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtMarca.setForeground(new java.awt.Color(0, 0, 0));
+        txtMarca.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtMarca.setEnabled(false);
 
         lblLinea.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -149,21 +177,22 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
         txtLinea.setBackground(new java.awt.Color(255, 255, 255));
         txtLinea.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtLinea.setForeground(new java.awt.Color(0, 0, 0));
+        txtLinea.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtLinea.setEnabled(false);
 
         lblModelo.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblModelo.setForeground(new java.awt.Color(0, 0, 0));
         lblModelo.setText("Modelo:");
 
-        txtModelo.setBackground(new java.awt.Color(255, 255, 255));
-        txtModelo.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        txtModelo.setForeground(new java.awt.Color(0, 0, 0));
-        txtModelo.setEnabled(false);
-
         btnAceptar.setBackground(new java.awt.Color(255, 255, 255));
         btnAceptar.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         btnAceptar.setForeground(new java.awt.Color(0, 0, 0));
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         formatoNumeroSerie.setEditable(false);
         formatoNumeroSerie.setBackground(new java.awt.Color(255, 255, 255));
@@ -173,6 +202,8 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        formatoNumeroSerie.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        formatoNumeroSerie.setEnabled(false);
         formatoNumeroSerie.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
 
         lblSimboloPesos.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -186,6 +217,8 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        formatoPlacas.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        formatoPlacas.setEnabled(false);
         formatoPlacas.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
 
         btnGenerarDatosPlacas.setBackground(new java.awt.Color(255, 255, 255));
@@ -206,9 +239,11 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
         lblNombre.setForeground(new java.awt.Color(0, 0, 0));
         lblNombre.setText("Nombre:");
 
-        txrNombre.setBackground(new java.awt.Color(255, 255, 255));
-        txrNombre.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        txrNombre.setForeground(new java.awt.Color(0, 0, 0));
+        txtNombres.setBackground(new java.awt.Color(255, 255, 255));
+        txtNombres.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        txtNombres.setForeground(new java.awt.Color(0, 0, 0));
+        txtNombres.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtNombres.setEnabled(false);
 
         lblRfc.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblRfc.setForeground(new java.awt.Color(0, 0, 0));
@@ -217,6 +252,8 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
         txtRfc.setBackground(new java.awt.Color(255, 255, 255));
         txtRfc.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtRfc.setForeground(new java.awt.Color(0, 0, 0));
+        txtRfc.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtRfc.setEnabled(false);
 
         lblTelefono.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblTelefono.setForeground(new java.awt.Color(0, 0, 0));
@@ -225,11 +262,33 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
         txtTelefono.setBackground(new java.awt.Color(255, 255, 255));
         txtTelefono.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtTelefono.setForeground(new java.awt.Color(0, 0, 0));
+        txtTelefono.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtTelefono.setEnabled(false);
 
         btnBuscarCliente.setBackground(new java.awt.Color(255, 255, 255));
         btnBuscarCliente.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         btnBuscarCliente.setForeground(new java.awt.Color(0, 0, 0));
         btnBuscarCliente.setText("Buscar Cliente");
+        btnBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarClienteActionPerformed(evt);
+            }
+        });
+
+        checkDiscapacitado.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        checkDiscapacitado.setText("Discapacidad");
+        checkDiscapacitado.setEnabled(false);
+
+        formatModelo.setBackground(new java.awt.Color(255, 255, 255));
+        formatModelo.setForeground(new java.awt.Color(0, 0, 0));
+        try {
+            formatModelo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        formatModelo.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        formatModelo.setEnabled(false);
+        formatModelo.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -247,7 +306,7 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblNombre)
                                 .addGap(110, 110, 110)
-                                .addComponent(txrNombre))
+                                .addComponent(txtNombres))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(lblNumeroSerie)
@@ -257,10 +316,11 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
                                     .addComponent(lblPlacas)
                                     .addComponent(lblFecha))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtLinea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtMarca, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(formatoNumeroSerie, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtLinea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                                    .addComponent(txtMarca, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                                    .addComponent(formatoNumeroSerie, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                                    .addComponent(formatModelo, javax.swing.GroupLayout.Alignment.TRAILING)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblRfc, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -290,22 +350,20 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
                                                 .addComponent(lblSimboloPesos)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                    .addGap(38, 38, 38)
-                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addComponent(formatoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(btnGenerarDatosPlacas)))
-                                                .addComponent(txtModelo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(38, 38, 38)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(formatoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(btnGenerarDatosPlacas))))
                                         .addGap(0, 3, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnBuscarCliente)))))))
+                                    .addComponent(btnBuscarCliente, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblDatosVehiculo)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(checkDiscapacitado)))))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblDatosVehiculo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -318,7 +376,7 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombre)
-                    .addComponent(txrNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblRfc)
@@ -327,9 +385,11 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTelefono)
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkDiscapacitado)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(lblDatosVehiculo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNumeroSerie)
                     .addComponent(formatoNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -343,12 +403,12 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
                     .addComponent(lblLinea))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblModelo))
+                    .addComponent(lblModelo)
+                    .addComponent(formatModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDatosPlaca)
-                    .addComponent(btnGenerarDatosPlacas))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGenerarDatosPlacas, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblDatosPlaca))
                 .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPlacas)
@@ -386,8 +446,15 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowClosing
 
     private void llenarCamposTramite() {
+        //Placas
         String placas = conseguirPlacaNueva();
         formatoPlacas.setText(placas);
+        //Fecha
+        Calendar hoy = Calendar.getInstance();
+        txtFecha.setText(formatoFecha.format(hoy.getTime()));
+        //Costo
+        Double costo = costoDeTramite();
+        txtPrecio.setText(String.valueOf(costo));
     }
 
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
@@ -405,11 +472,27 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
     }//GEN-LAST:event_formComponentHidden
 
     private void btnGenerarDatosPlacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarDatosPlacasActionPerformed
-        boolean proceder = this.validarCamposTexto().isEmpty();
-        if(!proceder){
-            this.llenarCamposTramite();
-        }
+
     }//GEN-LAST:event_btnGenerarDatosPlacasActionPerformed
+
+    private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
+        BuscadorClientesForm buscador = new BuscadorClientesForm(this, vehiculo);
+        buscador.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBuscarClienteActionPerformed
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        if (this.validarCamposTexto()) {
+            PagarDlg cobrar;
+            String concepto;
+            if (this.vehiculoUsado != null) {
+                concepto = "Nuevas Placas";
+                //cobrar = new PagarDlg(this, true, null, null, concepto);
+            }else{
+                //cobrar = new PagarDlg(this, true, null, null, concepto);
+            }
+        }
+    }//GEN-LAST:event_btnAceptarActionPerformed
 
     private String conseguirPlacaNueva() {
         GeneradorPlacas placas = new GeneradorPlacas();
@@ -417,39 +500,63 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
         return placas.generarPlaca();
     }
 
-    private List<String> validarCamposTexto() {
-        List<String> camposVacios = new ArrayList<>();
-        if (txtLinea.getText().isEmpty()) {
-            camposVacios.add("Línea");
+    private boolean validarCamposTexto() {
+        if (this.persona == null) {
+            JOptionPane.showConfirmDialog(this,
+                    "No has seleccionado ningún cliente",
+                    "Error",
+                    JOptionPane.OK_OPTION,
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
         }
-        if (txtMarca.getText().isEmpty()) {
-            camposVacios.add("Marca");
-        }
-        if (txtModelo.getText().isEmpty()) {
-            camposVacios.add("Modelo");
-        }
-        if (formatoNumeroSerie.getText().isEmpty()) {
-            camposVacios.add("Número de serie");
-        }
-        if (!camposVacios.isEmpty()) {
-            String mensaje = "Los siguientes campos están vacíos:\n" + String.join(", ", camposVacios);
-            JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            // Validar formato del número de serie
-            String numeroSerie = formatoNumeroSerie.getText().replaceAll("-", "");
-            if (!numeroSerie.matches("[A-Z]{3}[0-9]{3}")) {
-                JOptionPane.showMessageDialog(this, "El formato del número de serie no es válido.", "Error", JOptionPane.ERROR_MESSAGE);
-                camposVacios.add("Número de serie");
-            }
-        }
-        return camposVacios;
+        return true;
     }
 
+    private void llenarCamposPersona() {
+        String nombreCompleto = persona.getNombreCompleto();
+        String rfc = persona.getRfc();
+        String telefono = persona.getTelefono();
+        this.txtNombres.setText(nombreCompleto);
+        this.txtRfc.setText(rfc);
+        this.txtTelefono.setText(telefono);
+        checkDiscapacitado.setSelected(persona.getDiscapacidad());
+    }
+
+    private void llenarCamposVehiculo() {
+        String numeroSerie = vehiculo.getNumeroSerie();
+        String marca = vehiculo.getMarca();
+        String linea = vehiculo.getLinea();
+        String modelo = vehiculo.getModelo();
+
+        this.formatoNumeroSerie.setText(numeroSerie);
+        this.txtMarca.setText(marca);
+        this.txtLinea.setText(linea);
+        this.formatModelo.setText(modelo);
+    }
+
+    private Double costoDeTramite() {
+        List<CostoPlaca> costos = obtenerCostoTramite();
+
+        for (CostoPlaca costo : costos) {
+            return costo.getCostoNormal();
+        }
+        return null;
+    }
+
+    private List<CostoPlaca> obtenerCostoTramite() {
+        return costoDAO.consultarCostoPlacaNueva();
+    }
+
+    private void validarPlacasAnteriores(){
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnBuscarCliente;
     private javax.swing.JButton btnGenerarDatosPlacas;
+    private javax.swing.JCheckBox checkDiscapacitado;
+    private javax.swing.JFormattedTextField formatModelo;
     private javax.swing.JFormattedTextField formatoNumeroSerie;
     private javax.swing.JFormattedTextField formatoPlacas;
     private javax.swing.JLabel jLabel6;
@@ -469,11 +576,10 @@ public class PrimerasPlacasForm extends javax.swing.JDialog {
     private javax.swing.JLabel lblRfc;
     private javax.swing.JLabel lblSimboloPesos;
     private javax.swing.JLabel lblTelefono;
-    private javax.swing.JTextField txrNombre;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtLinea;
     private javax.swing.JTextField txtMarca;
-    private javax.swing.JTextField txtModelo;
+    private javax.swing.JTextField txtNombres;
     private javax.swing.JTextField txtPrecio;
     private javax.swing.JTextField txtRfc;
     private javax.swing.JTextField txtTelefono;

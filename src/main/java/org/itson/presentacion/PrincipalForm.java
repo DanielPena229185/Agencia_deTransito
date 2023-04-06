@@ -256,7 +256,7 @@ public class PrincipalForm extends javax.swing.JFrame {
     }//GEN-LAST:event_menuItemConfiguracionActionPerformed
 
     private void menuItemTramiteLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemTramiteLicenciaActionPerformed
-        TramitesLicencia tramiteLicencia = new TramitesLicencia();
+        TramiteLicenciaForm tramiteLicencia = new TramiteLicenciaForm();
         this.dispose();
         tramiteLicencia.setVisible(true);
     }//GEN-LAST:event_menuItemTramiteLicenciaActionPerformed

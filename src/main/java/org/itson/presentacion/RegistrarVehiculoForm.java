@@ -8,7 +8,7 @@ package org.itson.presentacion;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import org.itson.dominio.Persona;
+import org.itson.dominio.Vehiculo;
 
 /**
  * DescripciÃ³n de la clase:
@@ -17,18 +17,13 @@ import org.itson.dominio.Persona;
  */
 public class RegistrarVehiculoForm extends javax.swing.JFrame {
 
-    private Persona persona;
+    private Vehiculo vehiculo;
     
     /**
      * Creates new form RegistrarAutoForm
      */
     public RegistrarVehiculoForm() {
         initComponents();
-    }
-
-    public RegistrarVehiculoForm(Persona persona) {
-        initComponents();
-        this.persona = persona;
     }
 
     /**
@@ -46,7 +41,6 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         lblDatosVehiculo = new javax.swing.JLabel();
         lblNumeroSerie = new javax.swing.JLabel();
         lblModelo = new javax.swing.JLabel();
-        txtModelo = new javax.swing.JTextField();
         lblMarca = new javax.swing.JLabel();
         txtMarca = new javax.swing.JTextField();
         lblLinea = new javax.swing.JLabel();
@@ -55,6 +49,7 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         txtColor = new javax.swing.JTextField();
         btnRegistrar = new javax.swing.JButton();
         formatNumeroSerie = new javax.swing.JFormattedTextField();
+        formatModelo = new javax.swing.JFormattedTextField();
 
         setTitle("Registrar Vehículo");
         setResizable(false);
@@ -106,10 +101,6 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         lblModelo.setForeground(new java.awt.Color(0, 0, 0));
         lblModelo.setText("Modelo:");
 
-        txtModelo.setBackground(new java.awt.Color(255, 255, 255));
-        txtModelo.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        txtModelo.setForeground(new java.awt.Color(0, 0, 0));
-
         lblMarca.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblMarca.setForeground(new java.awt.Color(0, 0, 0));
         lblMarca.setText("Marca:");
@@ -154,6 +145,15 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         formatNumeroSerie.setToolTipText("");
         formatNumeroSerie.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
 
+        formatModelo.setBackground(new java.awt.Color(255, 255, 255));
+        formatModelo.setForeground(new java.awt.Color(0, 0, 0));
+        try {
+            formatModelo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        formatModelo.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -170,7 +170,7 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
                         .addComponent(btnRegistrar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblNumeroSerie)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
                         .addComponent(formatNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -178,12 +178,12 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
                             .addComponent(lblLinea)
                             .addComponent(lblModelo)
                             .addComponent(lblMarca))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtMarca, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtLinea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtModelo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtColor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtMarca, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(txtLinea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(txtColor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(formatModelo, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -207,7 +207,7 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblModelo)
-                    .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(formatModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -243,17 +243,19 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
                 "¡Peligro!",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE);
-        if(JOptionPane.YES_OPTION == cancelarTodo){
+        if (JOptionPane.YES_OPTION == cancelarTodo) {
             dispose();
-        }else{
+        } else {
             this.setVisible(true);
         }
     }//GEN-LAST:event_formComponentHidden
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        if(validarCamposTexto().isEmpty()){
-            PrimerasPlacasForm primerasPlacas = new PrimerasPlacasForm(this, true);
+        if (validarCamposTexto().isEmpty()) {
+            generarObjetoVehiculo();
+            PrimerasPlacasForm primerasPlacas = new PrimerasPlacasForm(vehiculo);
             primerasPlacas.setVisible(true);
+            this.dispose();
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
@@ -268,7 +270,7 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         if (txtMarca.getText().isEmpty()) {
             camposVacios.add("Marca");
         }
-        if (txtModelo.getText().isEmpty()) {
+        if (formatModelo.getText().isEmpty()) {
             camposVacios.add("Modelo");
         }
         if (formatNumeroSerie.getText().isEmpty() || !formatNumeroSerie.getText().matches("[A-Z]{3}-\\d{3}")) {
@@ -280,9 +282,19 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         }
         return camposVacios;
     }
+    
+    private void generarObjetoVehiculo(){
+        String numeroSerie = this.formatNumeroSerie.getText();
+        String marca = this.txtMarca.getText();
+        String linea = this.txtLinea.getText();
+        String modelo = this.formatModelo.getText();
+        String color = this.txtColor.getText();
+        this.vehiculo = new Vehiculo(numeroSerie, marca, color, modelo, linea);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JFormattedTextField formatModelo;
     private javax.swing.JFormattedTextField formatNumeroSerie;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
@@ -296,7 +308,6 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
     private javax.swing.JTextField txtColor;
     private javax.swing.JTextField txtLinea;
     private javax.swing.JTextField txtMarca;
-    private javax.swing.JTextField txtModelo;
     // End of variables declaration//GEN-END:variables
 
 }

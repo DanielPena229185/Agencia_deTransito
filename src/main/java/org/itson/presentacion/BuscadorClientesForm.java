@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import org.itson.dominio.Persona;
+import org.itson.dominio.Vehiculo;
 import org.itson.servicio.PersonaServicio;
 
 /**
@@ -23,6 +24,9 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     private PersonaServicio personaDAO;
     private SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     private Persona persona;
+    private Vehiculo vehiculo;
+    private TramiteLicenciaForm tramiteLicencia;
+    private PrimerasPlacasForm tramitePrimerasPlacas;
 
     /**
      * Creates new form BuscadorForm
@@ -32,6 +36,27 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         initComponents();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.cargarTablaPersonas();
+    }
+
+    /**
+     *
+     * @param tramiteLicencia
+     */
+    public BuscadorClientesForm(TramiteLicenciaForm tramiteLicencia) {
+        personaDAO = new PersonaServicio();
+        initComponents();
+        this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.cargarTablaPersonas();
+        this.tramiteLicencia = tramiteLicencia;
+    }
+
+    public BuscadorClientesForm(PrimerasPlacasForm tramitePrimerasPlacas, Vehiculo vehiculo) {
+        personaDAO = new PersonaServicio();
+        initComponents();
+        this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.cargarTablaPersonas();
+        this.vehiculo = vehiculo;
+        this.tramitePrimerasPlacas = tramitePrimerasPlacas;
     }
 
     /**
@@ -276,8 +301,14 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                     "Selecciona correctamente a la persona",
                     "Error al seleccionar al cliente",
                     JOptionPane.ERROR_MESSAGE);
-        } else {
-            TramitesLicencia tramite = new TramitesLicencia(persona);
+        }
+
+        if (this.tramiteLicencia != null) {
+            TramiteLicenciaForm tramite = new TramiteLicenciaForm(persona);
+            tramite.setVisible(true);
+            this.dispose();
+        } else if (this.tramitePrimerasPlacas != null) {
+            PrimerasPlacasForm tramite = new PrimerasPlacasForm(persona, vehiculo);
             tramite.setVisible(true);
             this.dispose();
         }
@@ -295,11 +326,11 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         opcion = JOptionPane.showConfirmDialog(this,
                 "¿Desea Cancelar la búsqueda?", "¡Cuidado!",
                 JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-        if(opcion == JOptionPane.YES_OPTION){
-            TramitesLicencia tramite = new TramitesLicencia();
+        if (opcion == JOptionPane.YES_OPTION) {
+            TramiteLicenciaForm tramite = new TramiteLicenciaForm();
             tramite.setVisible(true);
             this.dispose();
-        }else{
+        } else {
             this.setVisible(true);
         }
     }//GEN-LAST:event_formComponentHidden
@@ -309,8 +340,12 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
      *
      * @return cliente que encontró
      */
-    public Persona getCliente() {
-        return this.persona;
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

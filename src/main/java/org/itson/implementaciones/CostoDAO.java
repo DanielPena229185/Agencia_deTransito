@@ -6,7 +6,6 @@ package org.itson.implementaciones;
 //importanciones
 
 import java.util.List;
-import javax.persistence.EntityExistsException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -16,6 +15,8 @@ import javax.persistence.criteria.Root;
 
 import org.itson.dominio.Costo;
 import org.itson.dominio.CostoLicencia;
+import org.itson.dominio.CostoPlaca;
+import org.itson.dominio.TipoVehiculo;
 import org.itson.excepciones.PersistenciaException;
 import org.itson.interfaces.ICostoDAO;
 
@@ -90,7 +91,34 @@ public class CostoDAO implements ICostoDAO {
             em.getTransaction().commit();
             return listaCostos;
         } catch (Exception e) {
+            em.getTransaction().rollback();
             throw new PersistenciaException("Error al conseguir los costos: " + e.getMessage(), e);
         }
+    }
+
+    @Override
+    public List<CostoPlaca> consultarCostoPlacaNuevo() throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
+        try {
+            em.getTransaction().begin();
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<CostoPlaca> criteria = builder.createQuery(CostoPlaca.class);
+            Root<CostoPlaca> root = criteria.from(CostoPlaca.class);
+            criteria.select(root).where(
+            builder.equal(root.get("tipo"), TipoVehiculo.NUEVO)
+            );
+            TypedQuery<CostoPlaca> query = em.createQuery(criteria);
+            List<CostoPlaca> listaPlacas = query.getResultList();
+            em.getTransaction().commit();
+            return listaPlacas;
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("Error al conseguir los costos: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public List<CostoPlaca> consultarCostoPlacaUsado() throws PersistenciaException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

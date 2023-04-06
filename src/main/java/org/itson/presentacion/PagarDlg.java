@@ -46,6 +46,15 @@ public class PagarDlg extends javax.swing.JDialog {
         this.concepto = concepto;
         this.llenarCamposTexto();
     }
+    
+    public PagarDlg(java.awt.Frame parent, boolean modal, Placa placa, String concepto) {
+        super(parent, modal);
+        initComponents();
+        this.PagoDAO = new PagoServicio();
+        this.placa = placa;
+        this.concepto = concepto;
+        this.llenarCamposTexto();
+    }
 
     /**
      * En este constructor, recivimos trámites de licencia, para saber a qué
@@ -64,6 +73,16 @@ public class PagarDlg extends javax.swing.JDialog {
         this.licencia = licencia;
         this.concepto = concepto;
         this.licenciaAnterior = licenciaAnterior;
+        this.llenarCamposTexto();
+    }
+    
+    public PagarDlg(java.awt.Frame parent, boolean modal, Placa placa ,Placa placaAnterior, String concepto) {
+        super(parent, modal);
+        initComponents();
+        this.PagoDAO = new PagoServicio();
+        this.placa = placa;
+        this.placaAnterior = placaAnterior;
+        this.concepto = concepto;
         this.llenarCamposTexto();
     }
 
