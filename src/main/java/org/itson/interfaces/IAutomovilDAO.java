@@ -16,14 +16,10 @@ import org.itson.excepciones.PersistenciaException;
  */
 public interface IAutomovilDAO {
 
-    public Automovil agregarVehiculo(Automovil automovil) throws PersistenciaException;
-
-    public Automovil actualizarVehiculo(Automovil automovil) throws PersistenciaException;
-
-    public Automovil eliminarVehiculo(Automovil automovil) throws PersistenciaException;
-
-    public List<Automovil> consultarVehiculos() throws PersistenciaException;
-
-    public List<Automovil> consultarVehiculo(Placa placa) throws PersistenciaException;
+    public Automovil agregarAutomovil(Automovil automovil) throws PersistenciaException;
+    public Automovil actualizarAutomovil(Automovil automovil) throws PersistenciaException;
+    public Automovil eliminarAutomovil(Automovil automovil) throws PersistenciaException;
+    public List<Automovil> consultarAutomoviles() throws PersistenciaException;
+    public List<Automovil> consultarAutomoviles(Placa placa) throws PersistenciaException;
 
 }

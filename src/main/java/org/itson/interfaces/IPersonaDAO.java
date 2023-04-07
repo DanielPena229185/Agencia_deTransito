@@ -19,7 +19,7 @@ public interface IPersonaDAO {
     public Persona agregarPersona(Persona persona)throws PersistenciaException;
     public Persona actualizarPersona(Persona persona)throws PersistenciaException;
     public Persona eliminarPersona(Persona persona)throws PersistenciaException;
-    public Persona buscarPersona(Long id)throws PersistenciaException;
+    public Persona buscarPersona(Persona persona)throws PersistenciaException;
     /**
      * Consulta que se condiciona en la busqueda por filtro
      * @param filtro De que manera quiere buscar
@@ -27,7 +27,6 @@ public interface IPersonaDAO {
      * @return Lista de personas que tienen relación con la búsqueda
      * @throws PersistenciaException En caso de que algo salga mal en la búsqueda
      */
-    public List<Persona> consultarPersonas(String filtro, String busqueda)throws PersistenciaException;
-    
+    public List<Persona> consultarPersonasFiltro(String filtro, String busqueda)throws PersistenciaException;
     public List<Persona> consultarPersonas()throws PersistenciaException;
 }

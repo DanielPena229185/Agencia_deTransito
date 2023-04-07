@@ -21,7 +21,7 @@ public interface IPagoDAO {
     public void eliminarPago(Pago pago)throws PersistenciaException;
     public Pago actualizarPago(Pago pago)throws PersistenciaException;
     public Pago consultarPago(Pago pago)throws PersistenciaException;
-    public List<Pago> consultarPago()throws PersistenciaException;
-    public List<Pago> consultarPago(Calendar fecha)throws PersistenciaException;
+    public List<Pago> consultarPagos()throws PersistenciaException;
+    public List<Pago> consultarPagosFecha(Calendar fecha)throws PersistenciaException;
             
 }
