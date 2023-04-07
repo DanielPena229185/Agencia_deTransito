@@ -22,9 +22,6 @@ public class CostoServicio {
 
     private ICostoDAO costoDAO;
 
-    /**
-     *
-     */
     public CostoServicio() {
         this.costoDAO = new DAOFactory().getCostoDAO();
     }
@@ -33,7 +30,7 @@ public class CostoServicio {
         try {
             return costoDAO.agregarCosto(costo);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("No se puede agregar el costo " + e.getMessage());
+            throw new IllegalArgumentException("No se puede agregar el costo: " + e.getMessage());
         }
     }
 
@@ -41,7 +38,7 @@ public class CostoServicio {
         try {
             return costoDAO.consultarCostoLicencias(vigencia);
         } catch (Exception e) {
-            throw new IllegalArgumentException("No se puede consultar el costo " + e.getMessage());
+            throw new IllegalArgumentException("No se puede consultar el costo: " + e.getMessage());
         }
     }
     
@@ -49,7 +46,7 @@ public class CostoServicio {
         try {
             return costoDAO.consultarCostoPlacaNuevo();
         } catch (Exception e) {
-            throw new PersistenciaException("No se puede consultar el costo " + e.getMessage(), e);
+            throw new PersistenciaException("No se puede consultar el costo: " + e.getMessage(), e);
         }
     }
 }

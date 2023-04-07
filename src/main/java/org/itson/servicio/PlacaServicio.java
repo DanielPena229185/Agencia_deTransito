@@ -20,18 +20,61 @@ public class PlacaServicio {
 
     private IPlacaDAO placaDAO;
 
-    /**
-     *
-     */
     public PlacaServicio() {
         this.placaDAO = new DAOFactory().getPlacaDAO();
     }
 
-    /**
-     *
-     * @param placa
-     * @throws IllegalArgumentException
-     */
+    public Placa agregarPlaca(Placa placa) throws IllegalArgumentException {
+        try {
+            this.validarDatos(placa);
+            return placaDAO.agregarPlaca(placa);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("No se puede agregar la placa: " + e.getMessage());
+        }
+    }
+
+    public Placa actualizarPlaca(Placa placa) throws IllegalArgumentException {
+        try {
+            this.validarDatos(placa);
+            return placaDAO.actualizarPlaca(placa);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("No se puede actualizar la placa: " + e.getMessage());
+        }
+    }
+//    public Placa eliminarTramite(Placa placa)throws PersistenciaException;
+
+    public List<Placa> consultarPlaca() throws IllegalArgumentException {
+        try {
+            return placaDAO.consultarPlaca();
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("No se pudo consultar las placas: " + e.getMessage());
+        }
+    }
+
+    public List<Placa> consultarPlacasPersona(Persona persona) throws IllegalArgumentException {
+        try {
+            this.validarDatosPersona(persona);
+            return placaDAO.consultarPlacasPersona(persona);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("No se pudo consultar las placas: " + e.getMessage());
+        }
+    }
+
+    public List<Placa> consultarPlacasPeriodo(Calendar desde, Calendar hasta, Persona persona) throws IllegalArgumentException {
+        try {
+            if (desde == null) {
+                throw new IllegalArgumentException("La fecha desde no pueden ser nulas");
+            }
+            if (hasta == null) {
+                throw new IllegalArgumentException("La fecha hasta no pueden ser nulas");
+            }
+            this.validarDatosPersona(persona);
+            return placaDAO.consultarPlacasPeriodo(desde, hasta, persona);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("No se pudo consultar el tramite: " + e.getMessage());
+        }
+    }
+
     public void validarDatos(Placa placa) throws IllegalArgumentException {
         if (placa.getEstado() == null) {
             throw new IllegalArgumentException("El estado no puede ser nula");
@@ -48,14 +91,8 @@ public class PlacaServicio {
         if (placa.getPersona() == null) {
             throw new IllegalArgumentException("El persona del tramite es requerido");
         }
-
     }
 
-    /**
-     *
-     * @param persona
-     * @throws IllegalArgumentException
-     */
     public void validarDatosPersona(Persona persona) throws IllegalArgumentException {
         if (persona.getNombres() == null || persona.getNombres().trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre no puede estar vacío");
@@ -91,86 +128,4 @@ public class PlacaServicio {
             throw new IllegalArgumentException("El numero telefonico de la persona no debe exceder los 100 caracteres");
         }
     }
-
-    /**
-     *
-     * @param placa
-     * @return
-     * @throws IllegalArgumentException
-     */
-    public Placa agregarPlaca(Placa placa) throws IllegalArgumentException {
-        try {
-            this.validarDatos(placa);
-            return placaDAO.agregarPlaca(placa);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("No se puede agregar la placa " + e.getMessage());
-        }
-    }
-
-    /**
-     *
-     * @param placa
-     * @return
-     * @throws IllegalArgumentException
-     */
-    public Placa actualizarTramite(Placa placa) throws IllegalArgumentException {
-        try {
-            this.validarDatos(placa);
-            return placaDAO.actualizarTramite(placa);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("No se puede actualizar la placa " + e.getMessage());
-        }
-    }
-//    public Placa eliminarTramite(Placa placa)throws PersistenciaException;
-
-    /**
-     *
-     * @return @throws IllegalArgumentException
-     */
-    public List<Placa> consultarTramites() throws IllegalArgumentException {
-        try {
-            return placaDAO.consultarTramites();
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("No se pudo consultar las placas " + e.getMessage());
-        }
-    }
-
-    /**
-     *
-     * @param persona
-     * @return
-     * @throws IllegalArgumentException
-     */
-    public List<Placa> consultarTramitesPersona(Persona persona) throws IllegalArgumentException {
-        try {
-            this.validarDatosPersona(persona);
-            return placaDAO.consultarTramitesPersona(persona);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("No se pudo consultar las placas " + e.getMessage());
-        }
-    }
-
-    /**
-     * 
-     * @param desde
-     * @param hasta
-     * @param persona
-     * @return
-     * @throws IllegalArgumentException 
-     */
-    public List<Placa> consultarTramitesPeriodo(Calendar desde, Calendar hasta, Persona persona) throws IllegalArgumentException {
-        try {
-            if (desde == null) {
-                throw new IllegalArgumentException("La fecha desde no pueden ser nulas");
-            }
-            if (hasta == null) {
-                throw new IllegalArgumentException("La fecha hasta no pueden ser nulas");
-            }
-            this.validarDatosPersona(persona);
-            return placaDAO.consultarTramitesPeriodo(desde, hasta, persona);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("No se pudo consultar el tramite " + e.getMessage());
-        }
-    }
-
 }

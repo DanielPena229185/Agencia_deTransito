@@ -21,18 +21,63 @@ public class LicenciaServicio {
 
     private ILicenciaDAO licenciaDAO;
 
-    /**
-     *
-     */
     public LicenciaServicio() {
         this.licenciaDAO = new DAOFactory().getLicenciaDAO();
     }
 
-    /**
-     *
-     * @param licencia
-     * @throws IllegalArgumentException
-     */
+    public Licencia agregarLicencia(Licencia licencia) throws IllegalArgumentException {
+        try {
+            this.validarDatos(licencia);
+            return licenciaDAO.agregarLicencia(licencia);
+        } catch (PersistenciaException e) {
+            throw new IllegalArgumentException("No se puede agregar la licencia: " + e.getMessage());
+        }
+    }
+
+    public Licencia actualizarLicencia(Licencia licencia) throws IllegalArgumentException {
+        try {
+            this.validarDatos(licencia);
+            return licenciaDAO.actualizarLicencia(licencia);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("No se puede actualizar la licencia: " + e.getMessage());
+        }
+    }
+
+//    public Licencia eliminarLicencia(Licencia licencia)throws PersistenciaException;
+    public List<Licencia> consultarLicencias() throws IllegalArgumentException {
+        try {
+            return licenciaDAO.consultarLicencias();
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("No se pudo consultar licencias: " + e.getMessage());
+        }
+    }
+
+    public List<Licencia> consultarLicenciasPersona(Persona persona) throws IllegalArgumentException {
+        try {
+            this.validarDatosPersona(persona);
+            return licenciaDAO.consultarLicenciasPersona(persona);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("No se pudo consultar licencias: " + e.getMessage());
+        }
+
+    }
+
+    public List<Licencia> consultarLicenciaPeriodo(Calendar desde, Calendar hasta, Persona persona) throws IllegalArgumentException {
+        try {
+            if (desde == null) {
+                throw new IllegalArgumentException("La fecha desde no pueden ser nulas");
+            }
+            if (hasta == null) {
+                throw new IllegalArgumentException("La fecha hasta no pueden ser nulas");
+            }
+            this.validarDatosPersona(persona);
+            return licenciaDAO.consultarLicenciaPeriodo(desde, hasta, persona);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("No se pudo consultar la licencia: " + e.getMessage());
+        }
+    }
+
+    //Validar de datos
     public void validarDatos(Licencia licencia) throws IllegalArgumentException {
         if (licencia.getEstado() == null) {
             throw new IllegalArgumentException("El estado no puede ser nula");
@@ -51,11 +96,6 @@ public class LicenciaServicio {
         }
     }
 
-    /**
-     *
-     * @param persona
-     * @throws IllegalArgumentException
-     */
     public void validarDatosPersona(Persona persona) throws IllegalArgumentException {
         if (persona.getNombres() == null || persona.getNombres().trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre no puede estar vacío");
@@ -89,88 +129,6 @@ public class LicenciaServicio {
             throw new IllegalArgumentException("El número de teléfono no puede estar vacío");
         } else if (persona.getTelefono().length() > 100) {
             throw new IllegalArgumentException("El numero telefonico de la persona no debe exceder los 100 caracteres");
-        }
-    }
-
-    /**
-     *
-     * @param licencia
-     * @return
-     * @throws IllegalArgumentException
-     */
-    public Licencia agregarLicencia(Licencia licencia) throws IllegalArgumentException {
-        try {
-            this.validarDatos(licencia);
-            return licenciaDAO.agregarLicencia(licencia);
-        } catch (PersistenciaException e) {
-            throw new IllegalArgumentException("No se puede agregar la licencia " + e.getMessage());
-        }
-    }
-
-    /**
-     *
-     * @param licencia
-     * @return
-     * @throws IllegalArgumentException
-     */
-    public Licencia actualizarLicencia(Licencia licencia) throws IllegalArgumentException {
-        try {
-            this.validarDatos(licencia);
-            return licenciaDAO.actualizarLicencia(licencia);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("No se puede actualizar la licencia " + e.getMessage());
-        }
-    }
-//    public Licencia eliminarLicencia(Licencia licencia)throws PersistenciaException;
-
-    /**
-     *
-     * @return @throws IllegalArgumentException
-     */
-    public List<Licencia> consultarLicencias() throws IllegalArgumentException {
-        try {
-            return licenciaDAO.consultarLicencias();
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("No se pudo consultar licencias " + e.getMessage());
-        }
-    }
-
-    /**
-     *
-     * @param persona
-     * @return
-     * @throws IllegalArgumentException
-     */
-    public List<Licencia> consultarLicenciasPersona(Persona persona) throws IllegalArgumentException {
-        try {
-            this.validarDatosPersona(persona);
-            return licenciaDAO.consultarLicenciasPersona(persona);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("No se pudo consultar licencias " + e.getMessage());
-        }
-
-    }
-
-    /**
-     * 
-     * @param desde
-     * @param hasta
-     * @param persona
-     * @return
-     * @throws IllegalArgumentException 
-     */
-    public List<Licencia> consultarLicenciaPeriodo(Calendar desde, Calendar hasta, Persona persona) throws IllegalArgumentException {
-        try {
-            if (desde == null) {
-                throw new IllegalArgumentException("La fecha desde no pueden ser nulas");
-            }
-            if (hasta == null) {
-                throw new IllegalArgumentException("La fecha hasta no pueden ser nulas");
-            }
-            this.validarDatosPersona(persona);
-            return licenciaDAO.consultarLicenciaPeriodo(desde, hasta, persona);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("No se pudo consultar la licencia " + e.getMessage());
         }
     }
 }
