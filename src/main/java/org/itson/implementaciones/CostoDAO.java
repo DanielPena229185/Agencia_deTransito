@@ -105,7 +105,7 @@ public class CostoDAO implements ICostoDAO {
             CriteriaQuery<CostoPlaca> criteria = builder.createQuery(CostoPlaca.class);
             Root<CostoPlaca> root = criteria.from(CostoPlaca.class);
             criteria.select(root).where(
-            builder.equal(root.get("tipo"), TipoVehiculo.NUEVO)
+                    builder.equal(root.get("tipo"), TipoVehiculo.NUEVO)
             );
             TypedQuery<CostoPlaca> query = em.createQuery(criteria);
             List<CostoPlaca> listaPlacas = query.getResultList();

@@ -6,7 +6,6 @@ package org.itson.implementaciones;
 //importanciones
 
 import java.util.List;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -26,19 +25,10 @@ public class PersonaDAO implements IPersonaDAO {
 
     private ConexionBD conexion;
 
-    /**
-     *
-     */
     public PersonaDAO(ConexionBD conexion) {
         this.conexion = conexion;
     }
 
-    /**
-     *
-     * @param persona
-     * @return
-     * @throws PersistenciaException
-     */
     @Override
     public Persona agregarPersona(Persona persona) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -48,21 +38,15 @@ public class PersonaDAO implements IPersonaDAO {
             em.getTransaction().commit();
             JOptionPane.showMessageDialog(null, "Persona guardada con exito");
             return persona;
-        } catch (Exception b) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo registrar a la persona:" + b.getMessage(), b);
+            JOptionPane.showMessageDialog(null, "No se pudo registrar a la persona: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo registrar a la persona: " + a.getMessage(), a);
         } finally {
             em.close();
         }
     }
 
-    /**
-     * 6
-     *
-     * @param persona
-     * @return
-     * @throws PersistenciaException
-     */
     @Override
     public Persona actualizarPersona(Persona persona) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -78,10 +62,12 @@ public class PersonaDAO implements IPersonaDAO {
             personaActualizado.setTelefono(persona.getTelefono());
             em.merge(personaActualizado);
             em.getTransaction().commit();
+            JOptionPane.showMessageDialog(null, "Persona actualizada con exito");
             return personaActualizado;
-        } catch (Exception b) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar el pago: " + b.getMessage(), b);
+            JOptionPane.showMessageDialog(null, "No se pudo actualizar el pago: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo actualizar el pago: " + a.getMessage(), a);
         } finally {
             em.close();
         }
@@ -92,16 +78,8 @@ public class PersonaDAO implements IPersonaDAO {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    /**
-     * Busca la lista de personas que coincidan co los parametros dados
-     *
-     * @param filtro columna a buscar en la consulta
-     * @param busqueda el valor del filtro a buscar
-     * @return lista de Personas con los valores asignados en la consulta
-     * @throws PersistenciaException
-     */
     @Override
-    public List<Persona> consultarPersonas(String filtro, String busqueda) throws PersistenciaException {
+    public List<Persona> consultarPersonasFiltro(String filtro, String busqueda) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
@@ -112,13 +90,13 @@ public class PersonaDAO implements IPersonaDAO {
                     builder.like(root.get(filtro), "%" + busqueda + "%")
             );
             TypedQuery<Persona> query = em.createQuery(criteria);
-
             List<Persona> personas = query.getResultList();
             em.getTransaction().commit();
             return personas;
-        } catch (Exception e) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de personas: " + e.getMessage(), e);
+            JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de personas: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo generar la busqueda de personas: " + a.getMessage(), a);
         } finally {
             em.close();
         }
@@ -136,26 +114,28 @@ public class PersonaDAO implements IPersonaDAO {
             List<Persona> personas = query.getResultList();
             em.getTransaction().commit();
             return personas;
-        } catch (PersistenciaException e) {
+        } catch (PersistenciaException a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("Error al consultar las personas en la base de datos: " + e.getMessage(), e);
+            JOptionPane.showMessageDialog(null, "Error al consultar las personas en la base de datos: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("Error al consultar las personas en la base de datos: " + a.getMessage(), a);
         } finally {
             em.close();
         }
     }
 
     @Override
-    public Persona buscarPersona(Long id) throws PersistenciaException {
+    public Persona buscarPersona(Persona persona) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
-        Persona persona = null;
         try {
             em.getTransaction().begin();
-            persona = em.find(Persona.class, id);
+            persona = em.find(Persona.class, persona.getIdPersona());
             em.getTransaction().commit();
-        } catch (Exception e) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("Error al encontrar al usuario con id: " + id + ": " + e.getMessage(), e);
+            JOptionPane.showMessageDialog(null, "Error al buscar a la persona: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("Error al buscar a la persona: " + a.getMessage(), a);
         }
         return persona;
     }
+
 }

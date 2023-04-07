@@ -7,12 +7,12 @@ package org.itson.implementaciones;
 
 import java.util.Calendar;
 import java.util.List;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.swing.JOptionPane;
 import org.itson.dominio.Pago;
 import org.itson.excepciones.PersistenciaException;
 import org.itson.interfaces.IPagoDAO;
@@ -46,10 +46,12 @@ public class PagoDAO implements IPagoDAO {
             em.getTransaction().begin();
             em.persist(pago);
             em.getTransaction().commit();
+            JOptionPane.showMessageDialog(null, "Pago realizado con exito");
             return pago;
-        } catch (Exception e) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo agregar el pago" + e.getMessage());
+            JOptionPane.showMessageDialog(null, "No se pudo agregar el pago: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo agregar el pago: " + a.getMessage());
         } finally {
             em.close();
         }
@@ -67,16 +69,20 @@ public class PagoDAO implements IPagoDAO {
             em.getTransaction().begin();
             Pago pagoEnBaseDeDatos = em.find(Pago.class, pago.getIdPago());
             if (pagoEnBaseDeDatos == null) {
+                JOptionPane.showMessageDialog(null, "El pago no existe en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
                 throw new PersistenciaException("El pago no existe en la base de datos");
             }
             em.remove(pagoEnBaseDeDatos);
             em.getTransaction().commit();
-        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, "Pago eliminado con exito");
+        } catch (IllegalArgumentException a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo eliminar el pago " + e.getMessage());
-        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No se pudo eliminar el pago: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo eliminar el pago: " + a.getMessage());
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo eliminar el pago " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "No se pudo eliminar el pago: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo eliminar el pago: " + a.getMessage());
         } finally {
             em.close();
         }
@@ -103,13 +109,16 @@ public class PagoDAO implements IPagoDAO {
             pagoActualizado.setTramite(pago.getTramite());
             em.merge(pagoActualizado);
             em.getTransaction().commit();
+            JOptionPane.showMessageDialog(null, "Pago actualizado con exito");
             return pagoActualizado;
-        } catch (IllegalArgumentException b) {
+        } catch (IllegalArgumentException a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar el pago " + b.getMessage());
-        } catch (PersistenciaException b) {
+            JOptionPane.showMessageDialog(null, "No se pudo actualizar el pago: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo actualizar el pago: " + a.getMessage());
+        } catch (PersistenciaException a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar el pago " + b.getMessage());
+            JOptionPane.showMessageDialog(null, "No se pudo actualizar el pago: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo actualizar el pago " + a.getMessage());
         } finally {
             em.close();
         }
@@ -123,16 +132,17 @@ public class PagoDAO implements IPagoDAO {
             Pago pagoConsulta = em.find(Pago.class, pago.getIdPago());
             em.getTransaction().commit();
             return pagoConsulta;
-        } catch (Exception b) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("Error al consultar el pago en la base de datos: " + b.getMessage(), b);
+            JOptionPane.showMessageDialog(null, "Error al consultar el pago en la base de datos: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("Error al consultar el pago en la base de datos: " + a.getMessage(), a);
         } finally {
             em.close();
         }
     }
 
     @Override
-    public List<Pago> consultarPago() throws PersistenciaException {
+    public List<Pago> consultarPagos() throws PersistenciaException {
         EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
@@ -143,16 +153,17 @@ public class PagoDAO implements IPagoDAO {
             List<Pago> pagos = query.getResultList();
             em.getTransaction().commit();
             return pagos;
-        } catch (PersistenciaException e) {
+        } catch (PersistenciaException a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("Error al consultar los pagos en la base de datos " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al consultar los pagos en la base de datos: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("Error al consultar los pagos en la base de datos: " + a.getMessage());
         } finally {
             em.close();
         }
     }
 
     @Override
-    public List<Pago> consultarPago(Calendar fecha) throws PersistenciaException {
+    public List<Pago> consultarPagosFecha(Calendar fecha) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
@@ -166,11 +177,13 @@ public class PagoDAO implements IPagoDAO {
             List<Pago> pagos = query.getResultList();
             em.getTransaction().commit();
             return pagos;
-        } catch (Exception e) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("Error al consultar los pagos en la base de datos " + e.getMessage(), e);
+            JOptionPane.showMessageDialog(null, "Error al consultar los pagos en la base de datos: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("Error al consultar los pagos en la base de datos: " + a.getMessage(), a);
         } finally {
             em.close();
         }
     }
+
 }
