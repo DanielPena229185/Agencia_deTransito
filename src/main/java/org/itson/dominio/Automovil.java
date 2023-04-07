@@ -8,10 +8,12 @@ import javax.persistence.*;
  * @author Daniel Alameda, Daniel Peña
  */
 @Entity
-@Table(name = "automovil")
-@PrimaryKeyJoinColumn(name = "id_vehiculo")
+@DiscriminatorValue(value = "automovil")
 public class Automovil extends Vehiculo implements Serializable {
 
+    /**
+     * Constructor por ausencia
+     */
     public Automovil() {
         super();
     }

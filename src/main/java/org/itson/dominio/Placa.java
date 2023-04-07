@@ -44,14 +44,6 @@ public class Placa extends Tramite implements Serializable {
         this.vehiculo = vehiculo;
     }
 
-    public String getNumero() {
-        return numeroPlaca;
-    }
-
-    public void setNumero(String numero) {
-        this.numeroPlaca = numero;
-    }
-
     public Calendar getFechaRecepcion() {
         return fechaRecepcion;
     }
@@ -66,6 +58,14 @@ public class Placa extends Tramite implements Serializable {
 
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
+    }
+
+    public String getNumeroPlaca() {
+        return numeroPlaca;
+    }
+
+    public void setNumeroPlaca(String numeroPlaca) {
+        this.numeroPlaca = numeroPlaca;
     }
 
 }

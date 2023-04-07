@@ -13,7 +13,7 @@ import javax.persistence.*;
 @DiscriminatorValue(value = "licencia")
 public class Licencia extends Tramite implements Serializable {
 
-    @Column(name = "fecha_expiracion", nullable = false)
+    @Column(name = "fecha_expiracion", nullable = true)
     @Temporal(TemporalType.DATE)
     private Calendar fechaExpiracion;
 

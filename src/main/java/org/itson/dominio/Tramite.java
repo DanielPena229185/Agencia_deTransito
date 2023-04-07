@@ -20,6 +20,7 @@ public class Tramite implements Serializable {
      * Atributos
      */
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idTramite;
 
@@ -80,9 +81,6 @@ public class Tramite implements Serializable {
     }
 
     public void setEstado(EstadoTramite estado) {
-        if (estado == null) {
-            throw new IllegalArgumentException("El estado no puede ser nula");
-        }
         this.estado = estado;
     }
 
@@ -91,9 +89,6 @@ public class Tramite implements Serializable {
     }
 
     public void setPrecio(Float precio) {
-        if (precio <= 0) {
-            throw new IllegalArgumentException("El precio debe ser mayor a 0");
-        }
         this.precio = precio;
     }
 
@@ -102,9 +97,6 @@ public class Tramite implements Serializable {
     }
 
     public void setFechaExpedicion(Calendar fechaExpedicion) {
-        if (fechaExpedicion == null) {
-            throw new IllegalArgumentException("La fecha y hora no pueden ser nulas");
-        }
         this.fechaExpedicion = fechaExpedicion;
     }
 
@@ -113,9 +105,6 @@ public class Tramite implements Serializable {
     }
 
     public void setPersona(Persona persona) {
-        if (persona == null) {
-            throw new IllegalArgumentException("El persona del tramite es requerido");
-        }
         this.persona = persona;
     }
 
@@ -128,9 +117,6 @@ public class Tramite implements Serializable {
     }
 
     public void agregarPago(Pago pago) {
-        if (this.pago == null) {
-            this.pago = new LinkedList<>();
-        }
         this.pago.add(pago);
     }
 
