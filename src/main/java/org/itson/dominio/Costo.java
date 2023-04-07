@@ -22,33 +22,29 @@ import javax.persistence.Table;
  * @author Daniel Armando Peña Garcia ID:229185
  */
 @Entity
-@Table(name = "Costos")
+@Table(name = "costos")
+@DiscriminatorColumn(name = "tipo")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Costo implements Serializable {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "Costo_Normal")
+    @Column(name = "costo_normal", nullable = false)
     private double costoNormal;
 
-    /**
-     *
-     */
     public Costo() {
+    }
 
+    public Costo(double costoNormal) {
+        this.costoNormal = costoNormal;
     }
 
     public Costo(Long id, double costoNormal) {
         this.id = id;
         this.costoNormal = costoNormal;
-
-    }
-
-    public Costo(double costoNormal) {
-        this.costoNormal = costoNormal;
-
     }
 
     public Long getId() {
@@ -67,28 +63,4 @@ public class Costo implements Serializable {
         this.costoNormal = costoNormal;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Costo)) {
-            return false;
-        }
-        Costo other = (Costo) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "org.itson.dominio.Costo[ id=" + id + " ]";
-    }
 }

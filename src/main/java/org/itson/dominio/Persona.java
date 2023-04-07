@@ -41,6 +41,7 @@ public class Persona implements Serializable {
 
     @Column(name = "telefono", nullable = false, length = 100)
     private String telefono;
+ 
     //Relaciones
     // Relacion Tramite
     @OneToMany(mappedBy = "persona")
@@ -142,7 +143,6 @@ public class Persona implements Serializable {
 //        if (fechaNacimiento == null) {
 //            throw new IllegalArgumentException("La fecha de nacimiento no puede ser nula");
 //        }
-
         if (telefono == null || telefono.trim().isEmpty()) {
             throw new IllegalArgumentException("El número de teléfono no puede estar vacío");
         } else if (rfc.length() > 100) {
@@ -349,8 +349,8 @@ public class Persona implements Serializable {
         return anios;
 
     }
-    
-    public String getNombreCompleto(){
+
+    public String getNombreCompleto() {
         return this.nombres + " " + this.apellido_paterno + " " + this.apellido_materno;
     }
 
@@ -358,7 +358,5 @@ public class Persona implements Serializable {
     public String toString() {
         return "Persona{" + "idPersona=" + idPersona + ", nombres=" + nombres + ", apellido_paterno=" + apellido_paterno + ", apellido_materno=" + apellido_materno + ", rfc=" + rfc + ", fechaNacimiento=" + fechaNacimiento + ", discapacidad=" + discapacidad + ", telefono=" + telefono + ", tramites=" + tramites + '}';
     }
-    
-    
 
 }

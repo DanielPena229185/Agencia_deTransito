@@ -18,6 +18,7 @@ import javax.persistence.*;
 public class Pago implements Serializable {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPago;
 
@@ -43,7 +44,6 @@ public class Pago implements Serializable {
     }
 
     public Pago(Float monto, Calendar fechaHora, String concepto, Tramite tramite) {
-        this.validarPago(monto, fechaHora, concepto, tramite);
         this.monto = monto;
         this.fechaHora = fechaHora;
         this.concepto = concepto;
@@ -51,29 +51,11 @@ public class Pago implements Serializable {
     }
 
     public Pago(Long idPago, Float monto, Calendar fechaHora, String concepto, Tramite tramite) {
-        this.validarPago(monto, fechaHora, concepto, tramite);
         this.idPago = idPago;
         this.monto = monto;
         this.fechaHora = fechaHora;
         this.concepto = concepto;
         this.tramite = tramite;
-    }
-
-    public void validarPago(Float monto, Calendar fechaHora, String concepto, Tramite tramite) throws IllegalArgumentException {
-        if (monto <= 0) {
-            throw new IllegalArgumentException("El monto debe ser mayor a 0");
-        }
-        if (fechaHora == null) {
-            throw new IllegalArgumentException("La fecha y hora no pueden ser nulas");
-        }
-        if (concepto == null || concepto.trim().isEmpty()) {
-            throw new IllegalArgumentException("El monto del pago es requerido");
-        } else if (concepto.length() > 255) {
-            throw new IllegalArgumentException("El concepto del pago no debe exceder los 255 caracteres");
-        }
-        if (tramite == null) {
-            throw new IllegalArgumentException("El tramite del pago es requerido");
-        }
     }
 
     public Long getIdPago() {
@@ -89,9 +71,6 @@ public class Pago implements Serializable {
     }
 
     public void setMonto(Float monto) {
-        if (monto <= 0) {
-            throw new IllegalArgumentException("El monto debe ser mayor a 0");
-        }
         this.monto = monto;
     }
 
@@ -100,9 +79,6 @@ public class Pago implements Serializable {
     }
 
     public void setFechaHora(Calendar fechaHora) {
-        if (fechaHora == null) {
-            throw new IllegalArgumentException("La fecha y hora no pueden ser nulas");
-        }
         this.fechaHora = fechaHora;
     }
 
@@ -111,11 +87,6 @@ public class Pago implements Serializable {
     }
 
     public void setConcepto(String concepto) {
-        if (concepto == null || concepto.trim().isEmpty()) {
-            throw new IllegalArgumentException("El monto del pago es requerido");
-        } else if (concepto.length() > 255) {
-            throw new IllegalArgumentException("El concepto del pago no debe exceder los 255 caracteres");
-        }
         this.concepto = concepto;
     }
 
@@ -124,15 +95,7 @@ public class Pago implements Serializable {
     }
 
     public void setTramite(Tramite tramite) {
-        if (tramite == null) {
-            throw new IllegalArgumentException("El tramite del pago es requerido");
-        }
         this.tramite = tramite;
     }
-
-    @Override
-    public String toString() {
-        return "Pago{" + "idPago=" + idPago + ", monto=" + monto + ", fechaHora=" + fechaHora + ", concepto=" + concepto + ", tramite=" + tramite + '}';
-    }
-
+    
 }

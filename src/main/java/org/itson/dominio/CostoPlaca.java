@@ -11,7 +11,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.Table;
 
 /**
  * Descripción de la clase:
@@ -19,11 +18,10 @@ import javax.persistence.Table;
  * @author Daniel Armando Peña Garcia ID:229185
  */
 @Entity
-@Table(name = "Costos_Placa")
-@DiscriminatorValue("Placas")
+@DiscriminatorValue(value = "costo_placa")
 public class CostoPlaca extends Costo implements Serializable {
 
-    @Column(name = "Tipo", nullable = true)
+    @Column(name = "tipo", nullable = true)
     @Enumerated(EnumType.STRING)
     private TipoVehiculo tipo;
 
