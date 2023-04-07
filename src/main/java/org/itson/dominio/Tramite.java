@@ -12,7 +12,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "tramite")
-@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "tipo")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Tramite implements Serializable {
 
     /**
@@ -50,7 +51,6 @@ public class Tramite implements Serializable {
 
     public Tramite(EstadoTramite estado, Float precio,
             Calendar fechaExpedicion, Persona persona) {
-        this.validarDatos(estado, precio, fechaExpedicion, persona);
         this.estado = estado;
         this.precio = precio;
         this.fechaExpedicion = fechaExpedicion;
@@ -59,33 +59,12 @@ public class Tramite implements Serializable {
 
     public Tramite(Long idTramite, EstadoTramite estado, Float precio,
             Calendar fechaExpedicion, List<Pago> pago, Persona persona) {
-        this.validarDatos(estado, precio, fechaExpedicion, persona);
         this.idTramite = idTramite;
         this.estado = estado;
         this.precio = precio;
         this.fechaExpedicion = fechaExpedicion;
         this.pago = pago;
         this.persona = persona;
-    }
-
-    public void validarDatos(EstadoTramite estado, Float precio,
-            Calendar fechaExpedicion, Persona persona) {
-        if (estado == null) {
-            throw new IllegalArgumentException("El estado no puede ser nula");
-        }
-
-        if (precio <= 0) {
-            throw new IllegalArgumentException("El precio debe ser mayor a 0");
-        }
-
-        if (fechaExpedicion == null) {
-            throw new IllegalArgumentException("La fecha y hora no pueden ser nulas");
-        }
-
-        if (persona == null) {
-            throw new IllegalArgumentException("El persona del tramite es requerido");
-        }
-
     }
 
     public Long getIdTramite() {
@@ -152,7 +131,6 @@ public class Tramite implements Serializable {
         if (this.pago == null) {
             this.pago = new LinkedList<>();
         }
-
         this.pago.add(pago);
     }
 

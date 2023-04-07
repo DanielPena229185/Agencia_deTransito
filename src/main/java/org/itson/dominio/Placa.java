@@ -10,12 +10,11 @@ import javax.persistence.*;
  * @author Daniel Alameda, Daniel Peña
  */
 @Entity
-@Table(name = "placa")
-@PrimaryKeyJoinColumn(name = "id_tramite")
+@DiscriminatorValue(value = "placa")
 public class Placa extends Tramite implements Serializable {
 
-    @Column(name = "numero", nullable = false, unique = true, length = 7)
-    private String numero;
+    @Column(name = "numero_placa", nullable = true, unique = true, length = 7)
+    private String numeroPlaca;
 
     @Column(name = "fecha_recepcion", nullable = true)
     @Temporal(TemporalType.DATE)
@@ -24,33 +23,33 @@ public class Placa extends Tramite implements Serializable {
     //Relaciones
     // Relacion vehiculo
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "id_vehiculo", nullable = false)
+    @JoinColumn(name = "id_vehiculo", nullable = true)
     private Vehiculo vehiculo;
 
     public Placa() {
         super();
     }
 
-    public Placa(String numero, Calendar fechaRecepcion, Vehiculo vehiculo, EstadoTramite estado, Float precio, Calendar fechaExpedicion, List<Pago> pago, Persona persona) {
+    public Placa(String numeroPlaca, Calendar fechaRecepcion, Vehiculo vehiculo, EstadoTramite estado, Float precio, Calendar fechaExpedicion, List<Pago> pago, Persona persona) {
         super(estado, precio, fechaExpedicion, persona);
-        this.numero = numero;
+        this.numeroPlaca = numeroPlaca;
         this.fechaRecepcion = fechaRecepcion;
         this.vehiculo = vehiculo;
     }
 
-    public Placa(String numero, Calendar fechaRecepcion, Vehiculo vehiculo, Long idTramite, EstadoTramite estado, Float precio, Calendar fechaExpedicion, List<Pago> pago, Persona persona) {
+    public Placa(String numeroPlaca, Calendar fechaRecepcion, Vehiculo vehiculo, Long idTramite, EstadoTramite estado, Float precio, Calendar fechaExpedicion, List<Pago> pago, Persona persona) {
         super(idTramite, estado, precio, fechaExpedicion, pago, persona);
-        this.numero = numero;
+        this.numeroPlaca = numeroPlaca;
         this.fechaRecepcion = fechaRecepcion;
         this.vehiculo = vehiculo;
     }
 
     public String getNumero() {
-        return numero;
+        return numeroPlaca;
     }
 
     public void setNumero(String numero) {
-        this.numero = numero;
+        this.numeroPlaca = numero;
     }
 
     public Calendar getFechaRecepcion() {

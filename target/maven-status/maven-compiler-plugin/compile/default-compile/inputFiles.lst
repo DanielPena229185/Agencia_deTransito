@@ -18,13 +18,14 @@ C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\interfaces\IPla
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\interfaces\IVehiculoDAO.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\presentacion\ConsultaForm.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\interfaces\ILicenciaDAO.java
+C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\presentacion\RegistrarVehiculoForm.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\presentacion\AyudaDlg.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\dominio\Placa.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\implementaciones\TramiteDAO.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\dominio\Pago.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\implementaciones\CostoDAO.java
+C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\presentacion\TramiteLicenciaForm.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\servicio\PagoServicio.java
-C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\presentacion\TramitesLicencia.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\interfaces\ICostoDAO.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\excepciones\ObjetoServicioExcepcion.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\implementaciones\VehiculoDAO.java
@@ -50,5 +51,4 @@ C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\implementacione
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\implementaciones\ConexionBD.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\servicio\PersonaServicio.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\dominio\Automovil.java
-C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\presentacion\RegistrarAutoForm.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\interfaces\IAutomovilDAO.java

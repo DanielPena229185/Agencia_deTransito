@@ -10,8 +10,7 @@ import javax.persistence.*;
  * @author Daniel Alameda, Daniel Peña
  */
 @Entity
-@Table(name = "licencia")
-@PrimaryKeyJoinColumn(name = "id_tramite")
+@DiscriminatorValue(value = "licencia")
 public class Licencia extends Tramite implements Serializable {
 
     @Column(name = "fecha_expiracion", nullable = false)
