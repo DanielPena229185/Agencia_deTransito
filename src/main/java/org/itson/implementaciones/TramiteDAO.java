@@ -7,12 +7,12 @@ package org.itson.implementaciones;
 
 import java.util.Calendar;
 import java.util.List;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.swing.JOptionPane;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Tramite;
 import org.itson.excepciones.PersistenciaException;
@@ -25,48 +25,38 @@ import org.itson.interfaces.ITramiteDAO;
  */
 public class TramiteDAO implements ITramiteDAO {
 
-    private EntityManager em;
+    private ConexionBD conexion;
 
-    //Constructor por omisión
     public TramiteDAO(ConexionBD conexion) {
-        em = conexion.getConexion();
+        this.conexion = conexion;
     }
 
-    /**
-     * Metódo que registra tramite
-     *
-     * @param tramite a ingresar
-     * @return el tramite ya registrado
-     * @throws PersistenciaException cuando ya exista un registro igual en la
-     * base en la base de datos
-     */
     @Override
     public Tramite agregarTramite(Tramite tramite) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             em.persist(tramite);
             em.getTransaction().commit();
+            JOptionPane.showMessageDialog(null, "Tramite guardado con exito");
             return tramite;
-        } catch (Exception b) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo registrar a el tramite " + b.getMessage(), b);
+            JOptionPane.showMessageDialog(null, "No se pudo registrar a el tramite " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo registrar a el tramite " + a.getMessage(), a);
         } finally {
             em.close();
         }
     }
 
-    /**
-     *
-     * @param tramite
-     * @return
-     * @throws PersistenciaException
-     */
     @Override
     public Tramite actualizarTramite(Tramite tramite) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             Tramite tramiteActualizado = em.find(Tramite.class, tramite.getIdTramite());
             if (tramiteActualizado == null) {
+                JOptionPane.showMessageDialog(null, "El tramite no existe en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
                 throw new PersistenciaException("El tramite no existe en la base de datos");
             }
             tramiteActualizado.setEstado(tramite.getEstado());
@@ -75,22 +65,18 @@ public class TramiteDAO implements ITramiteDAO {
             tramiteActualizado.setPago(tramite.getPago());
             tramiteActualizado.setPersona(tramite.getPersona());
             em.merge(tramiteActualizado);
+            JOptionPane.showMessageDialog(null, "Tramite actualizado con exito");
             em.getTransaction().commit();
             return tramiteActualizado;
-        } catch (Exception b) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar el tramite " + b.getMessage(), b);
+            JOptionPane.showMessageDialog(null, "No se pudo actualizar a el tramite " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo actualizar el tramite " + a.getMessage(), a);
         } finally {
             em.close();
         }
     }
 
-    /**
-     *
-     * @param tramite
-     * @return
-     * @throws PersistenciaException
-     */
     @Override
     public Tramite eliminarTramite(Tramite tramite) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -98,6 +84,7 @@ public class TramiteDAO implements ITramiteDAO {
 
     @Override
     public List<Tramite> consultarTramites() throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -106,22 +93,18 @@ public class TramiteDAO implements ITramiteDAO {
             List<Tramite> tramites = query.getResultList();
             em.getTransaction().commit();
             return tramites;
-        } catch (Exception e) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de tramites: "+ e.getMessage(), e);
+            JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de tramites: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo generar la busqueda de tramites: " + a.getMessage(), a);
         } finally {
             em.close();
         }
     }
 
-    /**
-     *
-     * @param persona
-     * @return
-     * @throws PersistenciaException
-     */
     @Override
     public List<Tramite> consultarTramitesPersona(Persona persona) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -134,24 +117,18 @@ public class TramiteDAO implements ITramiteDAO {
             List<Tramite> tramites = query.getResultList();
             em.getTransaction().commit();
             return tramites;
-        } catch (Exception e) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de tramites: " + e.getMessage(), e);
+            JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de tramites: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo generar la busqueda de tramites: " + a.getMessage(), a);
         } finally {
             em.close();
         }
     }
 
-    /**
-     * 
-     * @param desde
-     * @param hasta
-     * @param persona
-     * @return
-     * @throws PersistenciaException 
-     */
     @Override
     public List<Tramite> consultarTramitesPeriodo(Calendar desde, Calendar hasta, Persona persona) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -167,9 +144,10 @@ public class TramiteDAO implements ITramiteDAO {
             List<Tramite> tramites = query.getResultList();
             em.getTransaction().commit();
             return tramites;
-        } catch (Exception e) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de tramites: " + e.getMessage(), e);
+            JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de tramites: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo generar la busqueda de tramites: " + a.getMessage(), a);
         } finally {
             em.close();
         }

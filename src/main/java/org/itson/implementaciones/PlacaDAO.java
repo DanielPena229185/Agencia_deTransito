@@ -7,14 +7,16 @@ package org.itson.implementaciones;
 
 import java.util.Calendar;
 import java.util.List;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.swing.JOptionPane;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Placa;
+import org.itson.dominio.Tramite;
 import org.itson.excepciones.PersistenciaException;
 import org.itson.interfaces.IPlacaDAO;
 
@@ -24,132 +26,123 @@ import org.itson.interfaces.IPlacaDAO;
  */
 public class PlacaDAO implements IPlacaDAO {
 
-    private EntityManager em;
+    private ConexionBD conexion;
 
-    //Constructor por omisión
     public PlacaDAO(ConexionBD conexion) {
-        em = conexion.getConexion();
+        this.conexion = conexion;
     }
 
-    /**
-     *
-     * @param placa
-     * @return
-     * @throws PersistenciaException
-     */
     @Override
     public Placa agregarPlaca(Placa placa) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             em.persist(placa);
             em.getTransaction().commit();
+            JOptionPane.showMessageDialog(null, "Placa guardada con exito");
             return placa;
-        } catch (Exception b) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo registrar la placa: " + b.getMessage(), b);
+            JOptionPane.showMessageDialog(null, "No se pudo registrar la placa: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo registrar la placa: " + a.getMessage(), a);
         } finally {
             em.close();
         }
     }
 
-    /**
-     *
-     * @param placa
-     * @return
-     * @throws PersistenciaException
-     */
     @Override
-    public Placa actualizarTramite(Placa placa) throws PersistenciaException {
+    public Placa actualizarPlaca(Placa placa) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
-            Placa plactaActualizada = em.find(Placa.class, placa.getIdTramite());
-            if (plactaActualizada == null) {
+            Placa placaActualizada = em.find(Placa.class, placa.getIdTramite());
+            if (placaActualizada == null) {
+                JOptionPane.showMessageDialog(null, "La placa no existe en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
                 throw new PersistenciaException("La placa no existe en la base de datos");
             }
-            plactaActualizada.setEstado(placa.getEstado());
-            plactaActualizada.setPrecio(placa.getPrecio());
-            plactaActualizada.setFechaExpedicion(placa.getFechaExpedicion());
-            plactaActualizada.setPago(placa.getPago());
-            plactaActualizada.setPersona(placa.getPersona());
-            plactaActualizada.setNumero(placa.getNumero());
-            plactaActualizada.setFechaRecepcion(placa.getFechaRecepcion());
-            em.merge(plactaActualizada);
+            placaActualizada.setNumeroPlaca(placa.getNumeroPlaca());
+            placaActualizada.setFechaRecepcion(placa.getFechaRecepcion());
+            placaActualizada.setVehiculo(placa.getVehiculo());
+            placaActualizada.setEstado(placa.getEstado());
+            placaActualizada.setPrecio(placa.getPrecio());
+            placaActualizada.setFechaExpedicion(placa.getFechaExpedicion());
+            placaActualizada.setPago(placa.getPago());
+            placaActualizada.setPersona(placa.getPersona());
+            em.merge(placaActualizada);
             em.getTransaction().commit();
-            return plactaActualizada;
-        } catch (Exception b) {
+            JOptionPane.showMessageDialog(null, "Placa actualizada con exito");
+            return placaActualizada;
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar la placa " + b.getMessage(), b);
+            JOptionPane.showMessageDialog(null, "No se pudo actualizar la placa: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo actualizar la placa: " + a.getMessage(), a);
         } finally {
             em.close();
         }
     }
 
     @Override
-    public Placa eliminarTramite(Placa placa) throws PersistenciaException {
+    public Placa eliminarPlaca(Placa placa) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    /**
-     *
-     * @return @throws PersistenciaException
-     */
     @Override
-    public List<Placa> consultarTramites() throws PersistenciaException {
+    public List<Placa> consultarPlaca() throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery<Placa> criteria = builder.createQuery(Placa.class);
-            Root<Placa> root = criteria.from(Placa.class);
+            Root<Tramite> root = criteria.from(Tramite.class);
+            criteria.select(builder.treat(root, Placa.class));
             TypedQuery<Placa> query = em.createQuery(criteria);
             List<Placa> placas = query.getResultList();
             em.getTransaction().commit();
             return placas;
-        } catch (Exception e) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de placas: " + e.getMessage(), e);
+            JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de placas: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo generar la busqueda de placas: " + a.getMessage(), a);
         } finally {
             em.close();
         }
     }
 
-    /**
-     *
-     * @param persona
-     * @return
-     * @throws PersistenciaException
-     */
     @Override
-    public List<Placa> consultarTramitesPersona(Persona persona) throws PersistenciaException {
+    public List<Placa> consultarPlacasPersona(Persona persona) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
+//            em.getTransaction().begin();
+//            CriteriaBuilder builder = em.getCriteriaBuilder();
+//            CriteriaQuery<Licencia> criteria = builder.createQuery(Licencia.class);
+//            Root<Tramite> root = criteria.from(Tramite.class);
+//            criteria.where(
+//                    builder.equal(root.get("persona").get("idPersona"), persona.getIdPersona())
+//            );
+//            TypedQuery<Licencia> query = em.createQuery(criteria);
+//            List<Licencia> licencias = query.getResultList();
             em.getTransaction().begin();
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery<Placa> criteria = builder.createQuery(Placa.class);
             Root<Placa> root = criteria.from(Placa.class);
-            criteria.where(
-                    builder.equal(root.get("persona").get("idPersona"), persona.getIdPersona())
-            );
+            Predicate predicate = builder.equal(root.get("persona").get("id"), persona.getIdPersona());
+            criteria.select(builder.treat(root, Placa.class)).where(predicate);
             TypedQuery<Placa> query = em.createQuery(criteria);
             List<Placa> placas = query.getResultList();
             em.getTransaction().commit();
             return placas;
-        } catch (Exception e) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de placas: " + e.getMessage(), e);
+            JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de placas: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo generar la busqueda de placas: " + a.getLocalizedMessage());
         } finally {
             em.close();
         }
     }
 
-    /**
-     *
-     * @param desde
-     * @param hasta
-     * @param persona
-     * @return
-     * @throws PersistenciaException
-     */
     @Override
-    public List<Placa> consultarTramitesPeriodo(Calendar desde, Calendar hasta, Persona persona) throws PersistenciaException {
+    public List<Placa> consultarPlacasPeriodo(Calendar desde, Calendar hasta, Persona persona) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -165,9 +158,10 @@ public class PlacaDAO implements IPlacaDAO {
             List<Placa> placas = query.getResultList();
             em.getTransaction().commit();
             return placas;
-        } catch (Exception e) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de placas: " + e.getMessage(), e);
+            JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de placas: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo generar la busqueda de placas: " + a.getMessage(), a);
         } finally {
             em.close();
         }

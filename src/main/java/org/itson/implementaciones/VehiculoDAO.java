@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.swing.JOptionPane;
 import org.itson.dominio.Placa;
 import org.itson.dominio.Vehiculo;
 import org.itson.excepciones.PersistenciaException;
@@ -23,44 +24,40 @@ import org.itson.interfaces.IVehiculoDAO;
  */
 public class VehiculoDAO implements IVehiculoDAO {
 
-    private EntityManager em;
+    private ConexionBD conexion;
 
     public VehiculoDAO(ConexionBD conexion) {
-        this.em = conexion.getConexion();
+        this.conexion = conexion;
     }
 
-    /**
-     *
-     * @param vehiculo
-     * @return
-     * @throws PersistenciaException
-     */
     @Override
     public Vehiculo agregarVehiculo(Vehiculo vehiculo) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
-            this.em.getTransaction().begin();
-            this.em.persist(vehiculo);
-            this.em.getTransaction().commit();
+            em.getTransaction().begin();
+            em.persist(vehiculo);
+            em.getTransaction().commit();
+            JOptionPane.showMessageDialog(null, "Vehiculo guardado con exito");
             return vehiculo;
-        } catch (Exception e) {
-            this.em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo agregar el vehiculo: " + e.getMessage(), e);
+        } catch (Exception a) {
+            em.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, "No se pudo agregar el vehiculo: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo agregar el vehiculo: " + a.getMessage(), a);
         } finally {
             em.close();
         }
     }
 
-    /**
-     *
-     * @param vehiculo
-     * @return
-     * @throws PersistenciaException
-     */
     @Override
     public Vehiculo actualizarVehiculo(Vehiculo vehiculo) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             Vehiculo vehiculoActualizado = em.find(Vehiculo.class, vehiculo.getIdVehiculo());
+            if (vehiculoActualizado == null) {
+                JOptionPane.showMessageDialog(null, "El vehiculo no existe en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+                throw new PersistenciaException("El vehiculo no existe en la base de datos");
+            }
             vehiculoActualizado.setNumeroSerie(vehiculo.getNumeroSerie());
             vehiculoActualizado.setMarca(vehiculo.getMarca());
             vehiculoActualizado.setColor(vehiculo.getColor());
@@ -68,33 +65,25 @@ public class VehiculoDAO implements IVehiculoDAO {
             vehiculoActualizado.setLinea(vehiculo.getLinea());
             em.merge(vehiculoActualizado);
             em.getTransaction().commit();
+            JOptionPane.showMessageDialog(null, "Vehiculo actualizado con exito");
             return vehiculoActualizado;
-        } catch (Exception b) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo actualizar el vehiculo: " + b.getMessage(), b);
+            JOptionPane.showMessageDialog(null, "No se pudo actualizar a el vehiculo: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo actualizar el vehiculo: " + a.getMessage(), a);
         } finally {
             em.close();
         }
     }
 
-    /**
-     * 
-     * @param vehiculo
-     * @return
-     * @throws PersistenciaException 
-     */
     @Override
     public Vehiculo eliminarVehiculo(Vehiculo vehiculo) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    /**
-     * 
-     * @return
-     * @throws PersistenciaException 
-     */
     @Override
     public List<Vehiculo> consultarVehiculos() throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -103,22 +92,18 @@ public class VehiculoDAO implements IVehiculoDAO {
             List<Vehiculo> vehiculos = query.getResultList();
             em.getTransaction().commit();
             return vehiculos;
-        } catch (Exception e) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("Error al consultar los vehiculos en la base de datos: " + e.getMessage(), e);
+            JOptionPane.showMessageDialog(null, "Error al consultar los vehiculos en la base de datos: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("Error al consultar los vehiculos en la base de datos: " + a.getMessage(), a);
         } finally {
             em.close();
         }
     }
 
-    /**
-     * 
-     * @param placa
-     * @return
-     * @throws PersistenciaException 
-     */
     @Override
     public List<Vehiculo> consultarVehiculo(Placa placa) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
             CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -131,9 +116,10 @@ public class VehiculoDAO implements IVehiculoDAO {
             List<Vehiculo> vehiculos = query.getResultList();
             em.getTransaction().commit();
             return vehiculos;
-        } catch (Exception e) {
+        } catch (Exception a) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo generar la busqueda de vehiculos: " + e.getMessage(), e);
+            JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de vehiculos: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo generar la busqueda de vehiculos: " + a.getMessage(), a);
         } finally {
             em.close();
         }
