@@ -122,7 +122,7 @@ public class LicenciaDAO implements ILicenciaDAO {
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery<Licencia> criteria = builder.createQuery(Licencia.class);
             Root<Licencia> root = criteria.from(Licencia.class);
-            Predicate predicate = builder.equal(root.get("persona").get("id"), persona.getIdPersona());
+            Predicate predicate = builder.equal(root.get("persona").get("idPersona"), persona.getIdPersona());
             criteria.select(builder.treat(root, Licencia.class)).where(predicate);
             TypedQuery<Licencia> query = em.createQuery(criteria);
             List<Licencia> licencias = query.getResultList();

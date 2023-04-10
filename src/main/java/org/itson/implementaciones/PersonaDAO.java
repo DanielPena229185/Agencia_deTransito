@@ -36,7 +36,7 @@ public class PersonaDAO implements IPersonaDAO {
             em.getTransaction().begin();
             em.persist(persona);
             em.getTransaction().commit();
-            JOptionPane.showMessageDialog(null, "Persona guardada con exito");
+            System.out.println("Persona guardada con exito");
             return persona;
         } catch (Exception a) {
             em.getTransaction().rollback();

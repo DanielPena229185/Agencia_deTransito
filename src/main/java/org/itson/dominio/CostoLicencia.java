@@ -16,7 +16,7 @@ import javax.persistence.Entity;
  * @author Daniel Armando Peña Garcia ID:229185
  */
 @Entity
-@DiscriminatorValue(value = "costo_licencia")
+@DiscriminatorValue(value = "licencia")
 public class CostoLicencia extends Costo implements Serializable {
 
     @Column(name = "vigencia", nullable = true)

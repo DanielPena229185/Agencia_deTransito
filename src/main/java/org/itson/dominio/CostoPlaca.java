@@ -18,12 +18,12 @@ import javax.persistence.Enumerated;
  * @author Daniel Armando Peña Garcia ID:229185
  */
 @Entity
-@DiscriminatorValue(value = "costo_placa")
+@DiscriminatorValue(value = "placa")
 public class CostoPlaca extends Costo implements Serializable {
 
-    @Column(name = "tipo", nullable = true)
+    @Column(name = "estado", nullable = true)
     @Enumerated(EnumType.STRING)
-    private TipoVehiculo tipo;
+    private TipoVehiculo estado;
 
     public CostoPlaca() {
         super();
@@ -31,20 +31,20 @@ public class CostoPlaca extends Costo implements Serializable {
 
     public CostoPlaca(TipoVehiculo tipo, Long id, double costoNormal) {
         super(id, costoNormal);
-        this.tipo = tipo;
+        this.estado = tipo;
     }
 
     public CostoPlaca(TipoVehiculo tipo, double costoNormal) {
         super(costoNormal);
-        this.tipo = tipo;
+        this.estado = tipo;
     }
 
     public TipoVehiculo getTipo() {
-        return tipo;
+        return estado;
     }
 
     public void setTipo(TipoVehiculo tipo) {
-        this.tipo = tipo;
+        this.estado = tipo;
     }
 
 }

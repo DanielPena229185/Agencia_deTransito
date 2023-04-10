@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
  */
 public class PrincipalForm extends javax.swing.JFrame {
 
-
     /**
      * Creates new form PrincipalForm
      */
@@ -237,8 +236,8 @@ public class PrincipalForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSalirActionPerformed
-        int salir = JOptionPane.showConfirmDialog(this, "Â¿Segur(a) que desea salir\n"
-                + "del sistema?", "Â¡PrecauciÃ³n!", JOptionPane.YES_NO_OPTION);
+        int salir = JOptionPane.showConfirmDialog(this, "¿Segur(a) que desea salir\n"
+                + "del sistema?", "¡Precaucion!", JOptionPane.YES_NO_OPTION);
         if (salir == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
@@ -276,6 +275,7 @@ public class PrincipalForm extends javax.swing.JFrame {
 
     private void menuItemPlacasNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPlacasNuevaActionPerformed
         RegistrarVehiculoForm nuevoAuto = new RegistrarVehiculoForm();
+        this.dispose();
         nuevoAuto.setVisible(true);
     }//GEN-LAST:event_menuItemPlacasNuevaActionPerformed
 

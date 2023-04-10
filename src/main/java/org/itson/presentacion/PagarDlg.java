@@ -10,6 +10,7 @@ import org.itson.dominio.EstadoTramite;
 import org.itson.dominio.Licencia;
 import org.itson.dominio.Pago;
 import org.itson.dominio.Placa;
+import org.itson.dominio.Tramite;
 import org.itson.servicio.PagoServicio;
 import org.itson.servicio.LicenciaServicio;
 
@@ -20,7 +21,7 @@ import org.itson.servicio.LicenciaServicio;
  */
 public class PagarDlg extends javax.swing.JDialog {
 
-    private Licencia licencia;
+    private Tramite licencia;
     private Licencia licenciaAnterior;
     private String concepto;
     private PagoServicio PagoDAO;
@@ -33,10 +34,11 @@ public class PagarDlg extends javax.swing.JDialog {
     /**
      * En este constructor, recivimos trámites de licencia, para saber a qué
      * tipo de trámite se le va a pagar, en este caso es para una nueva licencia
+     *
      * @param parent
      * @param modal
      * @param licencia
-     * @param concepto 
+     * @param concepto
      */
     public PagarDlg(java.awt.Frame parent, boolean modal, Licencia licencia, String concepto) {
         super(parent, modal);
@@ -44,26 +46,27 @@ public class PagarDlg extends javax.swing.JDialog {
         this.PagoDAO = new PagoServicio();
         this.licencia = licencia;
         this.concepto = concepto;
-        this.llenarCamposTexto();
+        this.llenarCamposTextoLicencia();
     }
-    
+
     public PagarDlg(java.awt.Frame parent, boolean modal, Placa placa, String concepto) {
         super(parent, modal);
         initComponents();
         this.PagoDAO = new PagoServicio();
         this.placa = placa;
         this.concepto = concepto;
-        this.llenarCamposTexto();
+        this.llenarCamposTextoLicencia();
     }
 
     /**
      * En este constructor, recivimos trámites de licencia, para saber a qué
-     * tipo de trámite se le va a pagar, en este caso es para una trámitar otra 
+     * tipo de trámite se le va a pagar, en este caso es para una trámitar otra
      * licencia
+     *
      * @param parent
      * @param modal
      * @param licencia
-     * @param licenciaAnterior 
+     * @param licenciaAnterior
      */
     public PagarDlg(java.awt.Frame parent, boolean modal, Licencia licencia, Licencia licenciaAnterior, String concepto) {
         super(parent, modal);
@@ -73,42 +76,48 @@ public class PagarDlg extends javax.swing.JDialog {
         this.licencia = licencia;
         this.concepto = concepto;
         this.licenciaAnterior = licenciaAnterior;
-        this.llenarCamposTexto();
+        this.llenarCamposTextoLicencia();
     }
-    
-    public PagarDlg(java.awt.Frame parent, boolean modal, Placa placa ,Placa placaAnterior, String concepto) {
+
+    public PagarDlg(java.awt.Frame parent, boolean modal, Placa placa, Placa placaAnterior, String concepto) {
         super(parent, modal);
         initComponents();
         this.PagoDAO = new PagoServicio();
         this.placa = placa;
         this.placaAnterior = placaAnterior;
         this.concepto = concepto;
-        this.llenarCamposTexto();
+        this.llenarCamposTextoLicencia();
     }
 
     public PagarDlg(Placa placa, Placa placaAnterior, Frame owner, boolean modal, String concepto) {
         super(owner, modal);
         initComponents();
         this.placa = placa;
+        this.PagoDAO = new PagoServicio();
         this.placaAnterior = placaAnterior;
         this.concepto = concepto;
     }
-    
+
     public PagarDlg(Placa placa, Frame owner, boolean modal, String concepto) {
         super(owner, modal);
         initComponents();
+        this.PagoDAO = new PagoServicio();
         this.placa = placa;
         this.concepto = concepto;
+        this.llenarCamposTextoPlaca();
     }
-    
-    
 
     public void agregarPago() {
-        pago = new Pago(licencia.getPrecio(), Calendar.getInstance(), this.txtConcepto.getText(), licencia);
-        if (licenciaAnterior != null) {
-            licenciaAnterior.setEstado(EstadoTramite.INACTIVO);
-            licenciaDAO.actualizarLicencia(licenciaAnterior);
+        if (licencia != null) {
+            pago = new Pago(licencia.getPrecio(), Calendar.getInstance(), this.txtConcepto.getText(), licencia);
+            if (licenciaAnterior != null) {
+                licenciaAnterior.setEstado(EstadoTramite.INACTIVO);
+                licenciaDAO.actualizarLicencia(licenciaAnterior);
+            }
+        } else {
+            pago = new Pago(placa.getPrecio(), Calendar.getInstance(), this.txtConcepto.getText(), placa);
         }
+
         // JOptionPane.showMessageDialog(null, pago.toString());
         PagoDAO.agregarPago(pago);
     }
@@ -249,8 +258,14 @@ public class PagarDlg extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnCobroActionPerformed
 
-    private void llenarCamposTexto(){
+    private void llenarCamposTextoLicencia() {
         String monto = String.valueOf(licencia.getPrecio());
+        this.txtMonto.setText(monto);
+        this.txtConcepto.setText(concepto);
+    }
+
+    private void llenarCamposTextoPlaca() {
+        String monto = String.valueOf(placa.getPrecio());
         this.txtMonto.setText(monto);
         this.txtConcepto.setText(concepto);
     }
@@ -258,7 +273,7 @@ public class PagarDlg extends javax.swing.JDialog {
     public boolean isSalir() {
         return salir;
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCobro;
     private javax.swing.JLabel jLabel1;

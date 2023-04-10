@@ -60,7 +60,6 @@ public class PersonaServicio {
 
     public Persona consultarPersona(Persona persona) throws IllegalArgumentException {
         try {
-            this.validarDatos(persona);
             return personaDAO.buscarPersona(persona);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("No se puede realizar la busqueda: " + e.getMessage());

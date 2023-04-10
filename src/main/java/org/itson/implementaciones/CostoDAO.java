@@ -5,6 +5,7 @@
 package org.itson.implementaciones;
 //importanciones
 
+import com.mysql.cj.Session;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -101,15 +102,13 @@ public class CostoDAO implements ICostoDAO {
         EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
+
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery<CostoPlaca> criteria = builder.createQuery(CostoPlaca.class);
             Root<CostoPlaca> root = criteria.from(CostoPlaca.class);
-            criteria.select(root).where(
-                    builder.equal(root.get("tipo"), TipoVehiculo.NUEVO)
-            );
+            criteria.where(builder.equal(root.get("estado"), TipoVehiculo.NUEVO));
             TypedQuery<CostoPlaca> query = em.createQuery(criteria);
             List<CostoPlaca> listaPlacas = query.getResultList();
-            em.getTransaction().commit();
             return listaPlacas;
         } catch (Exception e) {
             em.getTransaction().rollback();

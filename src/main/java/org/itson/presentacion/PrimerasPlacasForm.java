@@ -9,7 +9,10 @@ import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.itson.dominio.CostoPlaca;
+import org.itson.dominio.Costo;
+import org.itson.dominio.EstadoTramite;
 import org.itson.dominio.Persona;
+import org.itson.dominio.Placa;
 import org.itson.dominio.Vehiculo;
 import org.itson.servicio.CostoServicio;
 import org.itson.utils.GeneradorPlacas;
@@ -25,6 +28,7 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
     private Vehiculo vehiculoUsado;
     private CostoServicio costoDAO = new CostoServicio();
     private SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+    private Placa placaNueva;
 
     /**
      * Creates new form AsignarPlacasDlg
@@ -147,6 +151,11 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         txtPrecio.setForeground(new java.awt.Color(0, 0, 0));
         txtPrecio.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtPrecio.setEnabled(false);
+        txtPrecio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPrecioActionPerformed(evt);
+            }
+        });
 
         lblDatosPlaca.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblDatosPlaca.setForeground(new java.awt.Color(0, 0, 0));
@@ -344,17 +353,15 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
                                         .addGap(48, 48, 48)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(38, 38, 38)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(lblSimboloPesos)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(38, 38, 38)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(formatoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(btnGenerarDatosPlacas))))
+                                            .addComponent(formatoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnGenerarDatosPlacas))
                                         .addGap(0, 3, Short.MAX_VALUE))
                                     .addComponent(btnBuscarCliente, javax.swing.GroupLayout.Alignment.TRAILING)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -435,10 +442,11 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -485,14 +493,23 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         if (this.validarCamposTexto()) {
             PagarDlg cobrar;
             String concepto;
-            if (this.vehiculoUsado != null) {
+          //  if (this.vehiculoUsado != null) {
                 concepto = "Nuevas Placas";
+                placaNueva = new Placa(this.formatoPlacas.getText(),
+                        null, vehiculo, EstadoTramite.ACTIVO,
+                        Float.valueOf(this.txtPrecio.getText()), Calendar.getInstance(),
+                        null, persona);
+                cobrar = new PagarDlg(placaNueva, this, true, concepto);
+                cobrar.setVisible(true);
+         //   } else {
                 //cobrar = new PagarDlg(this, true, null, null, concepto);
-            }else{
-                //cobrar = new PagarDlg(this, true, null, null, concepto);
-            }
+          //  }
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void txtPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrecioActionPerformed
 
     private String conseguirPlacaNueva() {
         GeneradorPlacas placas = new GeneradorPlacas();
@@ -537,7 +554,7 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
     private Double costoDeTramite() {
         List<CostoPlaca> costos = obtenerCostoTramite();
 
-        for (CostoPlaca costo : costos) {
+        for (Costo costo : costos) {
             return costo.getCostoNormal();
         }
         return null;
@@ -547,8 +564,8 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         return costoDAO.consultarCostoPlacaNueva();
     }
 
-    private void validarPlacasAnteriores(){
-        
+    private void validarPlacasAnteriores() {
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

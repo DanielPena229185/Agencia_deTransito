@@ -173,6 +173,11 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         txtBuscar.setBackground(new java.awt.Color(255, 255, 255));
         txtBuscar.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtBuscar.setForeground(new java.awt.Color(0, 0, 0));
+        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarActionPerformed(evt);
+            }
+        });
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtBuscarKeyTyped(evt);
@@ -233,12 +238,11 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
 
     private void cargarTablaPersonas() {
 
-        List<Persona> listaLotesProveedor = personaDAO.consultarPersonas();
+        List<Persona> listaLotesPersonas = personaDAO.consultarPersonas();
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblPersonas.getModel();
         //Limpia tabla anterior
         modeloTabla.setRowCount(0);
-        listaLotesProveedor.forEach(persona -> {
-
+        listaLotesPersonas.forEach(persona -> {
             Object[] fila = {
                 persona.getIdPersona(),
                 persona.getNombres(),
@@ -260,14 +264,12 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         } else if (this.cbxFiltro.getSelectedItem().toString() == "Año de Nacimiento") {
             filtro = "fechaNacimiento";
         }
-
         //Generar tabla
-        List<Persona> listaLotesProveedor = personaDAO.consultarPersonas(filtro, this.txtBuscar.getText());
+        List<Persona> listaLotesProveedor = personaDAO.consultarPersonasFiltro(filtro, this.txtBuscar.getText());
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblPersonas.getModel();
         //Limpia tabla anterior
         modeloTabla.setRowCount(0);
         listaLotesProveedor.forEach(persona -> {
-
             Object[] fila = {
                 persona.getIdPersona(),
                 persona.getNombres(),
@@ -276,7 +278,6 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                 formatoFecha.format(persona.getFechaNacimiento().getTime())
             };
             modeloTabla.addRow(fila);
-
         });
     }
 
@@ -292,7 +293,9 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         int seleccionar = tblPersonas.rowAtPoint(evt.getPoint());
         String idString = String.valueOf(tblPersonas.getValueAt(seleccionar, 0));
         Long idLong = Long.valueOf(idString);
-        this.persona = personaDAO.consultarPersona(idLong);
+        Persona personaSeleccionada = new Persona();
+        personaSeleccionada.setIdPersona(idLong);
+        this.persona = personaDAO.consultarPersona(personaSeleccionada);
     }//GEN-LAST:event_tblPersonasMouseClicked
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -318,7 +321,9 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         int seleccionar = tblPersonas.rowAtPoint(evt.getPoint());
         String idString = String.valueOf(tblPersonas.getValueAt(seleccionar, 0));
         Long idLong = Long.valueOf(idString);
-        this.persona = personaDAO.consultarPersona(idLong);
+        Persona personaSeleccionada = new Persona();
+        personaSeleccionada.setIdPersona(idLong);
+        this.persona = personaDAO.consultarPersona(personaSeleccionada);
     }//GEN-LAST:event_tblPersonasMousePressed
 
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
@@ -334,6 +339,10 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             this.setVisible(true);
         }
     }//GEN-LAST:event_formComponentHidden
+
+    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarActionPerformed
 
     /**
      * Método que regresa el cliente que encontró

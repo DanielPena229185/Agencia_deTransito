@@ -144,6 +144,11 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         }
         formatNumeroSerie.setToolTipText("");
         formatNumeroSerie.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        formatNumeroSerie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                formatNumeroSerieActionPerformed(evt);
+            }
+        });
 
         formatModelo.setBackground(new java.awt.Color(255, 255, 255));
         formatModelo.setForeground(new java.awt.Color(0, 0, 0));
@@ -258,6 +263,10 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void formatNumeroSerieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formatNumeroSerieActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formatNumeroSerieActionPerformed
 
     private List<String> validarCamposTexto() {
         List<String> camposVacios = new ArrayList<>();
