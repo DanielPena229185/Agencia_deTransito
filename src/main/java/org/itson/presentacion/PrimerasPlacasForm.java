@@ -450,8 +450,22 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION);
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            // Si el usuario confirma la salida, puedes permitir que el marco se cierre
+            this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            regresarPantallaPrincipal();
+        } else {
+            // Si el usuario cancela la salida, evita que el marco se cierre
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        }
     }//GEN-LAST:event_formWindowClosing
+
+    private void regresarPantallaPrincipal() {
+        PrincipalForm principal = new PrincipalForm();
+        principal.setVisible(true);
+        dispose();
+    }
 
     private void llenarCamposTramite() {
         //Placas
@@ -493,17 +507,22 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         if (this.validarCamposTexto()) {
             PagarDlg cobrar;
             String concepto;
-          //  if (this.vehiculoUsado != null) {
-                concepto = "Nuevas Placas";
-                placaNueva = new Placa(this.formatoPlacas.getText(),
-                        null, vehiculo, EstadoTramite.ACTIVO,
-                        Float.valueOf(this.txtPrecio.getText()), Calendar.getInstance(),
-                        null, persona);
-                cobrar = new PagarDlg(placaNueva, this, true, concepto);
-                cobrar.setVisible(true);
-         //   } else {
-                //cobrar = new PagarDlg(this, true, null, null, concepto);
-          //  }
+            //  if (this.vehiculoUsado != null) {
+            concepto = "Nuevas Placas";
+            placaNueva = new Placa(this.formatoPlacas.getText(),
+                    null, vehiculo, EstadoTramite.ACTIVO,
+                    Float.valueOf(this.txtPrecio.getText()), Calendar.getInstance(),
+                    null, persona);
+            cobrar = new PagarDlg(placaNueva, this, true, concepto);
+            cobrar.setVisible(true);
+            if (cobrar.isSalir()) {
+                PrincipalForm principal = new PrincipalForm();
+                principal.setVisible(true);
+                dispose();
+            }
+            //   } else {
+            //cobrar = new PagarDlg(this, true, null, null, concepto);
+            //  }
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 

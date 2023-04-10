@@ -75,6 +75,22 @@ public class PlacaServicio {
         }
     }
 
+    public List<Object[]> consultarPlacasPersonas() throws IllegalArgumentException {
+        try {
+            return placaDAO.consultarPlacasPersonas();
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("No se pudo consultar las placas: " + e.getMessage());
+        }
+    }
+
+    public List<Object[]> consultarPlacasPersonasFiltro(String busqueda) throws IllegalArgumentException {
+        try {
+            return placaDAO.consultarPlacasPersonasFiltro(busqueda);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("No se pudo consultar las placas: " + e.getMessage());
+        }
+    }
+
     public void validarDatos(Placa placa) throws IllegalArgumentException {
         if (placa.getEstado() == null) {
             throw new IllegalArgumentException("El estado no puede ser nula");

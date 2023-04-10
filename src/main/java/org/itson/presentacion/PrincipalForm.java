@@ -174,6 +174,11 @@ public class PrincipalForm extends javax.swing.JFrame {
         menuTramitesPlacas.add(menuItemPlacasNueva);
 
         menuItemPlacasCambiar.setText("Cambiar");
+        menuItemPlacasCambiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemPlacasCambiarActionPerformed(evt);
+            }
+        });
         menuTramitesPlacas.add(menuItemPlacasCambiar);
 
         menuTramites.add(menuTramitesPlacas);
@@ -278,6 +283,13 @@ public class PrincipalForm extends javax.swing.JFrame {
         this.dispose();
         nuevoAuto.setVisible(true);
     }//GEN-LAST:event_menuItemPlacasNuevaActionPerformed
+
+    private void menuItemPlacasCambiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPlacasCambiarActionPerformed
+        // TODO add your handling code here:
+        BuscadorAutomovilesForm nuevoAuto = new BuscadorAutomovilesForm();
+        this.dispose();
+        nuevoAuto.setVisible(true);
+    }//GEN-LAST:event_menuItemPlacasCambiarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

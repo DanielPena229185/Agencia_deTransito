@@ -11,12 +11,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.swing.JOptionPane;
+import org.itson.dominio.EstadoTramite;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Placa;
 import org.itson.dominio.Tramite;
+import org.itson.dominio.Vehiculo;
 import org.itson.excepciones.PersistenciaException;
 import org.itson.interfaces.IPlacaDAO;
 
@@ -158,6 +161,74 @@ public class PlacaDAO implements IPlacaDAO {
             List<Placa> placas = query.getResultList();
             em.getTransaction().commit();
             return placas;
+        } catch (Exception a) {
+            em.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de placas: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo generar la busqueda de placas: " + a.getMessage(), a);
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Object[]> consultarPlacasPersonas() throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
+        try {
+            em.getTransaction().begin();
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Object[]> query = builder.createQuery(Object[].class);
+            // Root<Tramite> tramiteRoot = query.from(Tramite.class);
+            Root<Placa> placaRoot = query.from(Placa.class);
+            Join<Placa, Vehiculo> vehiculoJoin = placaRoot.join("vehiculo");
+            Join<Placa, Persona> personaJoin = placaRoot.join("persona");
+
+            query.multiselect(
+                    placaRoot.get("numeroPlaca"),
+                    placaRoot.get("estado"),
+                    vehiculoJoin.get("numeroSerie"),
+                    placaRoot.get("fechaExpedicion"),
+                    personaJoin.get("nombres"),
+                    personaJoin.get("telefono"))
+                    .where(builder.equal(placaRoot.get("estado"), EstadoTramite.ACTIVO));
+
+            List<Object[]> results = em.createQuery(query).getResultList();
+            return results;
+        } catch (Exception a) {
+            em.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de placas: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo generar la busqueda de placas: " + a.getMessage(), a);
+        } finally {
+            em.close();
+        }
+
+    }
+
+    @Override
+    public List<Object[]> consultarPlacasPersonasFiltro(String busqueda) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
+        try {
+            em.getTransaction().begin();
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Object[]> query = builder.createQuery(Object[].class);
+            // Root<Tramite> tramiteRoot = query.from(Tramite.class);
+            Root<Placa> placaRoot = query.from(Placa.class);
+            Join<Placa, Vehiculo> vehiculoJoin = placaRoot.join("vehiculo");
+            Join<Placa, Persona> personaJoin = placaRoot.join("persona");
+
+            query.multiselect(
+                    placaRoot.get("numeroPlaca"),
+                    placaRoot.get("estado"),
+                    vehiculoJoin.get("numeroSerie"),
+                    placaRoot.get("fechaExpedicion"),
+                    personaJoin.get("nombres"),
+                    personaJoin.get("telefono"))
+                    .where(
+                            builder.equal(placaRoot.get("estado"), EstadoTramite.ACTIVO),
+                            builder.like(placaRoot.get("numeroPlaca"), "%" + busqueda + "%")
+                    );
+
+            List<Object[]> results = em.createQuery(query).getResultList();
+            return results;
         } catch (Exception a) {
             em.getTransaction().rollback();
             JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de placas: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

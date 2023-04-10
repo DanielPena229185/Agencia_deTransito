@@ -18,7 +18,7 @@ import org.itson.dominio.Vehiculo;
 public class RegistrarVehiculoForm extends javax.swing.JFrame {
 
     private Vehiculo vehiculo;
-    
+
     /**
      * Creates new form RegistrarAutoForm
      */
@@ -61,6 +61,9 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -230,7 +233,7 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -268,6 +271,25 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_formatNumeroSerieActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION);
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            // Si el usuario confirma la salida, puedes permitir que el marco se cierre
+            this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            regresarPantallaPrincipal();
+        } else {
+            // Si el usuario cancela la salida, evita que el marco se cierre
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        }
+    }//GEN-LAST:event_formWindowClosing
+
+    private void regresarPantallaPrincipal() {
+        PrincipalForm principal = new PrincipalForm();
+        principal.setVisible(true);
+        dispose();
+    }
+
     private List<String> validarCamposTexto() {
         List<String> camposVacios = new ArrayList<>();
         if (txtColor.getText().isEmpty()) {
@@ -291,8 +313,8 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         }
         return camposVacios;
     }
-    
-    private void generarObjetoVehiculo(){
+
+    private void generarObjetoVehiculo() {
         String numeroSerie = this.formatNumeroSerie.getText();
         String marca = this.txtMarca.getText();
         String linea = this.txtLinea.getText();
