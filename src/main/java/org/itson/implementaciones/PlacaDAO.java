@@ -183,10 +183,13 @@ public class PlacaDAO implements IPlacaDAO {
             Join<Placa, Persona> personaJoin = placaRoot.join("persona");
 
             query.multiselect(
+                    placaRoot.get("idTramite"),
                     placaRoot.get("numeroPlaca"),
                     placaRoot.get("estado"),
+                    vehiculoJoin.get("idVehiculo"),
                     vehiculoJoin.get("numeroSerie"),
                     placaRoot.get("fechaExpedicion"),
+                    personaJoin.get("idPersona"),
                     personaJoin.get("nombres"),
                     personaJoin.get("telefono"))
                     .where(builder.equal(placaRoot.get("estado"), EstadoTramite.ACTIVO));
@@ -216,10 +219,13 @@ public class PlacaDAO implements IPlacaDAO {
             Join<Placa, Persona> personaJoin = placaRoot.join("persona");
 
             query.multiselect(
+                    placaRoot.get("idTramite"),
                     placaRoot.get("numeroPlaca"),
                     placaRoot.get("estado"),
+                    vehiculoJoin.get("idVehiculo"),
                     vehiculoJoin.get("numeroSerie"),
                     placaRoot.get("fechaExpedicion"),
+                    personaJoin.get("idPersona"),
                     personaJoin.get("nombres"),
                     personaJoin.get("telefono"))
                     .where(
@@ -233,6 +239,23 @@ public class PlacaDAO implements IPlacaDAO {
             em.getTransaction().rollback();
             JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de placas: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             throw new PersistenciaException("No se pudo generar la busqueda de placas: " + a.getMessage(), a);
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public Placa consultarPlaca(Placa placa) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
+        try {
+            em.getTransaction().begin();
+            placa = em.find(Placa.class, placa.getIdTramite());
+            em.getTransaction().commit();
+            return placa;
+        } catch (Exception a) {
+            em.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, "Error al buscar la placa: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("Error al buscar la placa: " + a.getMessage(), a);
         } finally {
             em.close();
         }

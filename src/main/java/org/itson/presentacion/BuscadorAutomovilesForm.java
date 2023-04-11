@@ -8,10 +8,14 @@ package org.itson.presentacion;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.itson.dominio.Vehiculo;
 import org.itson.dominio.Persona;
+import org.itson.dominio.Placa;
 import org.itson.servicio.PlacaServicio;
+import org.itson.servicio.PersonaServicio;
+import org.itson.servicio.VehiculoServicio;
 
 /**
  * Descripción de la clase:
@@ -21,25 +25,35 @@ import org.itson.servicio.PlacaServicio;
 public class BuscadorAutomovilesForm extends javax.swing.JFrame {
 
     private PlacaServicio placaDAO;
+    private PersonaServicio personaDAO;
+    private VehiculoServicio vehiculoDAO;
     private SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+    private Persona persona;
+    private Placa placaAnterior;
+    private Vehiculo vehiculo;
 
     /**
      * Creates new form BuscadorAutomovilesForm
      */
     public BuscadorAutomovilesForm() {
         initComponents();
-        placaDAO = new PlacaServicio();
+        this.placaDAO = new PlacaServicio();
+        this.personaDAO = new PersonaServicio();
+        this.vehiculoDAO = new VehiculoServicio();
         this.cargarTablaVehiculo();
+        this.persona = new Persona();
+        this.placaAnterior = new Placa();
+        this.vehiculo = new Vehiculo();
     }
 
     public void cargarTablaVehiculo() {
         //List<Object[]> listaLotesPersonas = placaDAO.consultarPlacasPersonas();
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblVehiculos.getModel();
         for (Object[] resultados : placaDAO.consultarPlacasPersonas()) {
-            Calendar calendar = (Calendar) resultados[3];
+            Calendar calendar = (Calendar) resultados[5];
             Date fecha = calendar.getTime();
             String fechaFormat = formatoFecha.format(fecha);
-            resultados[3] = fechaFormat;
+            resultados[5] = fechaFormat;
             modeloTabla.addRow(resultados);
         }
     }
@@ -56,10 +70,10 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
 //            busqueda = this.txtPlacas.getText();
 //        }
         for (Object[] resultados : placaDAO.consultarPlacasPersonasFiltro(this.txtPlacas.getText().trim())) {
-            Calendar calendar = (Calendar) resultados[3];
+            Calendar calendar = (Calendar) resultados[5];
             Date fecha = calendar.getTime();
             String fechaFormat = formatoFecha.format(fecha);
-            resultados[3] = fechaFormat;
+            resultados[5] = fechaFormat;
             modeloTabla.addRow(resultados);
         }
     }
@@ -115,15 +129,20 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Placas", "Estado", "Número de Serie", "Fecha de Excepción", "Nombre", "Teléfono"
+                "ID Placa", "Placas", "Estado", "ID Vehiculo", "Número de Serie", "Fecha de Excepción", "ID Persona", "Nombre", "Teléfono"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, true, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblVehiculos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblVehiculosMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblVehiculos);
@@ -142,6 +161,11 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("Aceptar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         txtPlacas.setBackground(new java.awt.Color(255, 255, 255));
         txtPlacas.setForeground(new java.awt.Color(0, 0, 0));
@@ -171,7 +195,7 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
                         .addComponent(txtPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton2))
                 .addGap(93, 93, 93)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -210,6 +234,38 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         this.buscarPlacas();
     }//GEN-LAST:event_txtPlacasKeyTyped
 
+    private void tblVehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVehiculosMouseClicked
+        // TODO add your handling code here:
+        int seleccionar = tblVehiculos.rowAtPoint(evt.getPoint());
+        String idString = String.valueOf(tblVehiculos.getValueAt(seleccionar, 6));
+        Long idLong = Long.valueOf(idString);
+        Persona personaSeleccionada = new Persona();
+        personaSeleccionada.setIdPersona(idLong);
+        this.persona = personaDAO.consultarPersona(personaSeleccionada);
+        // JOptionPane.showMessageDialog(null, persona.toString());
+
+        idString = String.valueOf(tblVehiculos.getValueAt(seleccionar, 0));
+        idLong = Long.valueOf(idString);
+        Placa placaSeleccionada = new Placa();
+        placaSeleccionada.setIdTramite(idLong);
+        this.placaAnterior = placaDAO.consultarPlaca(placaSeleccionada);
+        // JOptionPane.showMessageDialog(null, placaAnterior.toString());
+
+        idString = String.valueOf(tblVehiculos.getValueAt(seleccionar, 3));
+        idLong = Long.valueOf(idString);
+        Vehiculo vehiculoSeleccionado = new Vehiculo();
+        vehiculoSeleccionado.setIdVehiculo(idLong);
+        this.vehiculo = vehiculoDAO.consultarVehiculo(vehiculoSeleccionado);
+        // JOptionPane.showMessageDialog(null, vehiculo.toString());
+    }//GEN-LAST:event_tblVehiculosMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+
+        ActualizarPlacasForm actualizarPlacas = new ActualizarPlacasForm(persona, vehiculo, placaAnterior);
+        this.dispose();
+        actualizarPlacas.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;

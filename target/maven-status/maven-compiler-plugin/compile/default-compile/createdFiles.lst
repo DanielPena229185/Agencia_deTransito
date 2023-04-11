@@ -1,6 +1,7 @@
 org\itson\dominio\Tramite_.class
 org\itson\implementaciones\PersonaDAO.class
 org\itson\implementaciones\TramiteDAO.class
+org\itson\presentacion\ActualizarPlacasForm$2.class
 org\itson\dominio\CostoPlaca_.class
 org\itson\presentacion\PrincipalForm$6.class
 org\itson\dominio\CostoLicencia_.class
@@ -9,6 +10,7 @@ org\itson\presentacion\PrincipalForm$3.class
 org\itson\utils\GeneradorPlacas.class
 org\itson\dominio\TipoVehiculo.class
 org\itson\dominio\Placa_.class
+org\itson\presentacion\BuscadorAutomovilesForm$4.class
 org\itson\dominio\Placa.class
 org\itson\servicio\PersonaServicio.class
 org\itson\dominio\Pago.class
@@ -31,7 +33,6 @@ org\itson\presentacion\PrincipalForm$1.class
 org\itson\presentacion\PrimerasPlacasForm$4.class
 org\itson\presentacion\TramiteLicenciaForm$4.class
 org\itson\presentacion\AyudaDlg$2.class
-org\itson\implementaciones\VehiculoDAO.class
 org\itson\presentacion\BuscadorClientesForm$2.class
 org\itson\interfaces\ITramiteDAO.class
 org\itson\presentacion\PagarDlg$1.class
@@ -53,7 +54,6 @@ org\itson\dominio\Persona.class
 org\itson\implementaciones\CostoDAO.class
 org\itson\servicio\TramitesServicio.class
 org\itson\presentacion\PrimerasPlacasForm.class
-org\itson\interfaces\IVehiculoDAO.class
 org\itson\presentacion\ConsultaForm.class
 org\itson\presentacion\BuscadorClientesForm$7.class
 org\itson\dominio\Automovil_.class
@@ -76,6 +76,7 @@ org\itson\implementaciones\ConexionBD.class
 org\itson\presentacion\BuscadorClientesForm$1.class
 org\itson\presentacion\PagarDlg.class
 org\itson\dominio\CostoLicencia.class
+org\itson\presentacion\BuscadorAutomovilesForm$3.class
 org\itson\servicio\PlacaServicio.class
 org\itson\presentacion\BuscadorClientesForm.class
 org\itson\dominio\Vehiculo_.class

@@ -20,6 +20,7 @@ public interface IVehiculoDAO {
     public Vehiculo agregarVehiculo(Vehiculo vehiculo)throws PersistenciaException;
     public Vehiculo actualizarVehiculo(Vehiculo vehiculo)throws PersistenciaException;
     public Vehiculo eliminarVehiculo(Vehiculo vehiculo)throws PersistenciaException;
+    public Vehiculo consultarVehiculo(Vehiculo vehiculo)throws PersistenciaException;
     public List<Vehiculo> consultarVehiculos()throws PersistenciaException;
     public List<Vehiculo> consultarVehiculo(Placa placa)throws PersistenciaException;
 }

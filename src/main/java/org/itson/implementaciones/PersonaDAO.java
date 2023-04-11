@@ -130,12 +130,13 @@ public class PersonaDAO implements IPersonaDAO {
             em.getTransaction().begin();
             persona = em.find(Persona.class, persona.getIdPersona());
             em.getTransaction().commit();
+            return persona;
         } catch (Exception a) {
             em.getTransaction().rollback();
             JOptionPane.showMessageDialog(null, "Error al buscar a la persona: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             throw new PersistenciaException("Error al buscar a la persona: " + a.getMessage(), a);
+        } finally {
+            em.close();
         }
-        return persona;
     }
-
 }

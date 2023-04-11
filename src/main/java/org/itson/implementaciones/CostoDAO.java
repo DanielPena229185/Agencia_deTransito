@@ -113,11 +113,29 @@ public class CostoDAO implements ICostoDAO {
         } catch (Exception e) {
             em.getTransaction().rollback();
             throw new PersistenciaException("Error al conseguir los costos: " + e.getMessage(), e);
+        } finally {
+            em.close();
         }
     }
 
     @Override
     public List<CostoPlaca> consultarCostoPlacaUsado() throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        EntityManager em = conexion.getConexion();
+        try {
+            em.getTransaction().begin();
+
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<CostoPlaca> criteria = builder.createQuery(CostoPlaca.class);
+            Root<CostoPlaca> root = criteria.from(CostoPlaca.class);
+            criteria.where(builder.equal(root.get("estado"), TipoVehiculo.USADO));
+            TypedQuery<CostoPlaca> query = em.createQuery(criteria);
+            List<CostoPlaca> listaPlacas = query.getResultList();
+            return listaPlacas;
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("Error al conseguir los costos: " + e.getMessage(), e);
+        } finally {
+            em.close();
+        }
     }
 }

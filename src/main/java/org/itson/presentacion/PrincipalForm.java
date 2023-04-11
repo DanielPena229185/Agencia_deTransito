@@ -286,9 +286,11 @@ public class PrincipalForm extends javax.swing.JFrame {
 
     private void menuItemPlacasCambiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPlacasCambiarActionPerformed
         // TODO add your handling code here:
-        BuscadorAutomovilesForm nuevoAuto = new BuscadorAutomovilesForm();
+        BuscadorAutomovilesForm buscarAutomovil = new BuscadorAutomovilesForm();
+        // ActualizarPlacasForm actualizarPlaca = new ActualizarPlacasForm();
         this.dispose();
-        nuevoAuto.setVisible(true);
+        // actualizarPlaca.setVisible(true);
+        buscarAutomovil.setVisible(true);
     }//GEN-LAST:event_menuItemPlacasCambiarActionPerformed
 
 

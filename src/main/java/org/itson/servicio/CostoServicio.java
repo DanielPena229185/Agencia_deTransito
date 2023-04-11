@@ -41,10 +41,18 @@ public class CostoServicio {
             throw new IllegalArgumentException("No se puede consultar el costo: " + e.getMessage());
         }
     }
-    
-    public List<CostoPlaca> consultarCostoPlacaNueva()throws PersistenciaException{
+
+    public List<CostoPlaca> consultarCostoPlacaNueva() throws PersistenciaException {
         try {
             return costoDAO.consultarCostoPlacaNuevo();
+        } catch (Exception e) {
+            throw new PersistenciaException("No se puede consultar el costo: " + e.getMessage(), e);
+        }
+    }
+
+    public List<CostoPlaca> consultarCostoPlacaUsado() throws PersistenciaException {
+        try {
+            return costoDAO.consultarCostoPlacaUsado();
         } catch (Exception e) {
             throw new PersistenciaException("No se puede consultar el costo: " + e.getMessage(), e);
         }

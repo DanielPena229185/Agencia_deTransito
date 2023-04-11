@@ -124,4 +124,21 @@ public class VehiculoDAO implements IVehiculoDAO {
             em.close();
         }
     }
+
+    @Override
+    public Vehiculo consultarVehiculo(Vehiculo vehiculo) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
+        try {
+            em.getTransaction().begin();
+            vehiculo = em.find(Vehiculo.class, vehiculo.getIdVehiculo());
+            em.getTransaction().commit();
+            return vehiculo;
+        } catch (Exception a) {
+            em.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, "Error al buscar el vehiculo: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("Error al buscar el vehiculo: " + a.getMessage(), a);
+        } finally {
+            em.close();
+        }
+    }
 }

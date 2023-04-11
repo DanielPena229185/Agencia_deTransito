@@ -91,6 +91,14 @@ public class PlacaServicio {
         }
     }
 
+    public Placa consultarPlaca(Placa placa) throws IllegalArgumentException {
+        try {
+            return placaDAO.consultarPlaca(placa);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("No se pudo consultar la placa: " + e.getMessage());
+        }
+    }
+
     public void validarDatos(Placa placa) throws IllegalArgumentException {
         if (placa.getEstado() == null) {
             throw new IllegalArgumentException("El estado no puede ser nula");
