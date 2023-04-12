@@ -10,6 +10,7 @@ import java.util.List;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Licencia;
 import org.itson.excepciones.PersistenciaException;
+import org.itson.utils.ConfiguracionDePaginado;
 
 /**
  *
@@ -22,6 +23,7 @@ public interface ILicenciaDAO {
     public Licencia eliminarLicencia(Licencia licencia)throws PersistenciaException;
     public List<Licencia> consultarLicencias()throws PersistenciaException;
     public List<Licencia> consultarLicenciasPersona(Persona persona)throws PersistenciaException;
+    public List<Licencia> consultarLicenciasPersonaPaginado(Persona persona, ConfiguracionDePaginado paginado)throws PersistenciaException;
     public List<Licencia> consultarLicenciaPeriodo(Calendar desde, Calendar hasta, Persona persona)throws PersistenciaException;
     
 }

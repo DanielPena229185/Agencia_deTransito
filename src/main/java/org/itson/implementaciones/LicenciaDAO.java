@@ -19,6 +19,7 @@ import org.itson.dominio.Persona;
 import org.itson.dominio.Tramite;
 import org.itson.excepciones.PersistenciaException;
 import org.itson.interfaces.ILicenciaDAO;
+import org.itson.utils.ConfiguracionDePaginado;
 
 /**
  *
@@ -109,15 +110,6 @@ public class LicenciaDAO implements ILicenciaDAO {
     public List<Licencia> consultarLicenciasPersona(Persona persona) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
         try {
-//            em.getTransaction().begin();
-//            CriteriaBuilder builder = em.getCriteriaBuilder();
-//            CriteriaQuery<Licencia> criteria = builder.createQuery(Licencia.class);
-//            Root<Tramite> root = criteria.from(Tramite.class);
-//            criteria.where(
-//                    builder.equal(root.get("persona").get("idPersona"), persona.getIdPersona())
-//            );
-//            TypedQuery<Licencia> query = em.createQuery(criteria);
-//            List<Licencia> licencias = query.getResultList();
             em.getTransaction().begin();
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery<Licencia> criteria = builder.createQuery(Licencia.class);
@@ -159,6 +151,33 @@ public class LicenciaDAO implements ILicenciaDAO {
             em.getTransaction().rollback();
             JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de licencias: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             throw new PersistenciaException("No se pudo generar la busqueda de licencias: " + a.getMessage(), a);
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Licencia> consultarLicenciasPersonaPaginado(Persona persona, ConfiguracionDePaginado paginado) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
+        try {
+            em.getTransaction().begin();
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Licencia> criteria = builder.createQuery(Licencia.class);
+            Root<Licencia> root = criteria.from(Licencia.class);
+            Predicate predicate = builder.equal(root.get("persona").get("idPersona"), persona.getIdPersona());
+            criteria.select(builder.treat(root, Licencia.class)).where(predicate);
+            TypedQuery<Licencia> query = em.createQuery(criteria);
+            // calcular el número de resultados a saltar para llegar a la página deseada
+            int resultadosSaltados = (paginado.getNumPagina() - 1) * paginado.getElementosPorPagina();
+            query.setFirstResult(resultadosSaltados);
+            query.setMaxResults(paginado.getElementosPorPagina());
+            List<Licencia> licencias = query.getResultList();
+            em.getTransaction().commit();
+            return licencias;
+        } catch (Exception a) {
+            em.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de licencias: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo generar la busqueda de licencias: " + a.getLocalizedMessage());
         } finally {
             em.close();
         }

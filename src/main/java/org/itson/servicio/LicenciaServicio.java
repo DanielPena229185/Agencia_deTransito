@@ -13,6 +13,7 @@ import org.itson.excepciones.PersistenciaException;
 import org.itson.excepciones.ServicioException;
 import org.itson.implementaciones.DAOFactory;
 import org.itson.interfaces.ILicenciaDAO;
+import org.itson.utils.ConfiguracionDePaginado;
 
 /**
  *
@@ -83,6 +84,17 @@ public class LicenciaServicio {
             throw new PersistenciaException("Error al  consultar licencias por periodo " + ep.getMessage(), ep);
         } catch (ServicioException e) {
             throw new ServicioException("No se pudo consultar la licencia: " + e.getMessage());
+        }
+    }
+
+    public List<Licencia> consultarLicenciasPersonaPaginado(Persona persona, ConfiguracionDePaginado paginado) throws ServicioException {
+        try {
+            this.validarDatosPersona(persona);
+            return licenciaDAO.consultarLicenciasPersonaPaginado(persona, paginado);
+        } catch (PersistenciaException ep) {
+            throw new PersistenciaException("Error al consultar Licencias por Persona " + ep.getMessage(), ep);
+        } catch (ServicioException e) {
+            throw new ServicioException("No se pudo consultar licencias: " + e.getMessage());
         }
     }
 

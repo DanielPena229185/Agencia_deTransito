@@ -15,6 +15,7 @@ import org.itson.dominio.Persona;
 import org.itson.dominio.Placa;
 import org.itson.servicio.LicenciaServicio;
 import org.itson.servicio.PlacaServicio;
+import org.itson.utils.ConfiguracionDePaginado;
 
 /**
  *
@@ -26,6 +27,8 @@ public class ConsultaForm extends javax.swing.JFrame {
     private LicenciaServicio licenciaDAO;
     private PlacaServicio placaDAO;
     private SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+    private ConfiguracionDePaginado paginadoLicencia;
+    private ConfiguracionDePaginado paginadoPlaca;
 
     /**
      * Creates new form ConsultaForm
@@ -38,6 +41,8 @@ public class ConsultaForm extends javax.swing.JFrame {
         initComponents();
         this.licenciaDAO = new LicenciaServicio();
         this.placaDAO = new PlacaServicio();
+        this.paginadoLicencia = new ConfiguracionDePaginado(1, 5);
+        this.paginadoPlaca = new ConfiguracionDePaginado(1, 5);
         this.persona = persona;
         this.llenarCampos();
         this.cargarTablaLicencia();
@@ -53,7 +58,7 @@ public class ConsultaForm extends javax.swing.JFrame {
     }
 
     public void cargarTablaLicencia() {
-        List<Licencia> listaLicencia = licenciaDAO.consultarLicenciasPersona(persona);
+        List<Licencia> listaLicencia = licenciaDAO.consultarLicenciasPersonaPaginado(persona, paginadoLicencia);
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblLicencia.getModel();
         //Limpia tabla anterior
         modeloTabla.setRowCount(0);
@@ -70,7 +75,7 @@ public class ConsultaForm extends javax.swing.JFrame {
     }
 
     public void cargarTablaPlaca() {
-        List<Placa> listaPlaca = placaDAO.consultarPlacasPersona(persona);
+        List<Placa> listaPlaca = placaDAO.consultarPlacasPersona(persona, paginadoPlaca);
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblPlaca.getModel();
         //Limpia tabla anterior
         modeloTabla.setRowCount(0);
@@ -113,6 +118,10 @@ public class ConsultaForm extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         checkDiscapacidad = new javax.swing.JCheckBox();
+        btnRegresarLicencia = new javax.swing.JButton();
+        btnAvanzarLicencia = new javax.swing.JButton();
+        btnRetrocederPlaca = new javax.swing.JButton();
+        btnAvanzarPlaca = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -159,7 +168,11 @@ public class ConsultaForm extends javax.swing.JFrame {
 
         tblLicencia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
                 "Fecha de Expedición", "Estado", "Costo", "Fecha de Vigencia"
@@ -195,7 +208,11 @@ public class ConsultaForm extends javax.swing.JFrame {
 
         tblPlaca.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
                 "Fecha Expedición", "Estado", "Costo", "Fecha de Recepción", "Número"
@@ -248,6 +265,46 @@ public class ConsultaForm extends javax.swing.JFrame {
         checkDiscapacidad.setForeground(new java.awt.Color(0, 0, 0));
         checkDiscapacidad.setText("Discapacitado");
 
+        btnRegresarLicencia.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        btnRegresarLicencia.setText("<");
+        btnRegresarLicencia.setBorderPainted(false);
+        btnRegresarLicencia.setContentAreaFilled(false);
+        btnRegresarLicencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarLicenciaActionPerformed(evt);
+            }
+        });
+
+        btnAvanzarLicencia.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        btnAvanzarLicencia.setText(">");
+        btnAvanzarLicencia.setBorderPainted(false);
+        btnAvanzarLicencia.setContentAreaFilled(false);
+        btnAvanzarLicencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAvanzarLicenciaActionPerformed(evt);
+            }
+        });
+
+        btnRetrocederPlaca.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        btnRetrocederPlaca.setText("<");
+        btnRetrocederPlaca.setBorderPainted(false);
+        btnRetrocederPlaca.setContentAreaFilled(false);
+        btnRetrocederPlaca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRetrocederPlacaActionPerformed(evt);
+            }
+        });
+
+        btnAvanzarPlaca.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        btnAvanzarPlaca.setText(">");
+        btnAvanzarPlaca.setBorderPainted(false);
+        btnAvanzarPlaca.setContentAreaFilled(false);
+        btnAvanzarPlaca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAvanzarPlacaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -263,16 +320,22 @@ public class ConsultaForm extends javax.swing.JFrame {
                     .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
                     .addComponent(txtRfc))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
+                    .addComponent(jLabel5)
                     .addComponent(jLabel4)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(66, 66, 66)
+                    .addComponent(jScrollPane2))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(btnRegresarLicencia)
+                    .addComponent(btnAvanzarPlaca)
+                    .addComponent(btnRetrocederPlaca))
+                .addContainerGap(21, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(886, Short.MAX_VALUE)
+                    .addComponent(btnAvanzarLicencia)
+                    .addGap(23, 23, 23)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,10 +343,13 @@ public class ConsultaForm extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel4))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1)
-                            .addComponent(jLabel4))
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -297,20 +363,33 @@ public class ConsultaForm extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(checkDiscapacidad))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(104, 104, 104)
+                                .addComponent(btnRegresarLicencia)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(btnAvanzarPlaca)
+                        .addGap(28, 28, 28)
+                        .addComponent(btnRetrocederPlaca)))
+                .addGap(56, 56, 56))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(113, 113, 113)
+                    .addComponent(btnAvanzarLicencia)
+                    .addContainerGap(332, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,6 +420,30 @@ public class ConsultaForm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnAvanzarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvanzarLicenciaActionPerformed
+        // TODO add your handling code here:
+        paginadoLicencia.avanzarPagina();
+        this.cargarTablaLicencia();
+    }//GEN-LAST:event_btnAvanzarLicenciaActionPerformed
+
+    private void btnRegresarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarLicenciaActionPerformed
+        // TODO add your handling code here:
+        paginadoLicencia.retrocederPagina();
+        this.cargarTablaLicencia();
+    }//GEN-LAST:event_btnRegresarLicenciaActionPerformed
+
+    private void btnAvanzarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvanzarPlacaActionPerformed
+        // TODO add your handling code here:
+        paginadoPlaca.avanzarPagina();
+        this.cargarTablaPlaca();
+    }//GEN-LAST:event_btnAvanzarPlacaActionPerformed
+
+    private void btnRetrocederPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetrocederPlacaActionPerformed
+        // TODO add your handling code here:
+        paginadoPlaca.retrocederPagina();
+        this.cargarTablaPlaca();
+    }//GEN-LAST:event_btnRetrocederPlacaActionPerformed
+
     private void regresarPantallaPrincipal() {
         PrincipalForm principal = new PrincipalForm();
         principal.setVisible(true);
@@ -349,6 +452,10 @@ public class ConsultaForm extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAvanzarLicencia;
+    private javax.swing.JButton btnAvanzarPlaca;
+    private javax.swing.JButton btnRegresarLicencia;
+    private javax.swing.JButton btnRetrocederPlaca;
     private javax.swing.JCheckBox checkDiscapacidad;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

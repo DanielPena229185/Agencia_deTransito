@@ -14,6 +14,7 @@ import org.itson.excepciones.PersistenciaException;
 import org.itson.excepciones.ServicioException;
 import org.itson.implementaciones.DAOFactory;
 import org.itson.interfaces.IPlacaDAO;
+import org.itson.utils.ConfiguracionDePaginado;
 
 /**
  *
@@ -31,7 +32,7 @@ public class PlacaServicio {
         try {
             this.validarDatos(placa);
             return placaDAO.agregarPlaca(placa);
-        } catch (PersistenciaException pe){
+        } catch (PersistenciaException pe) {
             throw new PersistenciaException("Error al agregar las placas: " + pe.getMessage(), pe);
         } catch (ServicioException e) {
             throw new ServicioException("No se puede agregar la placa: " + e.getMessage());
@@ -42,7 +43,7 @@ public class PlacaServicio {
         try {
             this.validarDatos(placa);
             return placaDAO.actualizarPlaca(placa);
-        } catch (PersistenciaException pe){
+        } catch (PersistenciaException pe) {
             throw new PersistenciaException("Error al actualizar las placas: " + pe.getMessage(), pe);
         } catch (ServicioException e) {
             throw new ServicioException("No se puede actualizar la placa: " + e.getMessage());
@@ -53,7 +54,7 @@ public class PlacaServicio {
     public List<Placa> consultarPlaca() throws ServicioException {
         try {
             return placaDAO.consultarPlaca();
-        } catch (PersistenciaException pe){
+        } catch (PersistenciaException pe) {
             throw new PersistenciaException("Error al consultar las placas: " + pe.getMessage(), pe);
         } catch (ServicioException e) {
             throw new ServicioException("No se pudo consultar las placas: " + e.getMessage());
@@ -64,7 +65,18 @@ public class PlacaServicio {
         try {
             this.validarDatosPersona(persona);
             return placaDAO.consultarPlacasPersona(persona);
-        } catch (PersistenciaException pe){
+        } catch (PersistenciaException pe) {
+            throw new PersistenciaException("Error al consultar placas por Persona: " + pe.getMessage(), pe);
+        } catch (ServicioException e) {
+            throw new ServicioException("No se pudo consultar las placas: " + e.getMessage());
+        }
+    }
+
+    public List<Placa> consultarPlacasPersona(Persona persona, ConfiguracionDePaginado paginado) throws ServicioException {
+        try {
+            this.validarDatosPersona(persona);
+            return placaDAO.consultarPlacasPersonaPaginado(persona, paginado);
+        } catch (PersistenciaException pe) {
             throw new PersistenciaException("Error al consultar placas por Persona: " + pe.getMessage(), pe);
         } catch (ServicioException e) {
             throw new ServicioException("No se pudo consultar las placas: " + e.getMessage());
@@ -76,7 +88,7 @@ public class PlacaServicio {
             this.validarFechas(desde, hasta);
             this.validarDatosPersona(persona);
             return placaDAO.consultarPlacasPeriodo(desde, hasta, persona);
-        } catch (PersistenciaException pe){
+        } catch (PersistenciaException pe) {
             throw new PersistenciaException("Error al consultar placas por periodo: " + pe.getMessage(), pe);
         } catch (ServicioException e) {
             throw new ServicioException("No se pudo consultar el tramite: " + e.getMessage());
@@ -86,7 +98,7 @@ public class PlacaServicio {
     public List<Object[]> consultarPlacasPersonas() throws ServicioException {
         try {
             return placaDAO.consultarPlacasPersonas();
-        } catch (PersistenciaException pe){
+        } catch (PersistenciaException pe) {
             throw new PersistenciaException("Error al consultar placas: " + pe.getMessage(), pe);
         } catch (ServicioException e) {
             throw new ServicioException("No se pudo consultar las placas: " + e.getMessage());
@@ -96,7 +108,7 @@ public class PlacaServicio {
     public List<Object[]> consultarPlacasPersonasFiltro(String busqueda) throws ServicioException {
         try {
             return placaDAO.consultarPlacasPersonasFiltro(busqueda);
-        } catch (PersistenciaException pe){
+        } catch (PersistenciaException pe) {
             throw new PersistenciaException("Error al consultar las placas: " + pe.getMessage(), pe);
         } catch (ServicioException e) {
             throw new ServicioException("No se pudo consultar las placas: " + e.getMessage());
@@ -106,17 +118,17 @@ public class PlacaServicio {
     public Placa consultarPlaca(Placa placa) throws ServicioException {
         try {
             return placaDAO.consultarPlaca(placa);
-        } catch (PersistenciaException pe){
+        } catch (PersistenciaException pe) {
             throw new PersistenciaException("Error al consultar la placa: " + pe.getMessage(), pe);
         } catch (ServicioException e) {
             throw new ServicioException("No se pudo consultar la placa: " + e.getMessage());
         }
     }
-    
-    public Placa consultarPlacaVehiculo(Vehiculo vehiculo)throws ServicioException{
+
+    public Placa consultarPlacaVehiculo(Vehiculo vehiculo) throws ServicioException {
         try {
             return placaDAO.consultarPlacasVehiculo(vehiculo);
-        } catch (PersistenciaException pe){
+        } catch (PersistenciaException pe) {
             throw new PersistenciaException("Error al consultar placa por vehiculo: " + pe.getMessage(), pe);
         } catch (ServicioException e) {
             throw new ServicioException("No se pudo consultar la placa: " + e.getMessage());
@@ -176,13 +188,13 @@ public class PlacaServicio {
             throw new ServicioException("El numero telefonico de la persona no debe exceder los 100 caracteres");
         }
     }
-    
-    private void validarFechas(Calendar desde, Calendar hasta)throws ServicioException{
+
+    private void validarFechas(Calendar desde, Calendar hasta) throws ServicioException {
         if (desde == null) {
-                throw new ServicioException("La fecha desde no pueden ser nulas");
-            }
-            if (hasta == null) {
-                throw new ServicioException("La fecha hasta no pueden ser nulas");
-            }
+            throw new ServicioException("La fecha desde no pueden ser nulas");
+        }
+        if (hasta == null) {
+            throw new ServicioException("La fecha hasta no pueden ser nulas");
+        }
     }
 }

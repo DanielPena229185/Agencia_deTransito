@@ -11,6 +11,7 @@ import org.itson.dominio.Persona;
 import org.itson.dominio.Placa;
 import org.itson.dominio.Vehiculo;
 import org.itson.excepciones.PersistenciaException;
+import org.itson.utils.ConfiguracionDePaginado;
 
 /**
  *
@@ -25,6 +26,7 @@ public interface IPlacaDAO {
     public Placa consultarPlacasVehiculo(Vehiculo vehiculo)throws PersistenciaException;
     public List<Placa> consultarPlaca()throws PersistenciaException;
     public List<Placa> consultarPlacasPersona(Persona persona)throws PersistenciaException;
+    public List<Placa> consultarPlacasPersonaPaginado(Persona persona, ConfiguracionDePaginado paginado)throws PersistenciaException;
     public List<Placa> consultarPlacasPeriodo(Calendar desde, Calendar hasta, Persona persona)throws PersistenciaException;
     public List<Object[]> consultarPlacasPersonas()throws PersistenciaException;
     public List<Object[]> consultarPlacasPersonasFiltro(String busqueda)throws PersistenciaException;

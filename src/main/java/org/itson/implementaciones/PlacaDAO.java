@@ -16,12 +16,14 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.swing.JOptionPane;
 import org.itson.dominio.EstadoTramite;
+import org.itson.dominio.Licencia;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Placa;
 import org.itson.dominio.Tramite;
 import org.itson.dominio.Vehiculo;
 import org.itson.excepciones.PersistenciaException;
 import org.itson.interfaces.IPlacaDAO;
+import org.itson.utils.ConfiguracionDePaginado;
 
 /**
  *
@@ -284,6 +286,33 @@ public class PlacaDAO implements IPlacaDAO {
             em.getTransaction().rollback();
             JOptionPane.showMessageDialog(null, "Error al buscar la placa: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             throw new PersistenciaException("Error al buscar la placa: " + a.getMessage(), a);
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Placa> consultarPlacasPersonaPaginado(Persona persona, ConfiguracionDePaginado paginado) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
+        try {
+            em.getTransaction().begin();
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Placa> criteria = builder.createQuery(Placa.class);
+            Root<Placa> root = criteria.from(Placa.class);
+            Predicate predicate = builder.equal(root.get("persona").get("idPersona"), persona.getIdPersona());
+            criteria.select(builder.treat(root, Placa.class)).where(predicate);
+            TypedQuery<Placa> query = em.createQuery(criteria);
+            // calcular el número de resultados a saltar para llegar a la página deseada
+            int resultadosSaltados = (paginado.getNumPagina() - 1) * paginado.getElementosPorPagina();
+            query.setFirstResult(resultadosSaltados);
+            query.setMaxResults(paginado.getElementosPorPagina());
+            List<Placa> placas = query.getResultList();
+            em.getTransaction().commit();
+            return placas;
+        } catch (Exception a) {
+            em.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de placas: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo generar la busqueda de plascas: " + a.getLocalizedMessage());
         } finally {
             em.close();
         }
