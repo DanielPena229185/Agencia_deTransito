@@ -66,6 +66,14 @@ public class VehiculoServicio {
             throw new IllegalArgumentException("No se puede realizar ña busqueda del vehiculo: " + e.getMessage());
         }
     }
+    
+    public Vehiculo consultarVehiculoNumeroSerie(Vehiculo vehiculo)throws IllegalArgumentException{
+        try {
+            return vehiculoDAO.consultarVehiculoNumeroSerie(vehiculo);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("No se puede realizar la busqueda del vehiculo: " + e.getMessage());
+        }
+    }
 
     public void validarDatos(Vehiculo vehiculo) {
         if (vehiculo.getNumeroSerie() == null || vehiculo.getNumeroSerie().trim().isEmpty()) {

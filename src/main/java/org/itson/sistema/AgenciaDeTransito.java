@@ -1,12 +1,6 @@
 package org.itson.sistema;
 
-import java.util.Calendar;
-import org.itson.dominio.Persona;
-import org.itson.implementaciones.ConexionBD;
-import org.itson.implementaciones.PersonaDAO;
-import org.itson.interfaces.IPersonaDAO;
 import org.itson.presentacion.PrincipalForm;
-import org.itson.servicio.PersonaServicio;
 
 /**
  *
@@ -19,6 +13,17 @@ public class AgenciaDeTransito {
 
         PrincipalForm principal = new PrincipalForm();
         principal.setVisible(true);
+
+//          VehiculoServicio servicioA = new VehiculoServicio();
+//          Vehiculo vehiculo = new Vehiculo();
+//          vehiculo.setNumeroSerie("ABC-123");
+//          Vehiculo v1 = servicioA.consultarVehiculoNumeroSerie(vehiculo);
+//          PlacaServicio servicioB = new PlacaServicio();
+//          Pago pago = new Pago(Float.NaN, fechaHora, concepto, tramite);
+//          Placa nuevaPlaca = new Placa("ABC-123", null, v1, EstadoTramite.ACTIVO, 900F, Calendar.getInstance(), , persona)
+//          Placa placa = servicioB.consultarPlacaVehiculo(v1);
+//          System.out.println(placa.getNumeroPlaca());
+          
 
 //        ConexionBD conexion = new ConexionBD("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU");
 //        IPersonaDAO personas = new PersonaDAO(conexion);

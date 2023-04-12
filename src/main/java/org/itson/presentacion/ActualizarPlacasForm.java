@@ -10,11 +10,11 @@ import java.util.Calendar;
 import java.util.List;
 import org.itson.dominio.Costo;
 import org.itson.dominio.CostoPlaca;
+import org.itson.dominio.EstadoTramite;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Placa;
 import org.itson.dominio.Vehiculo;
 import org.itson.servicio.CostoServicio;
-import org.itson.presentacion.*;
 import org.itson.utils.GeneradorPlacas;
 
 /**
@@ -23,10 +23,11 @@ import org.itson.utils.GeneradorPlacas;
  * @author Daniel Armando Peña Garcia ID:229185
  */
 public class ActualizarPlacasForm extends javax.swing.JFrame {
-    
+
     private Persona persona;
     private Vehiculo vehiculo;
     private Placa placa;
+    private Placa placaAntigua;
     private SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     private CostoServicio costosDAO;
 
@@ -36,53 +37,63 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
     public ActualizarPlacasForm() {
         initComponents();
     }
-    
+
     public ActualizarPlacasForm(Vehiculo vehiculo) {
         initComponents();
         this.vehiculo = vehiculo;
     }
-    
-    public ActualizarPlacasForm(Persona persona, Vehiculo vehiculo, Placa placa) {
+
+    public ActualizarPlacasForm(Persona persona, Vehiculo vehiculo, Placa placaAntigua) {
         initComponents();
         this.costosDAO = new CostoServicio();
         this.persona = persona;
         this.vehiculo = vehiculo;
-        this.placa = placa;
+        this.placaAntigua = placaAntigua;
         this.llenarCamposPersona();
         this.llenarCamposVehiculo();
         this.llenarCamposPlaca();
         this.llenarCamposPlacaNueva();
     }
-    
+
+    public ActualizarPlacasForm(Vehiculo vehiculo, Placa placaAntigua) {
+        initComponents();
+        this.costosDAO = new CostoServicio();
+        this.vehiculo = vehiculo;
+        this.placaAntigua = placaAntigua;
+        this.llenarCamposVehiculo();
+        this.llenarCamposPlaca();
+        this.llenarCamposPlacaNueva();
+    }
+
     public void llenarCamposPersona() {
         this.txtNombre.setText(this.persona.getNombreCompleto());
         this.txtRfc.setText(this.persona.getRfc());
         this.txtTelefono.setText(this.persona.getTelefono());
     }
-    
+
     public void llenarCamposVehiculo() {
         this.txtNumeroSerie.setText(this.vehiculo.getNumeroSerie());
         this.txtMarca.setText(this.vehiculo.getMarca());
         this.txtLinea.setText(this.vehiculo.getLinea());
         this.txtModelo.setText(this.vehiculo.getModelo());
     }
-    
+
     public void llenarCamposPlaca() {
-        this.txtPlacas.setText(this.placa.getNumeroPlaca());
-        Calendar fechaPlaca = this.placa.getFechaExpedicion();
+        this.txtPlacas.setText(this.placaAntigua.getNumeroPlaca());
+        Calendar fechaPlaca = this.placaAntigua.getFechaExpedicion();
         this.txtFechaExpedicion.setText(formatoFecha.format(fechaPlaca.getTime()));
     }
-    
+
     public void llenarCamposPlacaNueva() {
         GeneradorPlacas placaNueva = new GeneradorPlacas();
         this.txtPlacasNuevas.setText(placaNueva.generarPlaca());
         this.txtFecha.setText(formatoFecha.format(Calendar.getInstance().getTime()));
         this.txtPrecio.setText(String.valueOf(this.costoDeTramite()));
     }
-    
+
     private Double costoDeTramite() {
         List<CostoPlaca> costos = costosDAO.consultarCostoPlacaUsado();
-        
+
         for (Costo costo : costos) {
             return costo.getCostoNormal();
         }
@@ -123,7 +134,6 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         txtPrecio = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         lblSimboloPesos = new javax.swing.JLabel();
-        btnBuscarVehiculo = new javax.swing.JButton();
         lblDatosCliente = new javax.swing.JLabel();
         btnBuscarCliente = new javax.swing.JButton();
         lblNombre = new javax.swing.JLabel();
@@ -154,6 +164,7 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         txtNumeroSerie.setBackground(new java.awt.Color(255, 255, 255));
         txtNumeroSerie.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtNumeroSerie.setForeground(new java.awt.Color(0, 0, 0));
+        txtNumeroSerie.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtNumeroSerie.setEnabled(false);
         txtNumeroSerie.setFocusable(false);
 
@@ -164,6 +175,7 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         txtMarca.setBackground(new java.awt.Color(255, 255, 255));
         txtMarca.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtMarca.setForeground(new java.awt.Color(0, 0, 0));
+        txtMarca.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtMarca.setEnabled(false);
 
         lblLinea.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -173,6 +185,7 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         txtLinea.setBackground(new java.awt.Color(255, 255, 255));
         txtLinea.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtLinea.setForeground(new java.awt.Color(0, 0, 0));
+        txtLinea.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtLinea.setEnabled(false);
 
         lblModelo.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -182,6 +195,7 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         txtModelo.setBackground(new java.awt.Color(255, 255, 255));
         txtModelo.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtModelo.setForeground(new java.awt.Color(0, 0, 0));
+        txtModelo.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtModelo.setEnabled(false);
 
         lblPlacasAntiguas.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -195,6 +209,7 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         txtPlacas.setBackground(new java.awt.Color(255, 255, 255));
         txtPlacas.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtPlacas.setForeground(new java.awt.Color(0, 0, 0));
+        txtPlacas.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtPlacas.setEnabled(false);
         txtPlacas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -209,6 +224,7 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         txtFechaExpedicion.setBackground(new java.awt.Color(255, 255, 255));
         txtFechaExpedicion.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtFechaExpedicion.setForeground(new java.awt.Color(0, 0, 0));
+        txtFechaExpedicion.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtFechaExpedicion.setEnabled(false);
 
         lblPlacasNuevas.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -222,6 +238,7 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         txtPlacasNuevas.setBackground(new java.awt.Color(255, 255, 255));
         txtPlacasNuevas.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtPlacasNuevas.setForeground(new java.awt.Color(0, 0, 0));
+        txtPlacasNuevas.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtPlacasNuevas.setEnabled(false);
 
         lblFecha.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -231,6 +248,7 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         txtFecha.setBackground(new java.awt.Color(255, 255, 255));
         txtFecha.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtFecha.setForeground(new java.awt.Color(0, 0, 0));
+        txtFecha.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtFecha.setEnabled(false);
 
         lblPrecio.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -240,21 +258,22 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         txtPrecio.setBackground(new java.awt.Color(255, 255, 255));
         txtPrecio.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtPrecio.setForeground(new java.awt.Color(0, 0, 0));
+        txtPrecio.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtPrecio.setEnabled(false);
 
         btnAceptar.setBackground(new java.awt.Color(255, 255, 255));
         btnAceptar.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         btnAceptar.setForeground(new java.awt.Color(0, 0, 0));
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         lblSimboloPesos.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblSimboloPesos.setForeground(new java.awt.Color(0, 0, 0));
         lblSimboloPesos.setText("$");
-
-        btnBuscarVehiculo.setBackground(new java.awt.Color(255, 255, 255));
-        btnBuscarVehiculo.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        btnBuscarVehiculo.setForeground(new java.awt.Color(0, 0, 0));
-        btnBuscarVehiculo.setText("Buscar Vehiculo");
 
         lblDatosCliente.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblDatosCliente.setForeground(new java.awt.Color(0, 0, 0));
@@ -375,8 +394,7 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblDatosVehiculo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBuscarVehiculo))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblDatosCliente)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -414,10 +432,8 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblTelefono)
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBuscarVehiculo)
-                    .addComponent(lblDatosVehiculo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(lblDatosVehiculo)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -484,18 +500,32 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPlacasActionPerformed
 
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
-        // TODO add your handling code here:
-
+        BuscadorClientesForm buscar = new BuscadorClientesForm(this, vehiculo, placaAntigua);
+        buscar.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
-    
-    private void llenarCamposActualizarVehiculo() {
-        
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        crearObjetoPlaca();
+        PagarDlg pagar = new PagarDlg(placa, placaAntigua, this, true, "Actualizar Placas");
+        pagar.setVisible(true);
+        if (pagar.isSalir()) {
+            PrincipalForm principal = new PrincipalForm();
+            principal.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void crearObjetoPlaca() {
+        this.placa = new Placa(this.txtPlacasNuevas.getText(),
+                null, vehiculo, EstadoTramite.ACTIVO,
+                Float.valueOf(this.txtPrecio.getText()), Calendar.getInstance(),
+                null, persona);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnBuscarCliente;
-    private javax.swing.JButton btnBuscarVehiculo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;

@@ -22,7 +22,7 @@ public class Placa extends Tramite implements Serializable {
 
     //Relaciones
     // Relacion vehiculo
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(/*cascade = {CascadeType.PERSIST}*/)
     @JoinColumn(name = "id_vehiculo", nullable = true)
     private Vehiculo vehiculo;
 

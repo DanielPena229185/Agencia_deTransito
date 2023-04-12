@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.List;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Placa;
+import org.itson.dominio.Vehiculo;
 import org.itson.excepciones.PersistenciaException;
 
 /**
@@ -21,6 +22,7 @@ public interface IPlacaDAO {
     public Placa actualizarPlaca(Placa placa)throws PersistenciaException;
     public Placa eliminarPlaca(Placa placa)throws PersistenciaException;
     public Placa consultarPlaca(Placa placa)throws PersistenciaException;
+    public Placa consultarPlacasVehiculo(Vehiculo vehiculo)throws PersistenciaException;
     public List<Placa> consultarPlaca()throws PersistenciaException;
     public List<Placa> consultarPlacasPersona(Persona persona)throws PersistenciaException;
     public List<Placa> consultarPlacasPeriodo(Calendar desde, Calendar hasta, Persona persona)throws PersistenciaException;

@@ -261,4 +261,31 @@ public class PlacaDAO implements IPlacaDAO {
         }
     }
 
+    @Override
+    public Placa consultarPlacasVehiculo(Vehiculo vehiculo) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
+        try {
+            em.getTransaction().begin();
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Placa> criteria = builder.createQuery(Placa.class);
+            Root<Placa> root = criteria.from(Placa.class);
+            criteria.select(root).where(
+                    builder.equal(root.get("vehiculo"), vehiculo)
+            );
+            criteria.orderBy(
+                    builder.desc(root.get("fechaExpedicion"))
+            );
+            TypedQuery<Placa> query = em.createQuery(criteria);
+            Placa placa = query.getSingleResult();
+            em.getTransaction().commit();
+            return placa;
+        } catch (Exception a) {
+            em.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, "Error al buscar la placa: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("Error al buscar la placa: " + a.getMessage(), a);
+        } finally {
+            em.close();
+        }
+    }
+
 }

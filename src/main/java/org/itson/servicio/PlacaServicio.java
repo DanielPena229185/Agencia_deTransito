@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.List;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Placa;
+import org.itson.dominio.Vehiculo;
 import org.itson.implementaciones.DAOFactory;
 import org.itson.interfaces.IPlacaDAO;
 
@@ -94,6 +95,14 @@ public class PlacaServicio {
     public Placa consultarPlaca(Placa placa) throws IllegalArgumentException {
         try {
             return placaDAO.consultarPlaca(placa);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("No se pudo consultar la placa: " + e.getMessage());
+        }
+    }
+    
+    public Placa consultarPlacaVehiculo(Vehiculo vehiculo)throws IllegalArgumentException{
+        try {
+            return placaDAO.consultarPlacasVehiculo(vehiculo);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("No se pudo consultar la placa: " + e.getMessage());
         }

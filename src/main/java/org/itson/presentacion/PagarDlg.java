@@ -11,8 +11,11 @@ import org.itson.dominio.Licencia;
 import org.itson.dominio.Pago;
 import org.itson.dominio.Placa;
 import org.itson.dominio.Tramite;
+import org.itson.dominio.Vehiculo;
 import org.itson.servicio.PagoServicio;
 import org.itson.servicio.LicenciaServicio;
+import org.itson.servicio.PlacaServicio;
+import org.itson.servicio.VehiculoServicio;
 
 /**
  * Descripción de la clase:
@@ -25,7 +28,9 @@ public class PagarDlg extends javax.swing.JDialog {
     private Licencia licenciaAnterior;
     private String concepto;
     private PagoServicio PagoDAO;
+    private VehiculoServicio vehiculoDAO = new VehiculoServicio();
     private LicenciaServicio licenciaDAO;
+    private PlacaServicio placaDAO = new PlacaServicio();
     private Pago pago;
     private Placa placa;
     private Placa placaAnterior;
@@ -96,6 +101,7 @@ public class PagarDlg extends javax.swing.JDialog {
         this.PagoDAO = new PagoServicio();
         this.placaAnterior = placaAnterior;
         this.concepto = concepto;
+        this.llenarCamposTextoPlaca();
     }
 
     public PagarDlg(Placa placa, Frame owner, boolean modal, String concepto) {
@@ -115,7 +121,16 @@ public class PagarDlg extends javax.swing.JDialog {
                 licenciaDAO.actualizarLicencia(licenciaAnterior);
             }
         } else {
-            pago = new Pago(placa.getPrecio(), Calendar.getInstance(), this.txtConcepto.getText(), placa);
+            if(placaAnterior == null){
+                Vehiculo vehiculo = placa.getVehiculo();
+                vehiculoDAO.agregarVehiculo(vehiculo);
+                pago = new Pago(placa.getPrecio(), Calendar.getInstance(), this.txtConcepto.getText(), placa);
+            }else{
+                placaAnterior.setEstado(EstadoTramite.INACTIVO);
+                placaAnterior.setFechaRecepcion(Calendar.getInstance());
+                placaDAO.actualizarPlaca(placaAnterior);
+                pago = new Pago(placa.getPrecio(), Calendar.getInstance(), this.txtConcepto.getText(), placa);
+            }
         }
 
         // JOptionPane.showMessageDialog(null, pago.toString());

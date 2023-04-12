@@ -141,4 +141,28 @@ public class VehiculoDAO implements IVehiculoDAO {
             em.close();
         }
     }
+
+    @Override
+    public Vehiculo consultarVehiculoNumeroSerie(Vehiculo vehiculo) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
+        try {
+            em.getTransaction().begin();
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Vehiculo> criteria = builder.createQuery(Vehiculo.class);
+            Root<Vehiculo> root = criteria.from(Vehiculo.class);
+            criteria.select(root).where(
+                    builder.equal(root.get("numeroSerie"), vehiculo.getNumeroSerie())
+            );
+            TypedQuery<Vehiculo> query = em.createQuery(criteria);
+            Vehiculo vehiculoEncontrado = query.getSingleResult();
+            em.getTransaction().commit();
+            return vehiculoEncontrado;
+        } catch (Exception a) {
+            em.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, "Error al buscar el vehiculo: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("Error al buscar el vehiculo: " + a.getMessage(), a);
+        } finally {
+            em.close();
+        }
+    }
 }

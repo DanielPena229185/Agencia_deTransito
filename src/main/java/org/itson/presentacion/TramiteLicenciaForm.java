@@ -41,10 +41,17 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
     }
 
     public TramiteLicenciaForm(Persona persona) {
+        this.persona = persona;
+        if(this.validarMayorDeEdad()){
         initComponents();
+        this.setVisible(true);
         costoDAO = new CostoServicio();
         licenciaDAO = new LicenciaServicio();
         validarLicenciaActiva(persona);
+        }else{
+            this.dispose();
+            new PrincipalForm().setVisible(true);
+        }
     }
 
     /**
@@ -505,7 +512,6 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
     private void validarLicenciaActiva(Persona persona) {
         List<Licencia> licencias = licenciaDAO.consultarLicenciasPersona(persona);
         if (licencias.isEmpty()) {
-            this.persona = persona;
             this.llenarCamposCliente();
             this.llenarCamposTramite();
         } else {
@@ -517,7 +523,6 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
                             JOptionPane.YES_NO_CANCEL_OPTION);
                     if (respuesta == JOptionPane.YES_OPTION) {
                         this.licenciaAnterior = licencia;
-                        this.persona = persona;
                         this.llenarCamposCliente();
                         this.llenarCamposTramite();
                         break;
@@ -565,6 +570,17 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
     public void setPersona(Persona persona){
         this.persona = persona;
         this.validarLicenciaActiva(persona);
+    }
+    
+    private boolean validarMayorDeEdad(){
+        if(this.persona.getEdad() < 18){
+            JOptionPane.showMessageDialog(this,
+                    "La persona: " 
+                            + this.persona.getNombres() +
+                            " No es mayor de edad", "No tiene permiso!", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

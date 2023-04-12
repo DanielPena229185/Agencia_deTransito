@@ -31,6 +31,7 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
     private Persona persona;
     private Placa placaAnterior;
     private Vehiculo vehiculo;
+    private boolean salir;
 
     /**
      * Creates new form BuscadorAutomovilesForm
@@ -47,7 +48,6 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
     }
 
     public void cargarTablaVehiculo() {
-        //List<Object[]> listaLotesPersonas = placaDAO.consultarPlacasPersonas();
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblVehiculos.getModel();
         for (Object[] resultados : placaDAO.consultarPlacasPersonas()) {
             Calendar calendar = (Calendar) resultados[5];
@@ -63,12 +63,6 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblVehiculos.getModel();
         //Limpia tabla anterior
         modeloTabla.setRowCount(0);
-//        String filtro = "numeroPlaca";
-//        String busqueda = "";
-//        if (this.txtPlacas.getText().trim() != "-") {
-//            filtro = "numeroPlaca";
-//            busqueda = this.txtPlacas.getText();
-//        }
         for (Object[] resultados : placaDAO.consultarPlacasPersonasFiltro(this.txtPlacas.getText().trim())) {
             Calendar calendar = (Calendar) resultados[5];
             Date fecha = calendar.getTime();
@@ -93,7 +87,7 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblVehiculos = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
+        btnAceptar = new javax.swing.JButton();
         txtPlacas = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -157,13 +151,13 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
             tblVehiculos.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        jButton2.setBackground(new java.awt.Color(255, 255, 255));
-        jButton2.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(0, 0, 0));
-        jButton2.setText("Aceptar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnAceptar.setBackground(new java.awt.Color(255, 255, 255));
+        btnAceptar.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        btnAceptar.setForeground(new java.awt.Color(0, 0, 0));
+        btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnAceptarActionPerformed(evt);
             }
         });
 
@@ -193,7 +187,7 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(3, 3, 3)
                         .addComponent(txtPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton2))
+                    .addComponent(btnAceptar))
                 .addGap(93, 93, 93)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE)
                 .addContainerGap())
@@ -209,7 +203,7 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(txtPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2))
+                        .addComponent(btnAceptar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(143, 143, 143))
         );
@@ -259,16 +253,15 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         // JOptionPane.showMessageDialog(null, vehiculo.toString());
     }//GEN-LAST:event_tblVehiculosMouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-
-        ActualizarPlacasForm actualizarPlacas = new ActualizarPlacasForm(persona, vehiculo, placaAnterior);
-        this.dispose();
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        ActualizarPlacasForm actualizarPlacas = new ActualizarPlacasForm(vehiculo, placaAnterior);
         actualizarPlacas.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnAceptar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

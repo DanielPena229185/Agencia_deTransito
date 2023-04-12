@@ -8,7 +8,10 @@ package org.itson.presentacion;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import org.itson.dominio.Placa;
 import org.itson.dominio.Vehiculo;
+import org.itson.servicio.PlacaServicio;
+import org.itson.servicio.VehiculoServicio;
 
 /**
  * DescripciÃ³n de la clase:
@@ -18,6 +21,10 @@ import org.itson.dominio.Vehiculo;
 public class RegistrarVehiculoForm extends javax.swing.JFrame {
 
     private Vehiculo vehiculo;
+    private Vehiculo vehiculoUsado;
+    private Placa placasAntiguas;
+    private VehiculoServicio vehiculoDAO = new VehiculoServicio();
+    private PlacaServicio placaDAO = new PlacaServicio();
 
     /**
      * Creates new form RegistrarAutoForm
@@ -260,10 +267,12 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         if (validarCamposTexto().isEmpty()) {
-            generarObjetoVehiculo();
-            PrimerasPlacasForm primerasPlacas = new PrimerasPlacasForm(vehiculo);
-            primerasPlacas.setVisible(true);
-            this.dispose();
+            if (validarAutoRegistrado()) {
+                generarObjetoVehiculo();
+                PrimerasPlacasForm primerasPlacas = new PrimerasPlacasForm(vehiculo);
+                primerasPlacas.setVisible(true);
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
@@ -321,6 +330,19 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         String modelo = this.formatModelo.getText();
         String color = this.txtColor.getText();
         this.vehiculo = new Vehiculo(numeroSerie, marca, color, modelo, linea);
+    }
+
+    private boolean validarAutoRegistrado() {
+        Vehiculo buscarVehiculo;
+        buscarVehiculo = vehiculoDAO.consultarVehiculoNumeroSerie(this.vehiculo);
+        if (buscarVehiculo == null) {
+            return false;
+        } else {
+            Placa buscarPlaca = placaDAO.consultarPlacaVehiculo(buscarVehiculo);
+            this.vehiculo = buscarVehiculo;
+            this.placasAntiguas = buscarPlaca;
+            return true;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
