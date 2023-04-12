@@ -16,6 +16,7 @@ import org.itson.dominio.Placa;
 import org.itson.servicio.PlacaServicio;
 import org.itson.servicio.PersonaServicio;
 import org.itson.servicio.VehiculoServicio;
+import org.itson.utils.ConfiguracionDePaginado;
 
 /**
  * Descripción de la clase:
@@ -32,6 +33,7 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
     private Placa placaAnterior;
     private Vehiculo vehiculo;
     private boolean salir;
+    private ConfiguracionDePaginado paginado = new ConfiguracionDePaginado(1, 20);
 
     /**
      * Creates new form BuscadorAutomovilesForm
@@ -41,7 +43,8 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         this.placaDAO = new PlacaServicio();
         this.personaDAO = new PersonaServicio();
         this.vehiculoDAO = new VehiculoServicio();
-        this.cargarTablaVehiculo();
+        // this.cargarTablaVehiculo();
+        this.buscarPlacas();
         this.persona = new Persona();
         this.placaAnterior = new Placa();
         this.vehiculo = new Vehiculo();
@@ -64,7 +67,7 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         //Limpia tabla anterior
         modeloTabla.setRowCount(0);
         System.out.println(this.txtPlacas.getText().trim());
-        for (Object[] resultados : placaDAO.consultarPlacasPersonasFiltro(this.txtPlacas.getText().trim())) {
+        for (Object[] resultados : placaDAO.consultarPlacasPersonasFiltroPaginado(this.txtPlacas.getText().trim(), paginado)) {
             Calendar calendar = (Calendar) resultados[5];
             Date fecha = calendar.getTime();
             String fechaFormat = formatoFecha.format(fecha);
@@ -90,6 +93,8 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         tblVehiculos = new javax.swing.JTable();
         btnAceptar = new javax.swing.JButton();
         txtPlacas = new javax.swing.JFormattedTextField();
+        btnAvanzar = new javax.swing.JButton();
+        btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -114,7 +119,7 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(916, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,6 +198,26 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
             }
         });
 
+        btnAvanzar.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        btnAvanzar.setText(">");
+        btnAvanzar.setBorderPainted(false);
+        btnAvanzar.setContentAreaFilled(false);
+        btnAvanzar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAvanzarActionPerformed(evt);
+            }
+        });
+
+        btnRegresar.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        btnRegresar.setText("<");
+        btnRegresar.setBorderPainted(false);
+        btnRegresar.setContentAreaFilled(false);
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -205,25 +230,37 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(3, 3, 3)
                         .addComponent(txtPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnAceptar))
-                .addGap(93, 93, 93)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE)
-                .addContainerGap())
+                    .addComponent(btnAceptar, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAvanzar)
+                    .addComponent(btnRegresar))
+                .addGap(30, 30, 30))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAceptar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(143, 143, 143))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(txtPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnAceptar)))
+                        .addGap(147, 147, 147))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(btnAvanzar)
+                        .addGap(168, 168, 168)
+                        .addComponent(btnRegresar)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -302,6 +339,18 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    private void btnAvanzarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvanzarActionPerformed
+        // TODO add your handling code here:
+        paginado.avanzarPagina();
+        this.buscarPlacas();
+    }//GEN-LAST:event_btnAvanzarActionPerformed
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        // TODO add your handling code here:
+        paginado.retrocederPagina();
+        this.buscarPlacas();
+    }//GEN-LAST:event_btnRegresarActionPerformed
+
     private void regresarPantallaPrincipal() {
         PrincipalForm principal = new PrincipalForm();
         principal.setVisible(true);
@@ -310,6 +359,8 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnAvanzar;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

@@ -47,7 +47,6 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         // this.cargarTablaPersonas();
         this.BuscarPersona();
-        this.txtBuscar.setText("");
     }
 
     /**
@@ -313,24 +312,24 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cargarTablaPersonas() {
-
-        List<Persona> listaLotesPersonas = personaDAO.consultarPersonasFiltroPaginado(null, null, paginadoCliente);
-        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblPersonas.getModel();
-        //Limpia tabla anterior
-        modeloTabla.setRowCount(0);
-        listaLotesPersonas.forEach(persona -> {
-            Object[] fila = {
-                persona.getIdPersona(),
-                persona.getNombres(),
-                persona.getApellido_paterno() + " " + persona.getApellido_materno(),
-                persona.getRfc(),
-                formatoFecha.format(persona.getFechaNacimiento().getTime())
-            };
-            modeloTabla.addRow(fila);
-
-        });
-    }
+//    private void cargarTablaPersonas() {
+//
+//        List<Persona> listaLotesPersonas = personaDAO.consultarPersonasFiltroPaginado(null, null, paginadoCliente);
+//        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblPersonas.getModel();
+//        //Limpia tabla anterior
+//        modeloTabla.setRowCount(0);
+//        listaLotesPersonas.forEach(persona -> {
+//            Object[] fila = {
+//                persona.getIdPersona(),
+//                persona.getNombres(),
+//                persona.getApellido_paterno() + " " + persona.getApellido_materno(),
+//                persona.getRfc(),
+//                formatoFecha.format(persona.getFechaNacimiento().getTime())
+//            };
+//            modeloTabla.addRow(fila);
+//
+//        });
+//    }
 
     public void BuscarPersona() {
         String filtro = null;

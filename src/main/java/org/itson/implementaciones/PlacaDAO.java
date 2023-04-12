@@ -318,4 +318,48 @@ public class PlacaDAO implements IPlacaDAO {
         }
     }
 
+    @Override
+    public List<Object[]> consultarPlacasPersonasFiltroPaginado(String busqueda, ConfiguracionDePaginado paginado) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
+        try {
+            em.getTransaction().begin();
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Object[]> query = builder.createQuery(Object[].class);
+            Root<Placa> placaRoot = query.from(Placa.class);
+            Join<Placa, Vehiculo> vehiculoJoin = placaRoot.join("vehiculo");
+            Join<Placa, Persona> personaJoin = placaRoot.join("persona");
+
+            query.multiselect(
+                    placaRoot.get("idTramite"),
+                    placaRoot.get("numeroPlaca"),
+                    placaRoot.get("estado"),
+                    vehiculoJoin.get("idVehiculo"),
+                    vehiculoJoin.get("numeroSerie"),
+                    placaRoot.get("fechaExpedicion"),
+                    personaJoin.get("idPersona"),
+                    personaJoin.get("nombres"),
+                    personaJoin.get("telefono"))
+                    .where(
+                            builder.equal(placaRoot.get("estado"), EstadoTramite.ACTIVO),
+                            builder.like(placaRoot.get("numeroPlaca"), "%" + busqueda + "%")
+                    );
+
+            TypedQuery<Object[]> typedQuery = em.createQuery(query);
+
+            int startPosition = (paginado.getNumPagina() - 1) * paginado.getElementosPorPagina();
+            typedQuery.setFirstResult(startPosition);
+            typedQuery.setMaxResults(paginado.getElementosPorPagina());
+
+            List<Object[]> resultados = typedQuery.getResultList();
+            em.getTransaction().commit();
+            return resultados;
+        } catch (Exception a) {
+            em.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de placas: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo generar la busqueda de placas: " + a.getMessage(), a);
+        } finally {
+            em.close();
+        }
+    }
+
 }

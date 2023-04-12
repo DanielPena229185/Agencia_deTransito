@@ -30,5 +30,6 @@ public interface IPlacaDAO {
     public List<Placa> consultarPlacasPeriodo(Calendar desde, Calendar hasta, Persona persona)throws PersistenciaException;
     public List<Object[]> consultarPlacasPersonas()throws PersistenciaException;
     public List<Object[]> consultarPlacasPersonasFiltro(String busqueda)throws PersistenciaException;
+    public List<Object[]> consultarPlacasPersonasFiltroPaginado(String busqueda, ConfiguracionDePaginado paginado)throws PersistenciaException;
     
 }

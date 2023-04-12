@@ -115,6 +115,16 @@ public class PlacaServicio {
         }
     }
 
+    public List<Object[]> consultarPlacasPersonasFiltroPaginado(String busqueda, ConfiguracionDePaginado paginado) throws ServicioException {
+        try {
+            return placaDAO.consultarPlacasPersonasFiltroPaginado(busqueda, paginado);
+        } catch (PersistenciaException pe) {
+            throw new PersistenciaException("Error al consultar las placas: " + pe.getMessage(), pe);
+        } catch (ServicioException e) {
+            throw new ServicioException("No se pudo consultar las placas: " + e.getMessage());
+        }
+    }
+
     public Placa consultarPlaca(Placa placa) throws ServicioException {
         try {
             return placaDAO.consultarPlaca(placa);

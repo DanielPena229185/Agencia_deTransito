@@ -1,6 +1,7 @@
 org\itson\dominio\Tramite_.class
 org\itson\presentacion\ConsultaForm$7.class
 org\itson\implementaciones\PersonaDAO.class
+org\itson\presentacion\BuscadorAutomovilesForm$7.class
 org\itson\implementaciones\TramiteDAO.class
 org\itson\presentacion\ActualizarPlacasForm$2.class
 org\itson\dominio\CostoPlaca_.class
@@ -113,6 +114,7 @@ org\itson\presentacion\PrincipalForm.class
 org\itson\presentacion\RegistrarVehiculoForm$1.class
 org\itson\presentacion\PrincipalForm$4.class
 org\itson\interfaces\IPlacaDAO.class
+org\itson\presentacion\BuscadorAutomovilesForm$8.class
 org\itson\presentacion\RegistrarVehiculoForm.class
 org\itson\presentacion\PrimerasPlacasForm$6.class
 org\itson\dominio\Automovil.class
