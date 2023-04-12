@@ -59,6 +59,7 @@ public class AyudaDlg extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Configuración");
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -172,18 +173,25 @@ public class AyudaDlg extends javax.swing.JDialog {
      * Ingresa respectivamente los costos
      */
     private void insertarCostos() {
-        Costo licencia1 = new CostoLicencia("1 año", 200, 600);
-        Costo licencia2 = new CostoLicencia("2 años", 500, 900);
-        Costo licencia3 = new CostoLicencia("3 años", 700, 1100);
-        costoDAO.agregarCosto(licencia1);
-        costoDAO.agregarCosto(licencia2);
-        costoDAO.agregarCosto(licencia3);
+        boolean validarCostos = costoDAO.consultarCostos().isEmpty();
+        if (validarCostos) {
+            Costo licencia1 = new CostoLicencia("1 año", 200, 600);
+            Costo licencia2 = new CostoLicencia("2 años", 500, 900);
+            Costo licencia3 = new CostoLicencia("3 años", 700, 1100);
+            costoDAO.agregarCosto(licencia1);
+            costoDAO.agregarCosto(licencia2);
+            costoDAO.agregarCosto(licencia3);
 
-        Costo placa1 = new CostoPlaca(TipoVehiculo.NUEVO, 1500);
-        Costo placa2 = new CostoPlaca(TipoVehiculo.USADO, 1000);
-        costoDAO.agregarCosto(placa1);
-        costoDAO.agregarCosto(placa2);
-        JOptionPane.showMessageDialog(null, "Registro masivo de costos exitoso");
+            Costo placa1 = new CostoPlaca(TipoVehiculo.NUEVO, 1500);
+            Costo placa2 = new CostoPlaca(TipoVehiculo.USADO, 1000);
+            costoDAO.agregarCosto(placa1);
+            costoDAO.agregarCosto(placa2);
+            JOptionPane.showMessageDialog(null, "Registro masivo de costos exitoso");
+        }else{
+            JOptionPane.showMessageDialog(this, "No se pueden ingresar "
+                    + "nuevamente los costos a la base de datos",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -310,12 +318,20 @@ public class AyudaDlg extends javax.swing.JDialog {
      * Inserta de manera masiva 20 personas a la base de datos
      */
     private void insertarPersonas() {
-        List<Persona> listaPersonas = asignarFechaNacimientoToPersona();
-        for (Persona persona : listaPersonas) {
-            personaDAO.agregarPersona(persona);
+        boolean validarPersonas = personaDAO.consultarPersonas().isEmpty();
+        if (validarPersonas) {
+            List<Persona> listaPersonas = asignarFechaNacimientoToPersona();
+            for (Persona persona : listaPersonas) {
+                personaDAO.agregarPersona(persona);
 
+            }
+            JOptionPane.showMessageDialog(null, "Registro masivo de personas exitoso");
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pueden ingresar "
+                    + "nuevamente las personas a la base de datos",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
-        JOptionPane.showMessageDialog(null, "Registro masivo de personas exitoso");
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

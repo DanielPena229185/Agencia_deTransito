@@ -63,6 +63,7 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblVehiculos.getModel();
         //Limpia tabla anterior
         modeloTabla.setRowCount(0);
+        System.out.println(this.txtPlacas.getText().trim());
         for (Object[] resultados : placaDAO.consultarPlacasPersonasFiltro(this.txtPlacas.getText().trim())) {
             Calendar calendar = (Calendar) resultados[5];
             Date fecha = calendar.getTime();
@@ -91,6 +92,7 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         txtPlacas = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -169,7 +171,18 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         txtPlacas.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        txtPlacas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPlacasActionPerformed(evt);
+            }
+        });
         txtPlacas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPlacasKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPlacasKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtPlacasKeyTyped(evt);
             }
@@ -258,6 +271,18 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         actualizarPlacas.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void txtPlacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPlacasActionPerformed
+        this.buscarPlacas();
+    }//GEN-LAST:event_txtPlacasActionPerformed
+
+    private void txtPlacasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPlacasKeyPressed
+        this.buscarPlacas();
+    }//GEN-LAST:event_txtPlacasKeyPressed
+
+    private void txtPlacasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPlacasKeyReleased
+        this.buscarPlacas();
+    }//GEN-LAST:event_txtPlacasKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -5,7 +5,6 @@
 package org.itson.implementaciones;
 //importanciones
 
-import com.mysql.cj.Session;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -63,7 +62,19 @@ public class CostoDAO implements ICostoDAO {
 
     @Override
     public List<Costo> consultarCostos() throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        EntityManager em = conexion.getConexion();
+        try {
+            em.getTransaction().begin();
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Costo> criteria = builder.createQuery(Costo.class);
+            TypedQuery<Costo> query = em.createQuery(criteria);
+            List<Costo> listaCostos = query.getResultList();
+            em.getTransaction().commit();
+            return listaCostos;
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("Error al conseguir los costos: " + e.getMessage(), e);
+        }
     }
 
     @Override

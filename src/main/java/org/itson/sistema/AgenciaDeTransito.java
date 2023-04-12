@@ -1,5 +1,6 @@
 package org.itson.sistema;
 
+import javax.swing.JOptionPane;
 import org.itson.presentacion.PrincipalForm;
 
 /**
@@ -13,6 +14,12 @@ public class AgenciaDeTransito {
 
         PrincipalForm principal = new PrincipalForm();
         principal.setVisible(true);
+        JOptionPane.showMessageDialog(null, "Necesita Ingresar a las personas\n"
+                + "Los pasos son: "
+                + "Ayuda>Configuración [Insertar Clientes]", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Necesita Ingresar a los costos\n"
+                + "Los pasos son: "
+                + "Ayuda>Configuración [Insertar Costos]", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 
 //          VehiculoServicio servicioA = new VehiculoServicio();
 //          Vehiculo vehiculo = new Vehiculo();
@@ -23,8 +30,6 @@ public class AgenciaDeTransito {
 //          Placa nuevaPlaca = new Placa("ABC-123", null, v1, EstadoTramite.ACTIVO, 900F, Calendar.getInstance(), , persona)
 //          Placa placa = servicioB.consultarPlacaVehiculo(v1);
 //          System.out.println(placa.getNumeroPlaca());
-          
-
 //        ConexionBD conexion = new ConexionBD("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU");
 //        IPersonaDAO personas = new PersonaDAO(conexion);
 //        entityManager.getTransaction().begin();

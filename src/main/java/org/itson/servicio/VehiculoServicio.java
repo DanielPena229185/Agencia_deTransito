@@ -67,7 +67,7 @@ public class VehiculoServicio {
         }
     }
     
-    public Vehiculo consultarVehiculoNumeroSerie(Vehiculo vehiculo)throws IllegalArgumentException{
+    public List<Vehiculo> consultarVehiculoNumeroSerie(Vehiculo vehiculo)throws IllegalArgumentException{
         try {
             return vehiculoDAO.consultarVehiculoNumeroSerie(vehiculo);
         } catch (IllegalArgumentException e) {

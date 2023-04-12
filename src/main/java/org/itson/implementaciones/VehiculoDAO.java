@@ -143,7 +143,7 @@ public class VehiculoDAO implements IVehiculoDAO {
     }
 
     @Override
-    public Vehiculo consultarVehiculoNumeroSerie(Vehiculo vehiculo) throws PersistenciaException {
+    public List<Vehiculo> consultarVehiculoNumeroSerie(Vehiculo vehiculo) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
@@ -154,7 +154,7 @@ public class VehiculoDAO implements IVehiculoDAO {
                     builder.equal(root.get("numeroSerie"), vehiculo.getNumeroSerie())
             );
             TypedQuery<Vehiculo> query = em.createQuery(criteria);
-            Vehiculo vehiculoEncontrado = query.getSingleResult();
+            List<Vehiculo> vehiculoEncontrado = query.getResultList();
             em.getTransaction().commit();
             return vehiculoEncontrado;
         } catch (Exception a) {

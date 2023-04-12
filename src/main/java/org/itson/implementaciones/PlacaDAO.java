@@ -276,6 +276,7 @@ public class PlacaDAO implements IPlacaDAO {
                     builder.desc(root.get("fechaExpedicion"))
             );
             TypedQuery<Placa> query = em.createQuery(criteria);
+            query.setMaxResults(1); // Limita el resultado a solo uno
             Placa placa = query.getSingleResult();
             em.getTransaction().commit();
             return placa;

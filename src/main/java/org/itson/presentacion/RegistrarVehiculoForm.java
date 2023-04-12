@@ -21,7 +21,6 @@ import org.itson.servicio.VehiculoServicio;
 public class RegistrarVehiculoForm extends javax.swing.JFrame {
 
     private Vehiculo vehiculo;
-    private Vehiculo vehiculoUsado;
     private Placa placasAntiguas;
     private VehiculoServicio vehiculoDAO = new VehiculoServicio();
     private PlacaServicio placaDAO = new PlacaServicio();
@@ -134,6 +133,11 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         txtColor.setBackground(new java.awt.Color(255, 255, 255));
         txtColor.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtColor.setForeground(new java.awt.Color(0, 0, 0));
+        txtColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtColorActionPerformed(evt);
+            }
+        });
 
         btnRegistrar.setBackground(new java.awt.Color(255, 255, 255));
         btnRegistrar.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -168,6 +172,16 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         formatModelo.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        formatModelo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                formatModeloActionPerformed(evt);
+            }
+        });
+        formatModelo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                formatModeloKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -267,11 +281,13 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         if (validarCamposTexto().isEmpty()) {
-            if (validarAutoRegistrado()) {
-                generarObjetoVehiculo();
+            if (!validarAutoRegistrado()) {
                 PrimerasPlacasForm primerasPlacas = new PrimerasPlacasForm(vehiculo);
                 primerasPlacas.setVisible(true);
                 this.dispose();
+            }else{
+                ActualizarPlacasForm actualizar = new ActualizarPlacasForm(vehiculo, placasAntiguas);
+                actualizar.setVisible(true);
             }
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
@@ -292,6 +308,22 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void formatModeloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formatModeloKeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c)) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Solo se permiten números", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_formatModeloKeyTyped
+
+    private void formatModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formatModeloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formatModeloActionPerformed
+
+    private void txtColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtColorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtColorActionPerformed
 
     private void regresarPantallaPrincipal() {
         PrincipalForm principal = new PrincipalForm();
@@ -333,14 +365,19 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
     }
 
     private boolean validarAutoRegistrado() {
-        Vehiculo buscarVehiculo;
+        this.generarObjetoVehiculo();
+        List<Vehiculo> buscarVehiculo;
         buscarVehiculo = vehiculoDAO.consultarVehiculoNumeroSerie(this.vehiculo);
-        if (buscarVehiculo == null) {
+        if (buscarVehiculo.isEmpty()) {
             return false;
         } else {
-            Placa buscarPlaca = placaDAO.consultarPlacaVehiculo(buscarVehiculo);
-            this.vehiculo = buscarVehiculo;
+            Placa buscarPlaca = placaDAO.consultarPlacaVehiculo(buscarVehiculo.get(0));
+            this.vehiculo = buscarVehiculo.get(0);
             this.placasAntiguas = buscarPlaca;
+            JOptionPane.showMessageDialog(this, "Ya hay un auto registrado "
+                    + "con placas activas\n"
+                    + " Procederemos a actualizar las placas", "Seguimiento",
+                    JOptionPane.WARNING_MESSAGE);
             return true;
         }
     }

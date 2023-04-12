@@ -10,6 +10,7 @@ import org.itson.dominio.Costo;
 import org.itson.dominio.CostoLicencia;
 import org.itson.dominio.CostoPlaca;
 import org.itson.excepciones.PersistenciaException;
+import org.itson.excepciones.ServicioException;
 import org.itson.implementaciones.DAOFactory;
 import org.itson.interfaces.ICostoDAO;
 
@@ -26,35 +27,43 @@ public class CostoServicio {
         this.costoDAO = new DAOFactory().getCostoDAO();
     }
 
-    public Costo agregarCosto(Costo costo) throws PersistenciaException {
+    public Costo agregarCosto(Costo costo) throws ServicioException {
         try {
             return costoDAO.agregarCosto(costo);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("No se puede agregar el costo: " + e.getMessage());
+        } catch (PersistenciaException e) {
+            throw new ServicioException("No se puede agregar el costo: " + e.getMessage());
+        }
+    }
+    
+    public List<Costo> consultarCostos(){
+        try {
+            return costoDAO.consultarCostos();
+        } catch (PersistenciaException e) {
+            throw new ServicioException("No se puede consultar los costos: " + e.getMessage());
         }
     }
 
-    public List<CostoLicencia> consultarCostoLicencias(String vigencia) throws PersistenciaException {
+    public List<CostoLicencia> consultarCostoLicencias(String vigencia) throws ServicioException {
         try {
             return costoDAO.consultarCostoLicencias(vigencia);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("No se puede consultar el costo: " + e.getMessage());
+        } catch (PersistenciaException e) {
+            throw new ServicioException("No se puede consultar el costo: " + e.getMessage());
         }
     }
 
-    public List<CostoPlaca> consultarCostoPlacaNueva() throws PersistenciaException {
+    public List<CostoPlaca> consultarCostoPlacaNueva() throws ServicioException {
         try {
             return costoDAO.consultarCostoPlacaNuevo();
-        } catch (Exception e) {
-            throw new PersistenciaException("No se puede consultar el costo: " + e.getMessage(), e);
+        } catch (PersistenciaException e) {
+            throw new ServicioException("No se puede consultar el costo: " + e.getMessage(), e);
         }
     }
 
-    public List<CostoPlaca> consultarCostoPlacaUsado() throws PersistenciaException {
+    public List<CostoPlaca> consultarCostoPlacaUsado() throws ServicioException {
         try {
             return costoDAO.consultarCostoPlacaUsado();
-        } catch (Exception e) {
-            throw new PersistenciaException("No se puede consultar el costo: " + e.getMessage(), e);
+        } catch (PersistenciaException e) {
+            throw new ServicioException("No se puede consultar el costo: " + e.getMessage(), e);
         }
     }
 }

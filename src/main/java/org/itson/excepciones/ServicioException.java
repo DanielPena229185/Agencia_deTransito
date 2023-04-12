@@ -10,12 +10,12 @@ package org.itson.excepciones;
  * 
  * @author Daniel Armando Peña Garcia ID:229185
  */
-public class ObjetoServicioExcepcion extends RuntimeException{
+public class ServicioException extends RuntimeException{
 
     /**
      * 
      */
-    public ObjetoServicioExcepcion(){
+    public ServicioException(){
         super();
     }
 
@@ -23,7 +23,7 @@ public class ObjetoServicioExcepcion extends RuntimeException{
      * 
      * @param message 
      */
-    public ObjetoServicioExcepcion(String message) {
+    public ServicioException(String message) {
         super(message);
     }
 
@@ -32,7 +32,7 @@ public class ObjetoServicioExcepcion extends RuntimeException{
      * @param msj
      * @param err
      */
-    public ObjetoServicioExcepcion(String msj, Throwable err){
+    public ServicioException(String msj, Throwable err){
         super(msj, err);
     }
 }

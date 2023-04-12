@@ -24,7 +24,7 @@ import org.itson.servicio.PersonaServicio;
  * @author Daniel Armando Peña Garcia ID:229185
  */
 public class BuscadorClientesForm extends javax.swing.JFrame {
-    
+
     private PersonaServicio personaDAO;
     private SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     private Persona persona;
@@ -56,7 +56,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         this.cargarTablaPersonas();
         this.tramiteLicencia = tramiteLicencia;
     }
-    
+
     public BuscadorClientesForm(PrimerasPlacasForm tramitePrimerasPlacas, Vehiculo vehiculo) {
         personaDAO = new PersonaServicio();
         initComponents();
@@ -65,7 +65,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         this.vehiculo = vehiculo;
         this.tramitePrimerasPlacas = tramitePrimerasPlacas;
     }
-    
+
     public BuscadorClientesForm(ActualizarPlacasForm actualizarPlacas, Vehiculo vehiculo, Placa placaAntigua) {
         personaDAO = new PersonaServicio();
         initComponents();
@@ -96,6 +96,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         txtBuscar = new javax.swing.JTextField();
 
         setTitle("Buscador de Cliente");
+        setResizable(false);
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentHidden(java.awt.event.ComponentEvent evt) {
                 formComponentHidden(evt);
@@ -254,7 +255,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cargarTablaPersonas() {
-        
+
         List<Persona> listaLotesPersonas = personaDAO.consultarPersonas();
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblPersonas.getModel();
         //Limpia tabla anterior
@@ -268,10 +269,10 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                 formatoFecha.format(persona.getFechaNacimiento().getTime())
             };
             modeloTabla.addRow(fila);
-            
+
         });
     }
-    
+
     public void BuscarPersona() {
         String filtro = null;
         if (this.cbxFiltro.getSelectedItem().toString() == "Nombre") {
@@ -322,14 +323,25 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                     "Error al seleccionar al cliente",
                     JOptionPane.ERROR_MESSAGE);
         }
-        
+
         if (this.tramiteLicencia != null) {
-            TramiteLicenciaForm tramite = new TramiteLicenciaForm(persona);
+            new TramiteLicenciaForm(persona);
             this.dispose();
         } else if (this.tramitePrimerasPlacas != null) {
-            PrimerasPlacasForm tramite = new PrimerasPlacasForm(persona, vehiculo);
-            tramite.setVisible(true);
-            this.dispose();
+            if (validarCredencialActiva()) {
+                PrimerasPlacasForm tramite = new PrimerasPlacasForm(persona, vehiculo);
+                tramite.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "La persona: "
+                        + this.persona.getNombres() + " no tiene una licencia"
+                        + " activa\n "
+                        + "Vuelve a intentarlo registrando una licencia",
+                        "Sin licencia",
+                        JOptionPane.WARNING_MESSAGE);
+                this.dispose();
+                new PrincipalForm().setVisible(true);
+            }
         } else if (this.actualizarPlacas != null) {
             if (validarCredencialActiva()) {
                 ActualizarPlacasForm actualizar = new ActualizarPlacasForm(persona, vehiculo, placaAntigua);
@@ -340,8 +352,8 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                         + this.persona.getNombres() + " no tiene una licencia"
                         + " activa", "Sin licencia",
                         JOptionPane.WARNING_MESSAGE);
-                this.dispose();
                 new PrincipalForm().setVisible(true);
+                this.dispose();
             }
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
@@ -372,7 +384,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarActionPerformed
-    
+
     private boolean validarCredencialActiva() {
         List<Licencia> licencias = licenciaDAO.consultarLicenciasPersona(this.persona);
         for (Licencia licencia : licencias) {
@@ -391,7 +403,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     public Persona getPersona() {
         return persona;
     }
-    
+
     public void setPersona(Persona persona) {
         this.persona = persona;
     }

@@ -70,6 +70,7 @@ public class PrincipalForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Principal");
+        setResizable(false);
 
         panelInicio.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -83,7 +84,7 @@ public class PrincipalForm extends javax.swing.JFrame {
         lblAgencia.setForeground(new java.awt.Color(255, 255, 255));
         lblAgencia.setText("Agencia de Tránsito");
 
-        lblFecha.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        lblFecha.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblFecha.setForeground(new java.awt.Color(255, 255, 255));
         lblFecha.setText("dd/mm/aaaa");
 
@@ -99,7 +100,7 @@ public class PrincipalForm extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblAgencia)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 362, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 332, Short.MAX_VALUE)
                         .addComponent(lblFecha)))
                 .addContainerGap())
         );
@@ -109,7 +110,7 @@ public class PrincipalForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lblItson)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAgencia)
                     .addComponent(lblFecha))
                 .addContainerGap(7, Short.MAX_VALUE))
@@ -187,7 +188,7 @@ public class PrincipalForm extends javax.swing.JFrame {
 
         menuConsulta.setText("Consulta");
 
-        menuItemConsultaTramites.setText("Tràmites");
+        menuItemConsultaTramites.setText("Trámite");
         menuItemConsultaTramites.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemConsultaTramitesActionPerformed(evt);
