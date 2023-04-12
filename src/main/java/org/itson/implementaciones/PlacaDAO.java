@@ -128,7 +128,7 @@ public class PlacaDAO implements IPlacaDAO {
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery<Placa> criteria = builder.createQuery(Placa.class);
             Root<Placa> root = criteria.from(Placa.class);
-            Predicate predicate = builder.equal(root.get("persona").get("id"), persona.getIdPersona());
+            Predicate predicate = builder.equal(root.get("persona").get("idPersona"), persona.getIdPersona());
             criteria.select(builder.treat(root, Placa.class)).where(predicate);
             TypedQuery<Placa> query = em.createQuery(criteria);
             List<Placa> placas = query.getResultList();

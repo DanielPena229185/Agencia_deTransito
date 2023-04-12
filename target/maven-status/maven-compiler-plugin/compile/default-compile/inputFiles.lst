@@ -27,12 +27,12 @@ C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\implementacione
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\presentacion\TramiteLicenciaForm.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\servicio\PagoServicio.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\interfaces\ICostoDAO.java
-C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\excepciones\ObjetoServicioExcepcion.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\implementaciones\VehiculoDAO.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\interfaces\IPersonaDAO.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\presentacion\PrimerasPlacasForm.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\presentacion\PagarDlg.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\excepciones\PersistenciaException.java
+C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\excepciones\ServicioException.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\implementaciones\LicenciaDAO.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\utils\ConfiguracionDePaginado.java
 C:\Users\HP\Documents\Agencia_deTransito\src\main\java\org\itson\dominio\CostoLicencia.java

@@ -4,17 +4,89 @@
  */
 package org.itson.presentacion;
 
+import java.text.SimpleDateFormat;
+import java.util.List;
+import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
+import javax.swing.table.DefaultTableModel;
+import org.itson.dominio.Licencia;
+import org.itson.dominio.Persona;
+import org.itson.dominio.Placa;
+import org.itson.servicio.LicenciaServicio;
+import org.itson.servicio.PlacaServicio;
+
 /**
  *
  * @author Dapgp
  */
 public class ConsultaForm extends javax.swing.JFrame {
 
+    private Persona persona;
+    private LicenciaServicio licenciaDAO;
+    private PlacaServicio placaDAO;
+    private SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+
     /**
      * Creates new form ConsultaForm
      */
     public ConsultaForm() {
         initComponents();
+    }
+
+    public ConsultaForm(Persona persona) {
+        initComponents();
+        this.licenciaDAO = new LicenciaServicio();
+        this.placaDAO = new PlacaServicio();
+        this.persona = persona;
+        this.llenarCampos();
+        this.cargarTablaLicencia();
+        this.cargarTablaPlaca();
+    }
+
+    public void llenarCampos() {
+        this.txtNombre.setText(persona.getNombreCompleto());
+        this.txtRfc.setText(persona.getRfc());
+        if (persona.getDiscapacidad()) {
+            this.checkDiscapacidad.setSelected(true);
+        }
+    }
+
+    public void cargarTablaLicencia() {
+        List<Licencia> listaLicencia = licenciaDAO.consultarLicenciasPersona(persona);
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblLicencia.getModel();
+        //Limpia tabla anterior
+        modeloTabla.setRowCount(0);
+        listaLicencia.forEach(licencia -> {
+            Object[] fila = {
+                formatoFecha.format(licencia.getFechaExpedicion().getTime()),
+                licencia.getEstado(),
+                licencia.getPrecio(),
+                formatoFecha.format(licencia.getFechaExpiracion().getTime())
+            };
+            modeloTabla.addRow(fila);
+
+        });
+    }
+
+    public void cargarTablaPlaca() {
+        List<Placa> listaPlaca = placaDAO.consultarPlacasPersona(persona);
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblPlaca.getModel();
+        //Limpia tabla anterior
+        modeloTabla.setRowCount(0);
+        listaPlaca.forEach(placa -> {
+
+            Object[] fila = {
+                formatoFecha.format(placa.getFechaExpedicion().getTime()),
+                placa.getEstado(),
+                placa.getPrecio(),
+                placa.getFechaRecepcion() != null
+                ? formatoFecha.format(placa.getFechaRecepcion().getTime())
+                : null,
+                placa.getNumeroPlaca()
+            };
+            modeloTabla.addRow(fila);
+        });
     }
 
     /**
@@ -31,19 +103,24 @@ public class ConsultaForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblLicencia = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblPlaca = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtRfc = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        checkDiscapacidad = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -74,13 +151,15 @@ public class ConsultaForm extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("Buscar Cliente");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblLicencia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Fecha de Expedición", "Estado", "Costo", "Fecha de Vigencia"
@@ -89,30 +168,34 @@ public class ConsultaForm extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
-        jTable2.setAutoscrolls(false);
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setResizable(false);
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(200);
-            jTable2.getColumnModel().getColumn(1).setResizable(false);
-            jTable2.getColumnModel().getColumn(1).setPreferredWidth(80);
-            jTable2.getColumnModel().getColumn(2).setResizable(false);
-            jTable2.getColumnModel().getColumn(2).setPreferredWidth(65);
-            jTable2.getColumnModel().getColumn(3).setResizable(false);
-            jTable2.getColumnModel().getColumn(3).setPreferredWidth(200);
+        tblLicencia.setAutoscrolls(false);
+        jScrollPane2.setViewportView(tblLicencia);
+        if (tblLicencia.getColumnModel().getColumnCount() > 0) {
+            tblLicencia.getColumnModel().getColumn(0).setResizable(false);
+            tblLicencia.getColumnModel().getColumn(0).setPreferredWidth(200);
+            tblLicencia.getColumnModel().getColumn(1).setResizable(false);
+            tblLicencia.getColumnModel().getColumn(1).setPreferredWidth(80);
+            tblLicencia.getColumnModel().getColumn(2).setResizable(false);
+            tblLicencia.getColumnModel().getColumn(2).setPreferredWidth(65);
+            tblLicencia.getColumnModel().getColumn(3).setResizable(false);
+            tblLicencia.getColumnModel().getColumn(3).setPreferredWidth(200);
         }
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblPlaca.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Fecha Expedición", "Estado", "Costo", "Fecha de Recepción", "Número"
@@ -121,28 +204,37 @@ public class ConsultaForm extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblPlaca);
 
         jLabel2.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Nombre: ");
 
-        jTextField1.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField1.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(0, 0, 0));
+        txtNombre.setEditable(false);
+        txtNombre.setBackground(new java.awt.Color(255, 255, 255));
+        txtNombre.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        txtNombre.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel3.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("RFC: ");
 
-        jTextField2.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField2.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(0, 0, 0));
+        txtRfc.setEditable(false);
+        txtRfc.setBackground(new java.awt.Color(255, 255, 255));
+        txtRfc.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        txtRfc.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel4.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
@@ -152,9 +244,9 @@ public class ConsultaForm extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Trámites de Placas");
 
-        jCheckBox1.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jCheckBox1.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox1.setText("Discapacitado");
+        checkDiscapacidad.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        checkDiscapacidad.setForeground(new java.awt.Color(0, 0, 0));
+        checkDiscapacidad.setText("Discapacitado");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -167,9 +259,9 @@ public class ConsultaForm extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(jButton1)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                    .addComponent(jTextField2))
+                    .addComponent(checkDiscapacidad)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                    .addComponent(txtRfc))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
@@ -197,13 +289,13 @@ public class ConsultaForm extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtRfc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox1))
+                                .addComponent(checkDiscapacidad))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -218,7 +310,7 @@ public class ConsultaForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,12 +318,39 @@ public class ConsultaForm extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION);
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            // Si el usuario confirma la salida, puedes permitir que el marco se cierre
+            this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            regresarPantallaPrincipal();
+        } else {
+            // Si el usuario cancela la salida, evita que el marco se cierre
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        }
+    }//GEN-LAST:event_formWindowClosing
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        BuscadorClientesForm buscarCliente = new BuscadorClientesForm(this);
+        buscarCliente.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void regresarPantallaPrincipal() {
+        PrincipalForm principal = new PrincipalForm();
+        principal.setVisible(true);
+        dispose();
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox checkDiscapacidad;
     private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -241,9 +360,9 @@ public class ConsultaForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable tblLicencia;
+    private javax.swing.JTable tblPlaca;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtRfc;
     // End of variables declaration//GEN-END:variables
 }

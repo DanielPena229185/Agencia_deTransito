@@ -32,6 +32,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     private TramiteLicenciaForm tramiteLicencia;
     private PrimerasPlacasForm tramitePrimerasPlacas;
     private ActualizarPlacasForm actualizarPlacas;
+    private ConsultaForm consultarForm;
     private Placa placaAntigua;
     private LicenciaServicio licenciaDAO = new LicenciaServicio();
 
@@ -55,6 +56,14 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.cargarTablaPersonas();
         this.tramiteLicencia = tramiteLicencia;
+    }
+
+    public BuscadorClientesForm(ConsultaForm consultarForm) {
+        personaDAO = new PersonaServicio();
+        initComponents();
+        this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.cargarTablaPersonas();
+        this.consultarForm = consultarForm;
     }
 
     public BuscadorClientesForm(PrimerasPlacasForm tramitePrimerasPlacas, Vehiculo vehiculo) {
@@ -283,11 +292,11 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             filtro = "fechaNacimiento";
         }
         //Generar tabla
-        List<Persona> listaLotesProveedor = personaDAO.consultarPersonasFiltro(filtro, this.txtBuscar.getText());
+        List<Persona> listaPersona = personaDAO.consultarPersonasFiltro(filtro, this.txtBuscar.getText());
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblPersonas.getModel();
         //Limpia tabla anterior
         modeloTabla.setRowCount(0);
-        listaLotesProveedor.forEach(persona -> {
+        listaPersona.forEach(persona -> {
             Object[] fila = {
                 persona.getIdPersona(),
                 persona.getNombres(),
@@ -355,6 +364,10 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                 new PrincipalForm().setVisible(true);
                 this.dispose();
             }
+        } else if (this.consultarForm != null) {
+            ConsultaForm consultar = new ConsultaForm(persona);
+            consultar.setVisible(true);
+            this.dispose();
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 

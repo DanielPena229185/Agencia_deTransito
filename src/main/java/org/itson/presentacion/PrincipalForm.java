@@ -22,7 +22,7 @@ public class PrincipalForm extends javax.swing.JFrame {
         initComponents();
         valoresIniciales();
     }
-
+    
     private String fecha() {
         LocalDate fechaActual = LocalDate.now();
 
@@ -33,7 +33,7 @@ public class PrincipalForm extends javax.swing.JFrame {
         String fechaFormateada = fechaActual.format(formateador);
         return fechaFormateada;
     }
-
+    
     private void valoresIniciales() {
         this.lblFecha.setText(fecha());
     }
@@ -255,7 +255,7 @@ public class PrincipalForm extends javax.swing.JFrame {
     }//GEN-LAST:event_menuItemSobreNosotrosActionPerformed
 
     private void menuItemConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemConfiguracionActionPerformed
-
+        
         AyudaDlg ayuda = new AyudaDlg(this, true);
         ayuda.setVisible(true);
     }//GEN-LAST:event_menuItemConfiguracionActionPerformed
@@ -271,12 +271,15 @@ public class PrincipalForm extends javax.swing.JFrame {
     }//GEN-LAST:event_menuTramitesActionPerformed
 
     private void menuItemTramitePlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemTramitePlacaActionPerformed
-
+        
 
     }//GEN-LAST:event_menuItemTramitePlacaActionPerformed
 
     private void menuItemConsultaTramitesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemConsultaTramitesActionPerformed
         // TODO add your handling code here:
+        ConsultaForm consultarTramites = new ConsultaForm();
+        this.dispose();
+        consultarTramites.setVisible(true);
     }//GEN-LAST:event_menuItemConsultaTramitesActionPerformed
 
     private void menuItemPlacasNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPlacasNuevaActionPerformed
