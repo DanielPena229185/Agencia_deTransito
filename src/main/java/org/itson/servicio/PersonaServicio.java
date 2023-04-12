@@ -11,6 +11,7 @@ import org.itson.excepciones.PersistenciaException;
 import org.itson.excepciones.ServicioException;
 import org.itson.implementaciones.DAOFactory;
 import org.itson.interfaces.IPersonaDAO;
+import org.itson.utils.ConfiguracionDePaginado;
 
 /**
  *
@@ -29,8 +30,8 @@ public class PersonaServicio {
         try {
             this.validarDatos(persona);
             return personaDAO.agregarPersona(persona);
-        } catch(PersistenciaException pe){
-            throw new ServicioException("Error al agregar a la persona: " 
+        } catch (PersistenciaException pe) {
+            throw new ServicioException("Error al agregar a la persona: "
                     + pe.getMessage(), pe);
         } catch (ServicioException e) {
             throw new ServicioException("No se puede agregar la persona: " + e.getMessage());
@@ -41,8 +42,8 @@ public class PersonaServicio {
         try {
             this.validarDatos(persona);
             return personaDAO.actualizarPersona(persona);
-        } catch(PersistenciaException pe){
-            throw new ServicioException("Error al actualizar a la persona: " 
+        } catch (PersistenciaException pe) {
+            throw new ServicioException("Error al actualizar a la persona: "
                     + pe.getMessage(), pe);
         } catch (ServicioException e) {
             throw new ServicioException("No se puede actualizar la persona: " + e.getMessage());
@@ -53,7 +54,18 @@ public class PersonaServicio {
     public List<Persona> consultarPersonasFiltro(String filtro, String busqueda) throws ServicioException {
         try {
             return personaDAO.consultarPersonasFiltro(filtro, busqueda);
-        } catch(PersistenciaException pe){
+        } catch (PersistenciaException pe) {
+            throw new ServicioException("Error al consultar a las "
+                    + "personas por filtro: " + pe.getMessage(), pe);
+        } catch (ServicioException e) {
+            throw new ServicioException("No se puede realizar la consulta: " + e.getMessage());
+        }
+    }
+
+    public List<Persona> consultarPersonasFiltroPaginado(String filtro, String busqueda, ConfiguracionDePaginado paginado) throws SecurityException {
+        try {
+            return personaDAO.consultarPersonasFiltroPaginado(filtro, busqueda, paginado);
+        } catch (PersistenciaException pe) {
             throw new ServicioException("Error al consultar a las "
                     + "personas por filtro: " + pe.getMessage(), pe);
         } catch (ServicioException e) {
@@ -64,7 +76,7 @@ public class PersonaServicio {
     public List<Persona> consultarPersonas() throws ServicioException {
         try {
             return personaDAO.consultarPersonas();
-        } catch(PersistenciaException pe){
+        } catch (PersistenciaException pe) {
             throw new ServicioException("Error al consultar a las personas: " + pe.getMessage(), pe);
         } catch (ServicioException e) {
             throw new ServicioException("No se puede realizar la consulta: " + e.getMessage());
@@ -74,7 +86,7 @@ public class PersonaServicio {
     public Persona consultarPersona(Persona persona) throws ServicioException {
         try {
             return personaDAO.buscarPersona(persona);
-        } catch(PersistenciaException pe){
+        } catch (PersistenciaException pe) {
             throw new ServicioException("Error al consultar a la persona: " + pe.getMessage(), pe);
         } catch (ServicioException e) {
             throw new ServicioException("No se puede realizar la busqueda: " + e.getMessage());

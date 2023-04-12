@@ -8,6 +8,7 @@ package org.itson.interfaces;
 import java.util.List;
 import org.itson.dominio.Persona;
 import org.itson.excepciones.PersistenciaException;
+import org.itson.utils.ConfiguracionDePaginado;
 
 /**
  * Descripción de la interface: 
@@ -28,5 +29,6 @@ public interface IPersonaDAO {
      * @throws PersistenciaException En caso de que algo salga mal en la búsqueda
      */
     public List<Persona> consultarPersonasFiltro(String filtro, String busqueda)throws PersistenciaException;
+    public List<Persona> consultarPersonasFiltroPaginado(String filtro, String busqueda, ConfiguracionDePaginado paginado)throws PersistenciaException;
     public List<Persona> consultarPersonas()throws PersistenciaException;
 }

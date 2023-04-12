@@ -17,6 +17,7 @@ import org.itson.dominio.Placa;
 import org.itson.dominio.Vehiculo;
 import org.itson.servicio.LicenciaServicio;
 import org.itson.servicio.PersonaServicio;
+import org.itson.utils.ConfiguracionDePaginado;
 
 /**
  * Descripción de la clase:
@@ -35,6 +36,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     private ConsultaForm consultarForm;
     private Placa placaAntigua;
     private LicenciaServicio licenciaDAO = new LicenciaServicio();
+    private ConfiguracionDePaginado paginadoCliente = new ConfiguracionDePaginado(1, 10);
 
     /**
      * Creates new form BuscadorForm
@@ -43,7 +45,9 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         personaDAO = new PersonaServicio();
         initComponents();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        this.cargarTablaPersonas();
+        // this.cargarTablaPersonas();
+        this.BuscarPersona();
+        this.txtBuscar.setText("");
     }
 
     /**
@@ -54,7 +58,8 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         personaDAO = new PersonaServicio();
         initComponents();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        this.cargarTablaPersonas();
+        // this.cargarTablaPersonas();
+        this.BuscarPersona();
         this.tramiteLicencia = tramiteLicencia;
     }
 
@@ -62,7 +67,8 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         personaDAO = new PersonaServicio();
         initComponents();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        this.cargarTablaPersonas();
+        // this.cargarTablaPersonas();
+        this.BuscarPersona();
         this.consultarForm = consultarForm;
     }
 
@@ -70,7 +76,8 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         personaDAO = new PersonaServicio();
         initComponents();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        this.cargarTablaPersonas();
+        // this.cargarTablaPersonas();
+        this.BuscarPersona();
         this.vehiculo = vehiculo;
         this.tramitePrimerasPlacas = tramitePrimerasPlacas;
     }
@@ -82,7 +89,8 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         this.actualizarPlacas = actualizarPlacas;
         this.vehiculo = vehiculo;
         this.placaAntigua = placaAntigua;
-        this.cargarTablaPersonas();
+        // this.cargarTablaPersonas();
+        this.BuscarPersona();
     }
 
     /**
@@ -103,6 +111,8 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPersonas = new javax.swing.JTable();
         txtBuscar = new javax.swing.JTextField();
+        btnAvanzarPersona = new javax.swing.JButton();
+        btnRetrocederPersona = new javax.swing.JButton();
 
         setTitle("Buscador de Cliente");
         setResizable(false);
@@ -159,7 +169,16 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
 
         tblPersonas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
                 "Id", "Nombres", "Apellidos", "RFC", "Fecha de Nacimiento"
@@ -211,12 +230,32 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             }
         });
 
+        btnAvanzarPersona.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        btnAvanzarPersona.setText(">");
+        btnAvanzarPersona.setBorderPainted(false);
+        btnAvanzarPersona.setContentAreaFilled(false);
+        btnAvanzarPersona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAvanzarPersonaActionPerformed(evt);
+            }
+        });
+
+        btnRetrocederPersona.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        btnRetrocederPersona.setText("<");
+        btnRetrocederPersona.setBorderPainted(false);
+        btnRetrocederPersona.setContentAreaFilled(false);
+        btnRetrocederPersona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRetrocederPersonaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -224,11 +263,14 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtBuscar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAceptar)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAceptar)
+                    .addComponent(btnRetrocederPersona)
+                    .addComponent(btnAvanzarPersona))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,16 +278,24 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAceptar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblBuscarPor)
                             .addComponent(cbxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(340, 340, 340))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                        .addGap(220, 220, 220))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(btnAvanzarPersona)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnRetrocederPersona)
+                                .addGap(33, 33, 33)
+                                .addComponent(btnAceptar))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(44, 44, 44))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -256,7 +306,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -265,7 +315,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
 
     private void cargarTablaPersonas() {
 
-        List<Persona> listaLotesPersonas = personaDAO.consultarPersonas();
+        List<Persona> listaLotesPersonas = personaDAO.consultarPersonasFiltroPaginado(null, null, paginadoCliente);
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblPersonas.getModel();
         //Limpia tabla anterior
         modeloTabla.setRowCount(0);
@@ -292,7 +342,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             filtro = "fechaNacimiento";
         }
         //Generar tabla
-        List<Persona> listaPersona = personaDAO.consultarPersonasFiltro(filtro, this.txtBuscar.getText());
+        List<Persona> listaPersona = personaDAO.consultarPersonasFiltroPaginado(filtro, this.txtBuscar.getText(), paginadoCliente);
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblPersonas.getModel();
         //Limpia tabla anterior
         modeloTabla.setRowCount(0);
@@ -398,6 +448,18 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarActionPerformed
 
+    private void btnAvanzarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvanzarPersonaActionPerformed
+        // TODO add your handling code here:
+        paginadoCliente.avanzarPagina();
+        this.BuscarPersona();
+    }//GEN-LAST:event_btnAvanzarPersonaActionPerformed
+
+    private void btnRetrocederPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetrocederPersonaActionPerformed
+        // TODO add your handling code here:
+        paginadoCliente.retrocederPagina();
+        this.BuscarPersona();
+    }//GEN-LAST:event_btnRetrocederPersonaActionPerformed
+
     private boolean validarCredencialActiva() {
         List<Licencia> licencias = licenciaDAO.consultarLicenciasPersona(this.persona);
         for (Licencia licencia : licencias) {
@@ -423,6 +485,8 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnAvanzarPersona;
+    private javax.swing.JButton btnRetrocederPersona;
     private javax.swing.JComboBox<String> cbxFiltro;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

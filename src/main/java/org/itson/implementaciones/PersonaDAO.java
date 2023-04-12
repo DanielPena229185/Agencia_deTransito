@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import org.itson.dominio.Persona;
 import org.itson.excepciones.PersistenciaException;
 import org.itson.interfaces.IPersonaDAO;
+import org.itson.utils.ConfiguracionDePaginado;
 
 /**
  * Descripción de la clase:
@@ -134,6 +135,33 @@ public class PersonaDAO implements IPersonaDAO {
             em.getTransaction().rollback();
             JOptionPane.showMessageDialog(null, "Error al buscar a la persona: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             throw new PersistenciaException("Error al buscar a la persona: " + a.getMessage(), a);
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Persona> consultarPersonasFiltroPaginado(String filtro, String busqueda, ConfiguracionDePaginado paginado) throws PersistenciaException {
+        EntityManager em = conexion.getConexion();
+        try {
+            em.getTransaction().begin();
+            CriteriaBuilder builder = em.getCriteriaBuilder();
+            CriteriaQuery<Persona> criteria = builder.createQuery(Persona.class);
+            Root<Persona> root = criteria.from(Persona.class);
+            criteria.select(root).where(
+                    builder.like(root.get(filtro), "%" + busqueda + "%")
+            );
+            TypedQuery<Persona> query = em.createQuery(criteria);
+            int resultadosASaltar = (paginado.getNumPagina() - 1) * paginado.getElementosPorPagina();
+            query.setFirstResult(resultadosASaltar);
+            query.setMaxResults(paginado.getElementosPorPagina());
+            List<Persona> personas = query.getResultList();
+            em.getTransaction().commit();
+            return personas;
+        } catch (Exception a) {
+            em.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, "No se pudo generar la búsqueda de personas: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            throw new PersistenciaException("No se pudo generar la búsqueda de personas: " + a.getMessage(), a);
         } finally {
             em.close();
         }
