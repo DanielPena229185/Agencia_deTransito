@@ -288,6 +288,7 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
             }else{
                 ActualizarPlacasForm actualizar = new ActualizarPlacasForm(vehiculo, placasAntiguas);
                 actualizar.setVisible(true);
+                this.dispose();
             }
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed

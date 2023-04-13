@@ -78,7 +78,6 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         formatoNumeroSerie = new javax.swing.JFormattedTextField();
         lblSimboloPesos = new javax.swing.JLabel();
         formatoPlacas = new javax.swing.JFormattedTextField();
-        btnGenerarDatosPlacas = new javax.swing.JButton();
         lblDatosCliente = new javax.swing.JLabel();
         lblNombre = new javax.swing.JLabel();
         txtNombres = new javax.swing.JTextField();
@@ -230,16 +229,6 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         formatoPlacas.setEnabled(false);
         formatoPlacas.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
 
-        btnGenerarDatosPlacas.setBackground(new java.awt.Color(255, 255, 255));
-        btnGenerarDatosPlacas.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        btnGenerarDatosPlacas.setForeground(new java.awt.Color(0, 0, 0));
-        btnGenerarDatosPlacas.setText("Generar datos de Placas");
-        btnGenerarDatosPlacas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGenerarDatosPlacasActionPerformed(evt);
-            }
-        });
-
         lblDatosCliente.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblDatosCliente.setForeground(new java.awt.Color(0, 0, 0));
         lblDatosCliente.setText("Datos del cliente");
@@ -341,36 +330,36 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lblDatosPlaca)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(lblDatosCliente)
-                                                .addGap(14, 14, 14)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE))
+                                        .addComponent(lblDatosCliente)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addGap(0, 0, Short.MAX_VALUE)
                                         .addComponent(lblPrecio)
                                         .addGap(48, 48, 48)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(38, 38, 38)
+                                        .addGap(116, 116, 116)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(lblSimboloPesos)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(formatoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnGenerarDatosPlacas))
+                                            .addComponent(formatoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(0, 3, Short.MAX_VALUE))
                                     .addComponent(btnBuscarCliente, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblDatosVehiculo)
-                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(checkDiscapacitado)))))
+                                .addComponent(checkDiscapacitado))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(lblDatosPlaca)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblDatosVehiculo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -394,9 +383,9 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(checkDiscapacitado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(lblDatosVehiculo)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNumeroSerie)
                     .addComponent(formatoNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -412,11 +401,9 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblModelo)
                     .addComponent(formatModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnGenerarDatosPlacas, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblDatosPlaca))
-                .addGap(9, 9, 9)
+                .addGap(18, 18, 18)
+                .addComponent(lblDatosPlaca)
+                .addGap(4, 4, 4)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPlacas)
                     .addComponent(formatoPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -492,10 +479,6 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
             this.setVisible(true);
         }
     }//GEN-LAST:event_formComponentHidden
-
-    private void btnGenerarDatosPlacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarDatosPlacasActionPerformed
-
-    }//GEN-LAST:event_btnGenerarDatosPlacasActionPerformed
 
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
         BuscadorClientesForm buscador = new BuscadorClientesForm(this, vehiculo);
@@ -590,7 +573,6 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnBuscarCliente;
-    private javax.swing.JButton btnGenerarDatosPlacas;
     private javax.swing.JCheckBox checkDiscapacitado;
     private javax.swing.JFormattedTextField formatModelo;
     private javax.swing.JFormattedTextField formatoNumeroSerie;

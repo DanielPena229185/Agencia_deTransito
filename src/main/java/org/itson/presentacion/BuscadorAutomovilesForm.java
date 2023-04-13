@@ -43,11 +43,7 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         this.placaDAO = new PlacaServicio();
         this.personaDAO = new PersonaServicio();
         this.vehiculoDAO = new VehiculoServicio();
-        // this.cargarTablaVehiculo();
         this.buscarPlacas();
-        this.persona = new Persona();
-        this.placaAnterior = new Placa();
-        this.vehiculo = new Vehiculo();
     }
 
     public void cargarTablaVehiculo() {
@@ -230,7 +226,7 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(3, 3, 3)
                         .addComponent(txtPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnAceptar, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(btnAceptar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -309,9 +305,16 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
     }//GEN-LAST:event_tblVehiculosMouseClicked
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        ActualizarPlacasForm actualizarPlacas = new ActualizarPlacasForm(vehiculo, placaAnterior);
-        actualizarPlacas.setVisible(true);
-        this.dispose();
+        
+        if (this.vehiculo != null) {
+            ActualizarPlacasForm actualizarPlacas = new ActualizarPlacasForm(vehiculo, placaAnterior);
+            actualizarPlacas.setVisible(true);
+            this.dispose();
+        }else{
+            JOptionPane.showMessageDialog(this,
+                    "No has seleccionado ningún vehículo", "Error!",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void txtPlacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPlacasActionPerformed

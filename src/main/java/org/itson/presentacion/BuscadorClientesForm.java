@@ -44,8 +44,8 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     public BuscadorClientesForm() {
         personaDAO = new PersonaServicio();
         initComponents();
+        this.validarPersonas();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        // this.cargarTablaPersonas();
         this.BuscarPersona();
     }
 
@@ -56,8 +56,8 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     public BuscadorClientesForm(TramiteLicenciaForm tramiteLicencia) {
         personaDAO = new PersonaServicio();
         initComponents();
+        this.validarPersonas();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        // this.cargarTablaPersonas();
         this.BuscarPersona();
         this.tramiteLicencia = tramiteLicencia;
     }
@@ -65,8 +65,8 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     public BuscadorClientesForm(ConsultaForm consultarForm) {
         personaDAO = new PersonaServicio();
         initComponents();
+        this.validarPersonas();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        // this.cargarTablaPersonas();
         this.BuscarPersona();
         this.consultarForm = consultarForm;
     }
@@ -74,8 +74,8 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     public BuscadorClientesForm(PrimerasPlacasForm tramitePrimerasPlacas, Vehiculo vehiculo) {
         personaDAO = new PersonaServicio();
         initComponents();
+        this.validarPersonas();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        // this.cargarTablaPersonas();
         this.BuscarPersona();
         this.vehiculo = vehiculo;
         this.tramitePrimerasPlacas = tramitePrimerasPlacas;
@@ -84,11 +84,11 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     public BuscadorClientesForm(ActualizarPlacasForm actualizarPlacas, Vehiculo vehiculo, Placa placaAntigua) {
         personaDAO = new PersonaServicio();
         initComponents();
+        this.validarPersonas();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.actualizarPlacas = actualizarPlacas;
         this.vehiculo = vehiculo;
         this.placaAntigua = placaAntigua;
-        // this.cargarTablaPersonas();
         this.BuscarPersona();
     }
 
@@ -312,25 +312,6 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-//    private void cargarTablaPersonas() {
-//
-//        List<Persona> listaLotesPersonas = personaDAO.consultarPersonasFiltroPaginado(null, null, paginadoCliente);
-//        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblPersonas.getModel();
-//        //Limpia tabla anterior
-//        modeloTabla.setRowCount(0);
-//        listaLotesPersonas.forEach(persona -> {
-//            Object[] fila = {
-//                persona.getIdPersona(),
-//                persona.getNombres(),
-//                persona.getApellido_paterno() + " " + persona.getApellido_materno(),
-//                persona.getRfc(),
-//                formatoFecha.format(persona.getFechaNacimiento().getTime())
-//            };
-//            modeloTabla.addRow(fila);
-//
-//        });
-//    }
-
     public void BuscarPersona() {
         String filtro = null;
         if (this.cbxFiltro.getSelectedItem().toString() == "Nombre") {
@@ -375,48 +356,13 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     }//GEN-LAST:event_tblPersonasMouseClicked
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        if (persona == null) {
-            JOptionPane.showMessageDialog(this,
-                    "Selecciona correctamente a la persona",
-                    "Error al seleccionar al cliente",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-
-        if (this.tramiteLicencia != null) {
-            new TramiteLicenciaForm(persona);
-            this.dispose();
-        } else if (this.tramitePrimerasPlacas != null) {
-            if (validarCredencialActiva()) {
-                PrimerasPlacasForm tramite = new PrimerasPlacasForm(persona, vehiculo);
-                tramite.setVisible(true);
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "La persona: "
-                        + this.persona.getNombres() + " no tiene una licencia"
-                        + " activa\n "
-                        + "Vuelve a intentarlo registrando una licencia",
-                        "Sin licencia",
-                        JOptionPane.WARNING_MESSAGE);
-                this.dispose();
-                new PrincipalForm().setVisible(true);
+        if (this.validarEscogioPersona()) {
+            if (this.validarMayorDeEdad()) {
+                this.tramitaLicenciaForm();
+                this.tramitePrimerasPlacasForm();
+                this.actualizarPlacasForm();
+                this.consultaForm();
             }
-        } else if (this.actualizarPlacas != null) {
-            if (validarCredencialActiva()) {
-                ActualizarPlacasForm actualizar = new ActualizarPlacasForm(persona, vehiculo, placaAntigua);
-                actualizar.setVisible(true);
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "La persona: "
-                        + this.persona.getNombres() + " no tiene una licencia"
-                        + " activa", "Sin licencia",
-                        JOptionPane.WARNING_MESSAGE);
-                new PrincipalForm().setVisible(true);
-                this.dispose();
-            }
-        } else if (this.consultarForm != null) {
-            ConsultaForm consultar = new ConsultaForm(persona);
-            consultar.setVisible(true);
-            this.dispose();
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -469,18 +415,84 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         return false;
     }
 
-    /**
-     * Método que regresa el cliente que encontró
-     *
-     * @return cliente que encontró
-     */
-    public Persona getPersona() {
-        return persona;
+    private boolean validarEscogioPersona() {
+        if (persona == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Selecciona correctamente a la persona",
+                    "Error al seleccionar al cliente",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
-    public void setPersona(Persona persona) {
-        this.persona = persona;
+    private void tramitaLicenciaForm() {
+        if (this.tramiteLicencia != null) {
+            new TramiteLicenciaForm(persona);
+            this.dispose();
+        }
     }
+
+    private void tramitePrimerasPlacasForm() {
+        if (this.tramitePrimerasPlacas != null) {
+            if (validarCredencialActiva()) {
+                PrimerasPlacasForm tramite = new PrimerasPlacasForm(persona, vehiculo);
+                tramite.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "La persona: "
+                        + this.persona.getNombres() + " no tiene una licencia"
+                        + " activa\n "
+                        + "Vuelve a intentarlo registrando una licencia",
+                        "Sin licencia",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }
+
+    private void actualizarPlacasForm() {
+        if (this.actualizarPlacas != null) {
+            if (validarCredencialActiva()) {
+                ActualizarPlacasForm actualizar = new ActualizarPlacasForm(persona, vehiculo, placaAntigua);
+                actualizar.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "La persona: "
+                        + this.persona.getNombres() + " no tiene una licencia"
+                        + " activa", "Sin licencia",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }
+
+    private void consultaForm() {
+        if (this.consultarForm != null) {
+            ConsultaForm consultar = new ConsultaForm(persona);
+            consultar.setVisible(true);
+            this.dispose();
+        }
+    }
+
+    private boolean validarMayorDeEdad() {
+        if (this.persona.getEdad() < 18) {
+            JOptionPane.showMessageDialog(this,
+                    "La persona: "
+                    + this.persona.getNombres()
+                    + " No es mayor de edad", "No tiene permiso!", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    private void validarPersonas() {
+        if (personaDAO.consultarPersonas().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ops! Parece que no "
+                    + "seguiste las indicaciones\n"
+                    + "Necesitas ingresar a las personas\n", "Ops!!",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;

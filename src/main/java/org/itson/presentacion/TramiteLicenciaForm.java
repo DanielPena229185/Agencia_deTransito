@@ -42,16 +42,11 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
 
     public TramiteLicenciaForm(Persona persona) {
         this.persona = persona;
-        if(this.validarMayorDeEdad()){
         initComponents();
         this.setVisible(true);
         costoDAO = new CostoServicio();
         licenciaDAO = new LicenciaServicio();
         validarLicenciaActiva(persona);
-        }else{
-            this.dispose();
-            new PrincipalForm().setVisible(true);
-        }
     }
 
     /**
@@ -424,14 +419,18 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
 
-        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION);
-        if (confirmacion == JOptionPane.YES_OPTION) {
-            // Si el usuario confirma la salida, puedes permitir que el marco se cierre
-            this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            regresarPantallaPrincipal();
+        if (this.persona != null) {
+            int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION);
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                // Si el usuario confirma la salida, puedes permitir que el marco se cierre
+                this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                regresarPantallaPrincipal();
+            } else {
+                // Si el usuario cancela la salida, evita que el marco se cierre
+                this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+            }
         } else {
-            // Si el usuario cancela la salida, evita que el marco se cierre
-            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+            regresarPantallaPrincipal();
         }
 
     }//GEN-LAST:event_formWindowClosing
@@ -566,22 +565,12 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
         principal.setVisible(true);
         dispose();
     }
-    
-    public void setPersona(Persona persona){
+
+    public void setPersona(Persona persona) {
         this.persona = persona;
         this.validarLicenciaActiva(persona);
     }
-    
-    private boolean validarMayorDeEdad(){
-        if(this.persona.getEdad() < 18){
-            JOptionPane.showMessageDialog(this,
-                    "La persona: " 
-                            + this.persona.getNombres() +
-                            " No es mayor de edad", "No tiene permiso!", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
-        return true;
-    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
