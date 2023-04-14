@@ -516,12 +516,18 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         crearObjetoPlaca();
-        PagarDlg pagar = new PagarDlg(placa, placaAntigua, this, true, "Actualizar Placas");
-        pagar.setVisible(true);
-        if (pagar.isSalir()) {
-            PrincipalForm principal = new PrincipalForm();
-            principal.setVisible(true);
-            this.dispose();
+        if (this.persona != null) {
+            PagarDlg pagar = new PagarDlg(placa, placaAntigua, this, true, "Actualizar Placas");
+            pagar.setVisible(true);
+            if (pagar.isSalir()) {
+                PrincipalForm principal = new PrincipalForm();
+                principal.setVisible(true);
+                this.dispose();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Este vehículo no tiene dueño\n"
+                    + " Intente seleccionar una persona en el buscador\n"
+                    + "             [Buscar Personas]", "No puede Pagar", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 

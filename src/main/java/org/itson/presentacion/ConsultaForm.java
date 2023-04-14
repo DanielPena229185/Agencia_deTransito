@@ -124,6 +124,7 @@ public class ConsultaForm extends javax.swing.JFrame {
         btnAvanzarPlaca = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Historial");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -256,6 +257,7 @@ public class ConsultaForm extends javax.swing.JFrame {
         checkDiscapacidad.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         checkDiscapacidad.setForeground(new java.awt.Color(0, 0, 0));
         checkDiscapacidad.setText("Discapacitado");
+        checkDiscapacidad.setEnabled(false);
 
         btnRegresarLicencia.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         btnRegresarLicencia.setText("<");

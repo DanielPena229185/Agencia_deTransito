@@ -118,6 +118,12 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         txtMarca.setBackground(new java.awt.Color(255, 255, 255));
         txtMarca.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtMarca.setForeground(new java.awt.Color(0, 0, 0));
+        txtMarca.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtMarca.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtMarcaFocusGained(evt);
+            }
+        });
 
         lblLinea.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblLinea.setForeground(new java.awt.Color(0, 0, 0));
@@ -126,6 +132,7 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         txtLinea.setBackground(new java.awt.Color(255, 255, 255));
         txtLinea.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtLinea.setForeground(new java.awt.Color(0, 0, 0));
+        txtLinea.setDisabledTextColor(new java.awt.Color(0, 0, 0));
 
         lblColor.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         lblColor.setForeground(new java.awt.Color(0, 0, 0));
@@ -134,6 +141,7 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         txtColor.setBackground(new java.awt.Color(255, 255, 255));
         txtColor.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtColor.setForeground(new java.awt.Color(0, 0, 0));
+        txtColor.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtColor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtColorActionPerformed(evt);
@@ -164,6 +172,11 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
                 formatNumeroSerieActionPerformed(evt);
             }
         });
+        formatNumeroSerie.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                formatNumeroSerieKeyTyped(evt);
+            }
+        });
 
         formatModelo.setBackground(new java.awt.Color(255, 255, 255));
         formatModelo.setForeground(new java.awt.Color(0, 0, 0));
@@ -172,6 +185,7 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        formatModelo.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         formatModelo.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         formatModelo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -287,6 +301,10 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
                 primerasPlacas.setVisible(true);
                 this.dispose();
             } else {
+                JOptionPane.showMessageDialog(this, "Ya hay un auto registrado "
+                        + "con placas activas\n"
+                        + " Procederemos a actualizar las placas", "Seguimiento",
+                        JOptionPane.WARNING_MESSAGE);
                 ActualizarPlacasForm actualizar = new ActualizarPlacasForm(vehiculo, placasAntiguas);
                 actualizar.setVisible(true);
                 this.dispose();
@@ -328,6 +346,14 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtColorActionPerformed
 
+    private void formatNumeroSerieKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formatNumeroSerieKeyTyped
+        this.llenarCamposAutoRegistrado();
+    }//GEN-LAST:event_formatNumeroSerieKeyTyped
+
+    private void txtMarcaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMarcaFocusGained
+        this.llenarCamposAutoRegistrado();
+    }//GEN-LAST:event_txtMarcaFocusGained
+
     private void regresarPantallaPrincipal() {
         PrincipalForm principal = new PrincipalForm();
         principal.setVisible(true);
@@ -335,7 +361,17 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
     }
 
     private List<String> validarCamposTexto() {
+        
         List<String> camposVacios = new ArrayList<>();
+        
+        if (formatNumeroSerie.getText().isEmpty() || !formatNumeroSerie.getText().matches("[A-Z]{3}-\\d{3}")) {
+            camposVacios.add("Número de serie (formato AAA-123)");
+        }else{
+            if(this.validarAutoRegistrado()){
+                this.llenarCamposAutoRegistrado();
+            }
+        }
+        
         if (txtColor.getText().isEmpty()) {
             camposVacios.add("Color");
         }
@@ -347,9 +383,6 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         }
         if (formatModelo.getText().isEmpty() || !formatModelo.getText().matches("\\d{4}")) {
             camposVacios.add("Modelo (Formato 2000)");
-        }
-        if (formatNumeroSerie.getText().isEmpty() || !formatNumeroSerie.getText().matches("[A-Z]{3}-\\d{3}")) {
-            camposVacios.add("Número de serie (formato AAA-123)");
         }
         if (!camposVacios.isEmpty()) {
             String mensaje = "Los siguientes campos están vacíos o no cumplen con el formato requerido:\n" + String.join(", ", camposVacios);
@@ -377,11 +410,37 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
             Placa buscarPlaca = placaDAO.consultarPlacaVehiculo(buscarVehiculo.get(0));
             this.vehiculo = buscarVehiculo.get(0);
             this.placasAntiguas = buscarPlaca;
-            JOptionPane.showMessageDialog(this, "Ya hay un auto registrado "
-                    + "con placas activas\n"
-                    + " Procederemos a actualizar las placas", "Seguimiento",
-                    JOptionPane.WARNING_MESSAGE);
             return true;
+        }
+    }
+    
+    private void llenarCamposAutoRegistrado(){
+        if (this.validarAutoRegistrado()) {
+            this.txtMarca.setText(this.vehiculo.getMarca());
+            this.txtMarca.enable(false);
+            this.txtLinea.setText(this.vehiculo.getLinea());
+            this.txtLinea.enable(false);
+            this.formatModelo.setText(this.vehiculo.getModelo());
+            this.formatModelo.enable(false);
+            this.txtColor.setText(this.vehiculo.getColor());
+            this.txtColor.enable(false);
+        } else {
+            if (!this.txtMarca.getText().isEmpty()) {
+                this.txtMarca.setText("");
+                this.txtMarca.enable(true);
+            }
+            if (!this.txtLinea.getText().isEmpty()) {
+                this.txtLinea.setText("");
+                this.txtLinea.enable(true);
+            }
+            if (!this.formatModelo.getText().isEmpty()) {
+                this.formatModelo.setText("");
+                this.formatModelo.enable(true);
+            }
+            if (!this.txtColor.getText().isEmpty()) {
+                this.txtColor.setText("");
+                this.txtColor.enable(true);
+            }
         }
     }
 
