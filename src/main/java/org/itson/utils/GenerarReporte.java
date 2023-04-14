@@ -36,7 +36,8 @@ public class GenerarReporte {
             JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(listaReportes);
             Map<String, Object> parameters = new HashMap<String, Object>();
             parameters.put("CollectionBeanParam", itemsJRBean);
-            InputStream input = new FileInputStream("..\\reportesJrxml\\ReporteHistorial.jrxml");
+            String jasperFilePath = "target/classes/ReporteHistorial.jrxml";
+            InputStream input = new FileInputStream(jasperFilePath);
             JasperDesign jasperDesign = JRXmlLoader.load(input);
             JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
             JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
