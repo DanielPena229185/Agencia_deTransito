@@ -53,16 +53,12 @@
 				<reportElement x="-20" y="130" width="595" height="11" forecolor="#0A5DA6" backcolor="#0A5DA6" uuid="989be8d3-bfb0-4f4b-85af-1c6db096cf0d"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="176" y="100" width="202" height="30" forecolor="#0A5DA6" uuid="d5318440-149d-4bdb-a6af-3028319c54de"/>
+				<reportElement x="176" y="90" width="202" height="20" forecolor="#0A5DA6" uuid="d5318440-149d-4bdb-a6af-3028319c54de"/>
 				<textElement textAlignment="Center">
 					<font fontName="Impact" size="16"/>
 				</textElement>
 				<text><![CDATA[Reporte de trámites]]></text>
 			</staticText>
-			<image>
-				<reportElement x="167" y="0" width="220" height="103" uuid="82ef59e6-a41f-41c9-af5a-f282be7a6940"/>
-				<imageExpression><![CDATA["C:/Users/Dapgp/Downloads/ITSON_azul.png"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement x="430" y="9" width="40" height="30" uuid="1f3ae6ae-0e38-4163-9231-34a0ac69605d"/>
 				<text><![CDATA[Fecha:]]></text>
@@ -71,6 +67,14 @@
 				<reportElement x="470" y="9" width="100" height="30" uuid="9f43a0c3-098f-4d8c-9fb8-d280b49661a1"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="180" y="10" width="193" height="60" forecolor="#0A5DA6" uuid="3442a795-1192-49f4-b8d6-a46d8af63b6f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Impact" size="22"/>
+				</textElement>
+				<text><![CDATA[ITSON
+UNIVERSIDAD]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
