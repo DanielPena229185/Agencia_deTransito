@@ -70,11 +70,10 @@ public class TramitesServicio {
         }
     }
 
-    public List<Tramite> consultarTramitesPeriodo(Calendar desde, Calendar hasta, Persona persona) throws ServicioException {
+    public List<Tramite> consultarTramitesPeriodo(Calendar desde, Calendar hasta, String nombre) throws ServicioException {
         try {
             this.validarFechas(desde, hasta);
-            this.validarDatosPersona(persona);
-            return tramiteDAO.consultarTramitesPeriodo(desde, hasta, persona);
+            return tramiteDAO.consultarTramitesPeriodo(desde, hasta, nombre);
         } catch (PersistenciaException pe) {
             throw new PersistenciaException("Error al consultar en tramite de periodo: " + pe.getMessage(), pe);
         } catch (ServicioException e) {

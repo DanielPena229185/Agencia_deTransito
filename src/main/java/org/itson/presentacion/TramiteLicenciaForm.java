@@ -44,6 +44,7 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
         this.persona = persona;
         initComponents();
         this.setVisible(true);
+        this.cbxVigencia.enable(true);
         costoDAO = new CostoServicio();
         licenciaDAO = new LicenciaServicio();
         validarLicenciaActiva(persona);
@@ -211,6 +212,7 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
         cbxVigencia.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         cbxVigencia.setForeground(new java.awt.Color(0, 0, 0));
         cbxVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 Año", "2 Años", "3 Años" }));
+        cbxVigencia.setEnabled(false);
         cbxVigencia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cbxVigenciaMouseClicked(evt);
@@ -406,11 +408,19 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtRfcKeyTyped
 
     private void cbxVigenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxVigenciaMouseClicked
-        llenarCampoFechas();
+        if(!this.validarCamposTexto().isEmpty()){
+            llenarCamposTramite();
+        }else{
+            this.cbxVigencia.setEditable(false);
+        }
     }//GEN-LAST:event_cbxVigenciaMouseClicked
 
     private void cbxVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxVigenciaActionPerformed
-        llenarCamposTramite();
+        if(!this.validarCamposTexto().isEmpty()){
+            llenarCamposTramite();
+        }else{
+            this.cbxVigencia.setEditable(false);
+        }
     }//GEN-LAST:event_cbxVigenciaActionPerformed
 
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden

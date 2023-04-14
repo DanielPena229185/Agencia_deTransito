@@ -409,6 +409,7 @@
                 <StringItem index="2" value="3 A&#xf1;os"/>
               </StringArray>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cbxVigenciaMouseClicked"/>

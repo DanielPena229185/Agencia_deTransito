@@ -83,7 +83,6 @@ public class PrincipalForm extends javax.swing.JFrame {
         menuItemConsultaTramites = new javax.swing.JMenuItem();
         menuItemConsultaReporte = new javax.swing.JMenuItem();
         menuAyuda = new javax.swing.JMenu();
-        menuItemConfiguracion = new javax.swing.JMenuItem();
         menuItemSobreNosotros = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -215,21 +214,17 @@ public class PrincipalForm extends javax.swing.JFrame {
         menuConsulta.add(menuItemConsultaTramites);
 
         menuItemConsultaReporte.setText("Reporte pdf");
+        menuItemConsultaReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemConsultaReporteActionPerformed(evt);
+            }
+        });
         menuConsulta.add(menuItemConsultaReporte);
 
         menuBar.add(menuConsulta);
 
         menuAyuda.setMnemonic('h');
         menuAyuda.setText("Ayuda");
-
-        menuItemConfiguracion.setMnemonic('c');
-        menuItemConfiguracion.setText("Configuración");
-        menuItemConfiguracion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuItemConfiguracionActionPerformed(evt);
-            }
-        });
-        menuAyuda.add(menuItemConfiguracion);
 
         menuItemSobreNosotros.setMnemonic('a');
         menuItemSobreNosotros.setText("Sobre Nosotros");
@@ -272,12 +267,6 @@ public class PrincipalForm extends javax.swing.JFrame {
         nosotros.setVisible(true);
     }//GEN-LAST:event_menuItemSobreNosotrosActionPerformed
 
-    private void menuItemConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemConfiguracionActionPerformed
-
-        AyudaDlg ayuda = new AyudaDlg(this, true);
-        ayuda.setVisible(true);
-    }//GEN-LAST:event_menuItemConfiguracionActionPerformed
-
     private void menuItemTramiteLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemTramiteLicenciaActionPerformed
         TramiteLicenciaForm tramiteLicencia = new TramiteLicenciaForm();
         this.dispose();
@@ -289,7 +278,6 @@ public class PrincipalForm extends javax.swing.JFrame {
     }//GEN-LAST:event_menuTramitesActionPerformed
 
     private void menuItemTramitePlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemTramitePlacaActionPerformed
-
 
     }//GEN-LAST:event_menuItemTramitePlacaActionPerformed
 
@@ -314,6 +302,11 @@ public class PrincipalForm extends javax.swing.JFrame {
         // actualizarPlaca.setVisible(true);
         buscarAutomovil.setVisible(true);
     }//GEN-LAST:event_menuItemPlacasCambiarActionPerformed
+
+    private void menuItemConsultaReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemConsultaReporteActionPerformed
+        new GenerarReportePdfForm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuItemConsultaReporteActionPerformed
 
     /**
      * Ingresa respectivamente los costos
@@ -480,7 +473,6 @@ public class PrincipalForm extends javax.swing.JFrame {
     private javax.swing.JMenu menuAyuda;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuConsulta;
-    private javax.swing.JMenuItem menuItemConfiguracion;
     private javax.swing.JMenuItem menuItemConsultaReporte;
     private javax.swing.JMenuItem menuItemConsultaTramites;
     private javax.swing.JMenuItem menuItemPlacasCambiar;

@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.*;
+import org.itson.excepciones.EncriptarException;
+import org.itson.utils.Encriptador;
 
 /**
  *
@@ -68,9 +70,7 @@ public class Persona implements Serializable {
             String apellido_materno, String rfc, Calendar fechaNacimiento,
             Boolean discapacidad, String telefono) {
         this.validarPersona(nombres, apellido_paterno, apellido_materno, rfc, fechaNacimiento, discapacidad, telefono);
-        this.nombres = nombres;
-        this.apellido_paterno = apellido_paterno;
-        this.apellido_materno = apellido_materno;
+        this.encriptarNombres(nombres, apellido_paterno, apellido_materno);
         this.rfc = rfc;
         this.fechaNacimiento = fechaNacimiento;
         this.discapacidad = discapacidad;
@@ -93,9 +93,7 @@ public class Persona implements Serializable {
             Boolean discapacidad, String telefono) {
         this.validarPersona(nombres, apellido_paterno, apellido_materno, rfc, fechaNacimiento, discapacidad, telefono);
         this.idPersona = idPersona;
-        this.nombres = nombres;
-        this.apellido_paterno = apellido_paterno;
-        this.apellido_materno = apellido_materno;
+        this.encriptarNombres(nombres, apellido_paterno, apellido_materno);
         this.rfc = rfc;
         this.fechaNacimiento = fechaNacimiento;
         this.discapacidad = discapacidad;
@@ -174,7 +172,11 @@ public class Persona implements Serializable {
      * @return nombre de la persona
      */
     public String getNombres() {
-        return nombres;
+        try {
+            return Encriptador.desencriptar(this.nombres);
+        } catch (Exception e) {
+            throw new EncriptarException("Error al encriptar el nombre: " + e.getMessage(), e);
+        }
     }
 
     /**
@@ -196,8 +198,13 @@ public class Persona implements Serializable {
      *
      * @return apellido_paterno de la persona
      */
-    public String getApellido_paterno() {
-        return apellido_paterno;
+    public String getApellido_paterno(){
+        try {
+            return Encriptador.desencriptar(this.apellido_paterno);
+        } catch (Exception e) {
+            throw new EncriptarException("Error al desencriptar el apellido "
+                    + "materno: " + e.getMessage(), e);
+        }
     }
 
     /**
@@ -206,11 +213,6 @@ public class Persona implements Serializable {
      * @param apellido_paterno valor a ingresar
      */
     public void setApellido_paterno(String apellido_paterno) {
-        if (apellido_paterno == null || apellido_paterno.trim().isEmpty()) {
-            throw new IllegalArgumentException("El apellido paterno no puede estar vacío");
-        } else if (apellido_paterno.length() > 150) {
-            throw new IllegalArgumentException("El apellido paterno de la persona no debe exceder los 150 caracteres");
-        }
         this.apellido_paterno = apellido_paterno;
     }
 
@@ -219,8 +221,13 @@ public class Persona implements Serializable {
      *
      * @return apellido_materno de la persona
      */
-    public String getApellido_materno() {
-        return apellido_materno;
+    public String getApellido_materno(){
+        try {
+            return Encriptador.desencriptar(this.apellido_materno);
+        } catch (Exception e) {
+            throw new EncriptarException("Error al desencriptar el apellido "
+                    + "materno: " + e.getMessage(), e);
+        }
     }
 
     /**
@@ -229,11 +236,6 @@ public class Persona implements Serializable {
      * @param apellido_materno valor a ingresar
      */
     public void setApellido_materno(String apellido_materno) {
-        if (apellido_materno == null || apellido_materno.trim().isEmpty()) {
-            throw new IllegalArgumentException("El apellido materno no puede estar vacío");
-        } else if (apellido_materno.length() > 150) {
-            throw new IllegalArgumentException("El apellido materno de la persona no debe exceder los 150 caracteres");
-        }
         this.apellido_materno = apellido_materno;
     }
 
@@ -351,7 +353,7 @@ public class Persona implements Serializable {
     }
 
     public String getNombreCompleto() {
-        return this.nombres + " " + this.apellido_paterno + " " + this.apellido_materno;
+        return this.getNombres() + " " + this.getApellido_paterno() + " " + this.getApellido_materno();
     }
 
     @Override
@@ -359,4 +361,14 @@ public class Persona implements Serializable {
         return "Persona{" + "idPersona=" + idPersona + ", nombres=" + nombres + ", apellido_paterno=" + apellido_paterno + ", apellido_materno=" + apellido_materno + ", rfc=" + rfc + ", fechaNacimiento=" + fechaNacimiento + ", discapacidad=" + discapacidad + ", telefono=" + telefono + ", tramites=" + tramites + '}';
     }
 
+    private void encriptarNombres(String nombres, String apellido_Paterno, String apellido_Materno)throws EncriptarException{
+        try {
+            this.nombres = Encriptador.encriptar(nombres);
+            this.apellido_paterno = Encriptador.encriptar(apellido_Paterno);
+            this.apellido_materno = Encriptador.encriptar(apellido_Materno);
+        } catch (Exception e) {
+            throw new EncriptarException("Error al encriptar: " + e.getMessage(), e);
+        }
+    }
+    
 }

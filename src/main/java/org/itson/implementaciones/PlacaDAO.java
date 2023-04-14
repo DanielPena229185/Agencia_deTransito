@@ -16,7 +16,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.swing.JOptionPane;
 import org.itson.dominio.EstadoTramite;
-import org.itson.dominio.Licencia;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Placa;
 import org.itson.dominio.Tramite;
@@ -117,15 +116,6 @@ public class PlacaDAO implements IPlacaDAO {
     public List<Placa> consultarPlacasPersona(Persona persona) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
         try {
-//            em.getTransaction().begin();
-//            CriteriaBuilder builder = em.getCriteriaBuilder();
-//            CriteriaQuery<Licencia> criteria = builder.createQuery(Licencia.class);
-//            Root<Tramite> root = criteria.from(Tramite.class);
-//            criteria.where(
-//                    builder.equal(root.get("persona").get("idPersona"), persona.getIdPersona())
-//            );
-//            TypedQuery<Licencia> query = em.createQuery(criteria);
-//            List<Licencia> licencias = query.getResultList();
             em.getTransaction().begin();
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery<Placa> criteria = builder.createQuery(Placa.class);

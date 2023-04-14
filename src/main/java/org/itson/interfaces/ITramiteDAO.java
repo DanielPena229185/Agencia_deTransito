@@ -23,5 +23,5 @@ public interface ITramiteDAO {
     public Tramite eliminarTramite(Tramite tramite)throws PersistenciaException;
     public List<Tramite> consultarTramites()throws PersistenciaException;
     public List<Tramite> consultarTramitesPersona(Persona persona)throws PersistenciaException;
-    public List<Tramite> consultarTramitesPeriodo(Calendar desde, Calendar hasta, Persona persona)throws PersistenciaException;
+    public List<Tramite> consultarTramitesPeriodo(Calendar desde, Calendar hasta, String nombre)throws PersistenciaException;
 }

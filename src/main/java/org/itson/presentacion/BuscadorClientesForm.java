@@ -15,9 +15,11 @@ import org.itson.dominio.Licencia;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Placa;
 import org.itson.dominio.Vehiculo;
+import org.itson.excepciones.EncriptarException;
 import org.itson.servicio.LicenciaServicio;
 import org.itson.servicio.PersonaServicio;
 import org.itson.utils.ConfiguracionDePaginado;
+import org.itson.utils.Encriptador;
 
 /**
  * Descripción de la clase:
@@ -314,15 +316,28 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
 
     public void BuscarPersona() {
         String filtro = null;
+        String buscar = "";
         if (this.cbxFiltro.getSelectedItem().toString() == "Nombre") {
             filtro = "nombres";
+            try {
+                if(!txtBuscar.getText().isEmpty()){
+                buscar = Encriptador.encriptar(this.txtBuscar.getText());
+                System.out.println(buscar);
+                }else{
+                    buscar = "";
+                }
+            } catch (Exception e) {
+                throw new EncriptarException("Error al encriptar en búsqueda: " + e.getMessage(), e);
+            }
         } else if (this.cbxFiltro.getSelectedItem().toString() == "RFC") {
             filtro = "rfc";
+            buscar = this.txtBuscar.getText();
         } else if (this.cbxFiltro.getSelectedItem().toString() == "Año de Nacimiento") {
             filtro = "fechaNacimiento";
+            buscar = this.txtBuscar.getText();
         }
         //Generar tabla
-        List<Persona> listaPersona = personaDAO.consultarPersonasFiltroPaginado(filtro, this.txtBuscar.getText(), paginadoCliente);
+        List<Persona> listaPersona = personaDAO.consultarPersonasFiltroPaginado(filtro, buscar, paginadoCliente);
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblPersonas.getModel();
         //Limpia tabla anterior
         modeloTabla.setRowCount(0);

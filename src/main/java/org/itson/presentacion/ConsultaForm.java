@@ -168,11 +168,7 @@ public class ConsultaForm extends javax.swing.JFrame {
 
         tblLicencia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Fecha de Expedición", "Estado", "Costo", "Fecha de Vigencia"
@@ -208,11 +204,7 @@ public class ConsultaForm extends javax.swing.JFrame {
 
         tblPlaca.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Fecha Expedición", "Estado", "Costo", "Fecha de Recepción", "Número"

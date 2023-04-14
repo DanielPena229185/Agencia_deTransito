@@ -2,7 +2,6 @@ package org.itson.dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -12,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "tramite")
-@DiscriminatorColumn(name = "tipo")
+@DiscriminatorColumn(name = "Tipo")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Tramite implements Serializable {
 

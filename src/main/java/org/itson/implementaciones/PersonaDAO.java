@@ -7,6 +7,7 @@ package org.itson.implementaciones;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.PrePersist;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -149,7 +150,7 @@ public class PersonaDAO implements IPersonaDAO {
             CriteriaQuery<Persona> criteria = builder.createQuery(Persona.class);
             Root<Persona> root = criteria.from(Persona.class);
             criteria.select(root).where(
-                    builder.like(root.get(filtro), "%" + busqueda + "%")
+                    builder.like(root.get(filtro), busqueda + "%")
             );
             TypedQuery<Persona> query = em.createQuery(criteria);
             int resultadosASaltar = (paginado.getNumPagina() - 1) * paginado.getElementosPorPagina();
