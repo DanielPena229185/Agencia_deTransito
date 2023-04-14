@@ -127,32 +127,6 @@ public class TramiteDAO implements ITramiteDAO {
         }
     }
 
-//    @Override
-//    public List<Tramite> consultarTramitesPeriodo(Calendar desde, Calendar hasta, Persona persona) throws PersistenciaException {
-//        EntityManager em = conexion.getConexion();
-//        try {
-//            em.getTransaction().begin();
-//            CriteriaBuilder builder = em.getCriteriaBuilder();
-//            CriteriaQuery<Tramite> criteria = builder.createQuery(Tramite.class);
-//            Root<Tramite> root = criteria.from(Tramite.class);
-//            criteria.select(root).where(
-//                    builder.and(
-//                            builder.between(root.get("fechaExpedicion"), desde, hasta),
-//                            builder.equal(root.get("persona"), persona)
-//                    )
-//            );
-//            TypedQuery<Tramite> query = em.createQuery(criteria);
-//            List<Tramite> tramites = query.getResultList();
-//            em.getTransaction().commit();
-//            return tramites;
-//        } catch (Exception a) {
-//            em.getTransaction().rollback();
-//            JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de tramites: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-//            throw new PersistenciaException("No se pudo generar la busqueda de tramites: " + a.getMessage(), a);
-//        } finally {
-//            em.close();
-//        }
-//    }
     @Override
     public List<Tramite> consultarTramitesPeriodo(Calendar desde, Calendar hasta, String nombre) throws PersistenciaException {
         EntityManager em = conexion.getConexion();

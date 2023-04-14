@@ -7,7 +7,6 @@ package org.itson.implementaciones;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.PrePersist;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

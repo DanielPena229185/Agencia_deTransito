@@ -43,10 +43,10 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
     public TramiteLicenciaForm(Persona persona) {
         this.persona = persona;
         initComponents();
-        this.setVisible(true);
         this.cbxVigencia.enable(true);
         costoDAO = new CostoServicio();
         licenciaDAO = new LicenciaServicio();
+        this.setVisible(true);
         validarLicenciaActiva(persona);
     }
 
@@ -408,11 +408,11 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtRfcKeyTyped
 
     private void cbxVigenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxVigenciaMouseClicked
-            llenarCamposTramite();
+        llenarCamposTramite();
     }//GEN-LAST:event_cbxVigenciaMouseClicked
 
     private void cbxVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxVigenciaActionPerformed
-            llenarCamposTramite();
+        llenarCamposTramite();
     }//GEN-LAST:event_cbxVigenciaActionPerformed
 
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
@@ -521,7 +521,7 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
                     int respuesta = JOptionPane.showConfirmDialog(null,
                             "Esta persona ya tiene una licencia\n"
                             + "¿Está seguro que desea continuar y cancelar la licencia anterior?", "Confirmación",
-                            JOptionPane.YES_NO_CANCEL_OPTION);
+                            JOptionPane.YES_NO_OPTION);
                     if (respuesta == JOptionPane.YES_OPTION) {
                         this.licenciaAnterior = licencia;
                         this.llenarCamposCliente();
