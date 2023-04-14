@@ -78,26 +78,4 @@
             <version>2.2.3</version>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jasperreports-maven-plugin</artifactId>
-                <version>1.0-beta-2</version>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile-reports</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <sourceDirectory>src/main/jasperreports</sourceDirectory>
-                    <outputDirectory>target/classes</outputDirectory>
-                    <xmlValidation>false</xmlValidation>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>
