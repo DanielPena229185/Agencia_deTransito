@@ -6,9 +6,10 @@ package org.itson.utils;
 //importanciones
 
 /**
- * Descripción de la clase:
+ * Descripción de la clase: Esta clase se dedica a realizar el paginado
  *
  * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class ConfiguracionDePaginado {
 

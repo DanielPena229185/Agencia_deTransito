@@ -11,15 +11,17 @@ package org.itson.excepciones;
 public class PersistenciaException extends RuntimeException {
 
     /**
-     * Constructor vacío sin parámetros. Llama al constructor de la clase padre sin argumentos.
+     * Constructor vacío sin parámetros. Llama al constructor de la clase padre
+     * sin argumentos.
      */
     public PersistenciaException() {
         super();
     }
 
     /**
-     * Constructor que recibe un mensaje de error como parámetro, que se mostrará al lanzar la excepción.
-     * 
+     * Constructor que recibe un mensaje de error como parámetro, que se
+     * mostrará al lanzar la excepción.
+     *
      * @param message El mensaje de error que se desea mostrar.
      */
     public PersistenciaException(String message) {
@@ -27,8 +29,9 @@ public class PersistenciaException extends RuntimeException {
     }
 
     /**
-     * Constructor que recibe un mensaje de error y la causa de la excepción como parámetros.
-     * 
+     * Constructor que recibe un mensaje de error y la causa de la excepción
+     * como parámetros.
+     *
      * @param message El mensaje de error que se desea mostrar.
      * @param cause La causa de la excepción.
      */
