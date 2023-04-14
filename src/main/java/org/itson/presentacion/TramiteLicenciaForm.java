@@ -408,19 +408,11 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtRfcKeyTyped
 
     private void cbxVigenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxVigenciaMouseClicked
-        if(!this.validarCamposTexto().isEmpty()){
             llenarCamposTramite();
-        }else{
-            this.cbxVigencia.setEditable(false);
-        }
     }//GEN-LAST:event_cbxVigenciaMouseClicked
 
     private void cbxVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxVigenciaActionPerformed
-        if(!this.validarCamposTexto().isEmpty()){
             llenarCamposTramite();
-        }else{
-            this.cbxVigencia.setEditable(false);
-        }
     }//GEN-LAST:event_cbxVigenciaActionPerformed
 
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden

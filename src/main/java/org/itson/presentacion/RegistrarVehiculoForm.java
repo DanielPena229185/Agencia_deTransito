@@ -5,6 +5,7 @@
  */
 package org.itson.presentacion;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -285,7 +286,7 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
                 PrimerasPlacasForm primerasPlacas = new PrimerasPlacasForm(vehiculo);
                 primerasPlacas.setVisible(true);
                 this.dispose();
-            }else{
+            } else {
                 ActualizarPlacasForm actualizar = new ActualizarPlacasForm(vehiculo, placasAntiguas);
                 actualizar.setVisible(true);
                 this.dispose();
@@ -312,10 +313,11 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
 
     private void formatModeloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formatModeloKeyTyped
         char c = evt.getKeyChar();
-        if (!Character.isDigit(c)) {
+        if (!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_SPACE)) {
             evt.consume();
             JOptionPane.showMessageDialog(null, "Solo se permiten números", "Error", JOptionPane.ERROR_MESSAGE);
         }
+
     }//GEN-LAST:event_formatModeloKeyTyped
 
     private void formatModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formatModeloActionPerformed
@@ -343,8 +345,8 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         if (txtMarca.getText().isEmpty()) {
             camposVacios.add("Marca");
         }
-        if (formatModelo.getText().isEmpty()) {
-            camposVacios.add("Modelo");
+        if (formatModelo.getText().isEmpty() || !formatModelo.getText().matches("\\d{4}")) {
+            camposVacios.add("Modelo (Formato 2000)");
         }
         if (formatNumeroSerie.getText().isEmpty() || !formatNumeroSerie.getText().matches("[A-Z]{3}-\\d{3}")) {
             camposVacios.add("Número de serie (formato AAA-123)");

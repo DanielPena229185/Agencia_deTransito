@@ -27,7 +27,7 @@ import org.itson.utils.Encriptador;
  * @author Daniel Armando Peña Garcia ID:229185
  */
 public class BuscadorClientesForm extends javax.swing.JFrame {
-
+    
     private PersonaServicio personaDAO;
     private SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     private Persona persona;
@@ -63,7 +63,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         this.BuscarPersona();
         this.tramiteLicencia = tramiteLicencia;
     }
-
+    
     public BuscadorClientesForm(ConsultaForm consultarForm) {
         personaDAO = new PersonaServicio();
         initComponents();
@@ -72,7 +72,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         this.BuscarPersona();
         this.consultarForm = consultarForm;
     }
-
+    
     public BuscadorClientesForm(PrimerasPlacasForm tramitePrimerasPlacas, Vehiculo vehiculo) {
         personaDAO = new PersonaServicio();
         initComponents();
@@ -82,7 +82,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         this.vehiculo = vehiculo;
         this.tramitePrimerasPlacas = tramitePrimerasPlacas;
     }
-
+    
     public BuscadorClientesForm(ActualizarPlacasForm actualizarPlacas, Vehiculo vehiculo, Placa placaAntigua) {
         personaDAO = new PersonaServicio();
         initComponents();
@@ -320,10 +320,10 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         if (this.cbxFiltro.getSelectedItem().toString() == "Nombre") {
             filtro = "nombres";
             try {
-                if(!txtBuscar.getText().isEmpty()){
-                buscar = Encriptador.encriptar(this.txtBuscar.getText());
-                System.out.println(buscar);
-                }else{
+                if (!txtBuscar.getText().isEmpty()) {
+                    buscar = Encriptador.encriptar(this.txtBuscar.getText());
+                    System.out.println(buscar);
+                } else {
                     buscar = "";
                 }
             } catch (Exception e) {
@@ -396,9 +396,17 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                 "¿Desea Cancelar la búsqueda?", "¡Cuidado!",
                 JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (opcion == JOptionPane.YES_OPTION) {
-            TramiteLicenciaForm tramite = new TramiteLicenciaForm();
-            tramite.setVisible(true);
-            this.dispose();
+            if (this.tramiteLicencia != null) {
+                new TramiteLicenciaForm().setVisible(true);
+            } else if (this.tramitePrimerasPlacas != null) {
+                new PrimerasPlacasForm(this.vehiculo).setVisible(true);
+            } else if (this.actualizarPlacas != null) {
+                new ActualizarPlacasForm(this.vehiculo).setVisible(true);
+            } else if (this.consultarForm != null) {
+                new ConsultaForm().setVisible(true);
+            } else {
+                new PrincipalForm().setVisible(true);
+            }
         } else {
             this.setVisible(true);
         }
@@ -419,7 +427,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         paginadoCliente.retrocederPagina();
         this.BuscarPersona();
     }//GEN-LAST:event_btnRetrocederPersonaActionPerformed
-
+    
     private boolean validarCredencialActiva() {
         List<Licencia> licencias = licenciaDAO.consultarLicenciasPersona(this.persona);
         for (Licencia licencia : licencias) {
@@ -429,7 +437,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         }
         return false;
     }
-
+    
     private boolean validarEscogioPersona() {
         if (persona == null) {
             JOptionPane.showMessageDialog(this,
@@ -440,14 +448,14 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         }
         return true;
     }
-
+    
     private void tramitaLicenciaForm() {
         if (this.tramiteLicencia != null) {
             new TramiteLicenciaForm(persona);
             this.dispose();
         }
     }
-
+    
     private void tramitePrimerasPlacasForm() {
         if (this.tramitePrimerasPlacas != null) {
             if (validarCredencialActiva()) {
@@ -464,7 +472,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             }
         }
     }
-
+    
     private void actualizarPlacasForm() {
         if (this.actualizarPlacas != null) {
             if (validarCredencialActiva()) {
@@ -479,7 +487,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             }
         }
     }
-
+    
     private void consultaForm() {
         if (this.consultarForm != null) {
             ConsultaForm consultar = new ConsultaForm(persona);
@@ -487,7 +495,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             this.dispose();
         }
     }
-
+    
     private boolean validarMayorDeEdad() {
         if (this.persona.getEdad() < 18) {
             JOptionPane.showMessageDialog(this,
@@ -498,7 +506,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         }
         return true;
     }
-
+    
     private void validarPersonas() {
         if (personaDAO.consultarPersonas().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ops! Parece que no "
