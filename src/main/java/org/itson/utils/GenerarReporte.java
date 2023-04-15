@@ -51,6 +51,7 @@ public class GenerarReporte {
             JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
             JasperViewer view = new JasperViewer(print, false);
             view.setVisible(true);
+            view.setAlwaysOnTop(true);
         } catch (Exception e) {
             throw new ReportePDFException("Error al generar el reporte: " + e.getMessage(), e);
         }

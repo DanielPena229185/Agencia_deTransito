@@ -186,7 +186,10 @@ public class GenerarReportePdfForm extends javax.swing.JFrame {
 
     private void btnGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGActionPerformed
         if (this.datePickerDesde.getDate() == null || this.datePickerHasta.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "No puedes hacer un reporte sin especificar las fechas del periodo", "Error!", JOptionPane.ERROR_MESSAGE);
+            if (this.consultarListaTramites() != null) {
+                GenerarReporte.generarReporte(consultarListaTramites());
+            }
+// JOptionPane.showMessageDialog(this, "No puedes hacer un reporte sin especificar las fechas del periodo", "Error!", JOptionPane.ERROR_MESSAGE);
         } else {
             Date fechaDesde = this.datePickerDesde.getDate();
             Date fechaHasta = this.datePickerHasta.getDate();
@@ -195,7 +198,7 @@ public class GenerarReportePdfForm extends javax.swing.JFrame {
             } else if (fechaHasta.before(fechaDesde)) {
                 JOptionPane.showMessageDialog(this, "La fecha de fin no puede ser anterior a la de inicio", "Error!", JOptionPane.ERROR_MESSAGE);
             } else {
-                if (consultarListaTramites() != null) {
+                if (this.consultarListaTramites() != null) {
                     GenerarReporte.generarReporte(consultarListaTramites());
                 }
 
@@ -212,14 +215,17 @@ public class GenerarReportePdfForm extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private List<Reporte> consultarListaTramites() {
-        String nombre = Encriptador.encriptar(txtNombrePersonas.getText().toUpperCase());
-        List<Reporte> reportes = new LinkedList<>();
+        String nombre = "";
 
-        // Validar si el nombre está vacío y la lista de tramites también
-        if (nombre.isEmpty() && servicioA.consultarTramitesPeriodo(this.datePickerDesde.getCalendar(), this.datePickerHasta.getCalendar(), nombre).isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No hay ningún trámite en el periodo especificado", "Error!", JOptionPane.ERROR_MESSAGE);
+        if (txtNombrePersonas.getText().isEmpty() && this.datePickerDesde.getDate() == null || this.datePickerHasta == null) {
+            JOptionPane.showMessageDialog(this, "Necesitas llenar almenos los campos del periodo (Desde y Hasta) o escribir almenos un nombre", "No se puede realizar la búsqueda", JOptionPane.ERROR_MESSAGE);
             return null;
         }
+        if (!this.txtNombrePersonas.getText().isEmpty()) {
+            nombre = Encriptador.encriptar(txtNombrePersonas.getText().toUpperCase());
+        }
+
+        List<Reporte> reportes = new LinkedList<>();
 
         List<Tramite> tramites = servicioA.consultarTramitesPeriodo(this.datePickerDesde.getCalendar(), this.datePickerHasta.getCalendar(), nombre);
         if (tramites.isEmpty()) {

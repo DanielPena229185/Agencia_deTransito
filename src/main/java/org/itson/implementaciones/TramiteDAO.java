@@ -6,12 +6,14 @@ package org.itson.implementaciones;
 //importanciones
 
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.swing.JOptionPane;
 import org.itson.dominio.Persona;
@@ -132,15 +134,21 @@ public class TramiteDAO implements ITramiteDAO {
         EntityManager em = conexion.getConexion();
         try {
             em.getTransaction().begin();
+
             CriteriaBuilder builder = em.getCriteriaBuilder();
             CriteriaQuery<Tramite> criteria = builder.createQuery(Tramite.class);
             Root<Tramite> root = criteria.from(Tramite.class);
-            Join<Tramite, Persona> joinPersona = root.join("persona"); // Se hace el join con la clase Persona
+            List<Predicate> predicados = new LinkedList<>();
+            Join<Tramite, Persona> joinPersona = root.join("persona");
+            if (desde != null && hasta != null) {
+                predicados.add(builder.between(root.get("fechaExpedicion"), desde, hasta));
+            }
+            if(nombre != null){
+                predicados.add(builder.like(joinPersona.get("nombres"), "%" + nombre + "%"));
+            }
+            ; // Se hace el join con la clase Persona
             criteria.select(root).where(
-                    builder.and(
-                            builder.between(root.get("fechaExpedicion"), desde, hasta),
-                            builder.like(joinPersona.get("nombres"), "%" + nombre + "%") // Se utiliza el like para buscar por los nombres de la persona
-                    )
+                    builder.and(predicados.toArray(new Predicate[0]))
             );
             TypedQuery<Tramite> query = em.createQuery(criteria);
             List<Tramite> tramites = query.getResultList();
