@@ -221,6 +221,7 @@ public class GenerarReportePdfForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Necesitas llenar almenos los campos del periodo (Desde y Hasta) o escribir almenos un nombre", "No se puede realizar la búsqueda", JOptionPane.ERROR_MESSAGE);
             return null;
         }
+        
         if (!this.txtNombrePersonas.getText().isEmpty()) {
             nombre = Encriptador.encriptar(txtNombrePersonas.getText().toUpperCase());
         }
@@ -229,8 +230,8 @@ public class GenerarReportePdfForm extends javax.swing.JFrame {
 
         List<Tramite> tramites = servicioA.consultarTramitesPeriodo(this.datePickerDesde.getCalendar(), this.datePickerHasta.getCalendar(), nombre);
         if (tramites.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No hay ningún trámite donde "
-                    + "incluya el nombre " + this.txtNombrePersonas.getText(),
+            JOptionPane.showMessageDialog(this, "No hay ningún trámite "
+                    + "con esas especificaciones",
                     "Error!", JOptionPane.ERROR_MESSAGE);
             return null;
         } else {

@@ -336,8 +336,6 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             try {
                 if (!txtBuscar.getText().isEmpty()) {
                     buscar = Encriptador.encriptar(this.txtBuscar.getText().toUpperCase());
-                } else {
-                    buscar = "";
                 }
             } catch (Exception e) {
                 throw new EncriptarException("Error al encriptar en búsqueda: " + e.getMessage(), e);
