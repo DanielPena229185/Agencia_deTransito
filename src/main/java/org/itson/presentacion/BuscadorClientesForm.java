@@ -114,6 +114,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         txtBuscar = new javax.swing.JTextField();
         btnAvanzarPersona = new javax.swing.JButton();
         btnRetrocederPersona = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
 
         setTitle("Buscador de Cliente");
         setResizable(false);
@@ -251,6 +252,16 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             }
         });
 
+        btnBuscar.setBackground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(0, 0, 0));
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -263,6 +274,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                         .addComponent(lblBuscarPor)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnBuscar)
                     .addComponent(txtBuscar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -285,7 +297,9 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                             .addComponent(cbxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(220, 220, 220))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBuscar)
+                        .addGap(187, 187, 187))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -321,7 +335,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             filtro = "nombres";
             try {
                 if (!txtBuscar.getText().isEmpty()) {
-                    buscar = Encriptador.encriptar(this.txtBuscar.getText());
+                    buscar = Encriptador.encriptar(this.txtBuscar.getText().toUpperCase());
                 } else {
                     buscar = "";
                 }
@@ -357,7 +371,9 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxFiltroActionPerformed
 
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
-        this.BuscarPersona();
+        if(txtBuscar.getText().isEmpty()){
+            this.BuscarPersona();
+        }
     }//GEN-LAST:event_txtBuscarKeyTyped
 
     private void tblPersonasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPersonasMouseClicked
@@ -426,6 +442,10 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         paginadoCliente.retrocederPagina();
         this.BuscarPersona();
     }//GEN-LAST:event_btnRetrocederPersonaActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        this.BuscarPersona();
+    }//GEN-LAST:event_btnBuscarActionPerformed
     
     private boolean validarCredencialActiva() {
         List<Licencia> licencias = licenciaDAO.consultarLicenciasPersona(this.persona);
@@ -519,6 +539,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnAvanzarPersona;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnRetrocederPersona;
     private javax.swing.JComboBox<String> cbxFiltro;
     private javax.swing.JLabel jLabel2;

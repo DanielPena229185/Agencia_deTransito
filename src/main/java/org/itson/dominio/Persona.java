@@ -363,9 +363,10 @@ public class Persona implements Serializable {
 
     private void encriptarNombres(String nombres, String apellido_Paterno, String apellido_Materno)throws EncriptarException{
         try {
-            this.nombres = Encriptador.encriptar(nombres);
-            this.apellido_paterno = Encriptador.encriptar(apellido_Paterno);
-            this.apellido_materno = Encriptador.encriptar(apellido_Materno);
+            
+            this.nombres = Encriptador.encriptar(nombres.toUpperCase());
+            this.apellido_paterno = Encriptador.encriptar(apellido_Paterno.toUpperCase());
+            this.apellido_materno = Encriptador.encriptar(apellido_Materno.toUpperCase());
         } catch (Exception e) {
             throw new EncriptarException("Error al encriptar: " + e.getMessage(), e);
         }

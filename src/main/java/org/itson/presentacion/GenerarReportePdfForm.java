@@ -212,7 +212,7 @@ public class GenerarReportePdfForm extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private List<Reporte> consultarListaTramites() {
-        String nombre = Encriptador.encriptar(txtNombrePersonas.getText());
+        String nombre = Encriptador.encriptar(txtNombrePersonas.getText().toUpperCase());
         List<Reporte> reportes = new LinkedList<>();
 
         // Validar si el nombre está vacío y la lista de tramites también
