@@ -23,12 +23,22 @@ import org.itson.dominio.Reporte;
 import org.itson.excepciones.ReportePDFException;
 
 /**
- * Descripción de la clase:
+ * Descripción de la clase: Esta clase realiza la operación de generar un
+ * reporte junto con la librería de JasperReports y así pre-visualizar el
+ * archivo el cual puede generar el pdf
  *
  * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class GenerarReporte {
 
+    /**
+     * Método que genera una visualización para el reporte a generar dependiendo
+     * de la lista que se ingrese en los parámetros.
+     *
+     * @param listaReportes Lista de los valores de los que se desea hacer el
+     * reporte
+     */
     public static void generarReporte(List<Reporte> listaReportes) {
         try {
             JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(listaReportes);
