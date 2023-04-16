@@ -1,6 +1,7 @@
 package org.itson.sistema;
 
 import org.itson.presentacion.PrincipalForm;
+import org.itson.utils.GenerarReporte;
 
 /**
  * Descripción de la clase: Esta clase Se dedica a inicar el sistema. Clase que

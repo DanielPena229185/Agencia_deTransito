@@ -130,33 +130,6 @@ public class LicenciaDAO implements ILicenciaDAO {
     }
 
     @Override
-    public List<Licencia> consultarLicenciaPeriodo(Calendar desde, Calendar hasta, Persona persona) throws PersistenciaException {
-        EntityManager em = conexion.getConexion();
-        try {
-            em.getTransaction().begin();
-            CriteriaBuilder builder = em.getCriteriaBuilder();
-            CriteriaQuery<Licencia> criteria = builder.createQuery(Licencia.class);
-            Root<Licencia> root = criteria.from(Licencia.class);
-            criteria.select(root).where(
-                    builder.and(
-                            builder.between(root.get("fechaExpedicion"), desde, hasta),
-                            builder.equal(root.get("persona"), persona)
-                    )
-            );
-            TypedQuery<Licencia> query = em.createQuery(criteria);
-            List<Licencia> licencias = query.getResultList();
-            em.getTransaction().commit();
-            return licencias;
-        } catch (Exception a) {
-            em.getTransaction().rollback();
-            JOptionPane.showMessageDialog(null, "No se pudo generar la busqueda de licencias: " + a.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            throw new PersistenciaException("No se pudo generar la busqueda de licencias: " + a.getMessage(), a);
-        } finally {
-            em.close();
-        }
-    }
-
-    @Override
     public List<Licencia> consultarLicenciasPersonaPaginado(Persona persona, ConfiguracionDePaginado paginado) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
         try {

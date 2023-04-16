@@ -70,23 +70,6 @@ public class LicenciaServicio {
 
     }
 
-    public List<Licencia> consultarLicenciaPeriodo(Calendar desde, Calendar hasta, Persona persona) throws ServicioException {
-        try {
-            if (desde == null) {
-                throw new ServicioException("La fecha desde no pueden ser nulas");
-            }
-            if (hasta == null) {
-                throw new ServicioException("La fecha hasta no pueden ser nulas");
-            }
-            this.validarDatosPersona(persona);
-            return licenciaDAO.consultarLicenciaPeriodo(desde, hasta, persona);
-        } catch (PersistenciaException ep) {
-            throw new PersistenciaException("Error al  consultar licencias por periodo " + ep.getMessage(), ep);
-        } catch (ServicioException e) {
-            throw new ServicioException("No se pudo consultar la licencia: " + e.getMessage());
-        }
-    }
-
     public List<Licencia> consultarLicenciasPersonaPaginado(Persona persona, ConfiguracionDePaginado paginado) throws ServicioException {
         try {
             this.validarDatosPersona(persona);

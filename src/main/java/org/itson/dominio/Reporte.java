@@ -88,7 +88,7 @@ public class Reporte {
         String fechaExpedicionTramite = new SimpleDateFormat("dd/MM/yyyy").format(this.tramite.getFechaExpedicion().getTime());
         String nombreTramite = this.tramite.getPersona().getNombreCompleto();
 
-        this.costo = costoTramite;
+        this.costo = "$" + costoTramite;
         this.fechaExpedicion = fechaExpedicionTramite;
         this.nombreCompleto = nombreTramite;
     }
