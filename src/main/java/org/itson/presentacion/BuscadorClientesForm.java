@@ -27,7 +27,7 @@ import org.itson.utils.Encriptador;
  * @author Daniel Armando Peña Garcia ID:229185
  */
 public class BuscadorClientesForm extends javax.swing.JFrame {
-    
+
     private PersonaServicio personaDAO;
     private SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     private Persona persona;
@@ -46,6 +46,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     public BuscadorClientesForm() {
         personaDAO = new PersonaServicio();
         initComponents();
+        this.cargarComboBox();
         this.validarPersonas();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.BuscarPersona();
@@ -58,34 +59,38 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     public BuscadorClientesForm(TramiteLicenciaForm tramiteLicencia) {
         personaDAO = new PersonaServicio();
         initComponents();
+        this.cargarComboBox();
         this.validarPersonas();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.BuscarPersona();
         this.tramiteLicencia = tramiteLicencia;
     }
-    
+
     public BuscadorClientesForm(ConsultaForm consultarForm) {
         personaDAO = new PersonaServicio();
         initComponents();
+        this.cargarComboBox();
         this.validarPersonas();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.BuscarPersona();
         this.consultarForm = consultarForm;
     }
-    
+
     public BuscadorClientesForm(PrimerasPlacasForm tramitePrimerasPlacas, Vehiculo vehiculo) {
         personaDAO = new PersonaServicio();
         initComponents();
+        this.cargarComboBox();
         this.validarPersonas();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.BuscarPersona();
         this.vehiculo = vehiculo;
         this.tramitePrimerasPlacas = tramitePrimerasPlacas;
     }
-    
+
     public BuscadorClientesForm(ActualizarPlacasForm actualizarPlacas, Vehiculo vehiculo, Placa placaAntigua) {
         personaDAO = new PersonaServicio();
         initComponents();
+        this.cargarComboBox();
         this.validarPersonas();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.actualizarPlacas = actualizarPlacas;
@@ -115,6 +120,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         btnAvanzarPersona = new javax.swing.JButton();
         btnRetrocederPersona = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
+        yearChooser = new com.toedter.calendar.JYearChooser();
 
         setTitle("Buscador de Cliente");
         setResizable(false);
@@ -262,6 +268,11 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             }
         });
 
+        yearChooser.setBackground(new java.awt.Color(255, 255, 255));
+        yearChooser.setForeground(new java.awt.Color(0, 0, 0));
+        yearChooser.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        yearChooser.setYear(1999);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -274,7 +285,10 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                         .addComponent(lblBuscarPor)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnBuscar)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnBuscar)
+                        .addGap(18, 18, 18)
+                        .addComponent(yearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtBuscar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -298,7 +312,9 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscar)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(yearChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(187, 187, 187))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -345,7 +361,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             buscar = this.txtBuscar.getText();
         } else if (this.cbxFiltro.getSelectedItem().toString() == "Año de Nacimiento") {
             filtro = "fechaNacimiento";
-            buscar = this.txtBuscar.getText();
+            buscar = String.valueOf(this.yearChooser.getYear());
         }
         //Generar tabla
         List<Persona> listaPersona = personaDAO.consultarPersonasFiltroPaginado(filtro, buscar, paginadoCliente);
@@ -365,11 +381,13 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     }
 
     private void cbxFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFiltroActionPerformed
-        // TODO add your handling code here:
+        this.cargarComboBox();
     }//GEN-LAST:event_cbxFiltroActionPerformed
 
     private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
-        if(txtBuscar.getText().isEmpty()){
+        if (txtBuscar.getText().isEmpty()) {
+            this.BuscarPersona();
+        } else if (!this.txtBuscar.getText().isEmpty() && this.cbxFiltro.getSelectedItem().toString() != "Nombre") {
             this.BuscarPersona();
         }
     }//GEN-LAST:event_txtBuscarKeyTyped
@@ -444,7 +462,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         this.BuscarPersona();
     }//GEN-LAST:event_btnBuscarActionPerformed
-    
+
     private boolean validarCredencialActiva() {
         List<Licencia> licencias = licenciaDAO.consultarLicenciasPersona(this.persona);
         for (Licencia licencia : licencias) {
@@ -454,7 +472,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         }
         return false;
     }
-    
+
     private boolean validarEscogioPersona() {
         if (persona == null) {
             JOptionPane.showMessageDialog(this,
@@ -465,14 +483,14 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         }
         return true;
     }
-    
+
     private void tramitaLicenciaForm() {
         if (this.tramiteLicencia != null) {
             new TramiteLicenciaForm(persona);
             this.dispose();
         }
     }
-    
+
     private void tramitePrimerasPlacasForm() {
         if (this.tramitePrimerasPlacas != null) {
             if (validarCredencialActiva()) {
@@ -489,7 +507,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void actualizarPlacasForm() {
         if (this.actualizarPlacas != null) {
             if (validarCredencialActiva()) {
@@ -504,7 +522,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void consultaForm() {
         if (this.consultarForm != null) {
             ConsultaForm consultar = new ConsultaForm(persona);
@@ -512,7 +530,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
             this.dispose();
         }
     }
-    
+
     private boolean validarMayorDeEdad() {
         if (this.persona.getEdad() < 18) {
             JOptionPane.showMessageDialog(this,
@@ -523,13 +541,23 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         }
         return true;
     }
-    
+
     private void validarPersonas() {
         if (personaDAO.consultarPersonas().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ops! Parece que no "
                     + "seguiste las indicaciones\n"
                     + "Necesitas ingresar a las personas\n", "Ops!!",
                     JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void cargarComboBox() {
+        if (this.cbxFiltro.getSelectedItem().toString() != "Año de Nacimiento") {
+            this.txtBuscar.enable(true);
+            this.yearChooser.setVisible(false);
+        } else {
+            this.txtBuscar.enable(false);
+            this.yearChooser.setVisible(true);
         }
     }
 
@@ -547,6 +575,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblBuscarPor;
     private javax.swing.JTable tblPersonas;
     private javax.swing.JTextField txtBuscar;
+    private com.toedter.calendar.JYearChooser yearChooser;
     // End of variables declaration//GEN-END:variables
 
 }

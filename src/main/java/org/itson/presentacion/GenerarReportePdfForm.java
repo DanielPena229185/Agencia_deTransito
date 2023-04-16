@@ -5,6 +5,7 @@
  */
 package org.itson.presentacion;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -109,6 +110,11 @@ public class GenerarReportePdfForm extends javax.swing.JFrame {
         txtNombrePersonas.setBackground(new java.awt.Color(255, 255, 255));
         txtNombrePersonas.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         txtNombrePersonas.setForeground(new java.awt.Color(0, 0, 0));
+        txtNombrePersonas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombrePersonasActionPerformed(evt);
+            }
+        });
         txtNombrePersonas.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtNombrePersonasKeyTyped(evt);
@@ -207,12 +213,16 @@ public class GenerarReportePdfForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGActionPerformed
 
     private void txtNombrePersonasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombrePersonasKeyTyped
-
+        
     }//GEN-LAST:event_txtNombrePersonasKeyTyped
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         new PrincipalForm().setVisible(true);
     }//GEN-LAST:event_formWindowClosed
+
+    private void txtNombrePersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombrePersonasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombrePersonasActionPerformed
 
     private List<Reporte> consultarListaTramites() {
         String nombre = "";
@@ -230,19 +240,32 @@ public class GenerarReportePdfForm extends javax.swing.JFrame {
 
         List<Tramite> tramites = servicioA.consultarTramitesPeriodo(this.datePickerDesde.getCalendar(), this.datePickerHasta.getCalendar(), nombre);
         if (tramites.isEmpty()) {
+            String mensaje  = "";
+            if(nombre == ""){
+                mensaje += "[Sin Nombre]";
+            }else{
+                mensaje += "[" + Encriptador.desencriptar(nombre) + "]";
+            }
+            
+            if(this.datePickerDesde.getCalendar() == null || this.datePickerHasta.getCalendar() == null){
+                mensaje += "[Periodo sin especificar]";
+            }else{
+                String fechaDesde = new SimpleDateFormat("dd/MM/yyyy").format(this.datePickerDesde.getCalendar().getTime());
+                String fechaHasta = new SimpleDateFormat("dd/MM/yyyy").format(this.datePickerHasta.getCalendar().getTime());
+                mensaje += "[Desde " + fechaDesde + "] [Hasta " + fechaHasta + "]";
+            }
             JOptionPane.showMessageDialog(this, "No hay ningún trámite "
-                    + "con esas especificaciones",
+                    + "con esas especificaciones\n"
+                    + mensaje,
                     "Error!", JOptionPane.ERROR_MESSAGE);
             return null;
         } else {
             for (Tramite tramite : tramites) {
                 if (tramite instanceof Licencia) {
-                    Licencia l = (Licencia) tramite;
                     // Realizar acciones específicas para la subclase Licencia
                     Reporte reporte = new Reporte(tramite, "Licencia");
                     reportes.add(reporte);
                 } else if (tramite instanceof Placa) {
-                    Placa p = (Placa) tramite;
                     // Realizar acciones específicas para la subclase Placa
                     Reporte reporte = new Reporte(tramite, "Placa");
                     reportes.add(reporte);
