@@ -21,11 +21,23 @@ public class PagoServicio {
 
     private IPagoDAO pagoDAO;
 
+    /**
+     * Constructor por defecto que inicializa un objeto DAOFactory para obtener
+     * un objeto IPagoDAO.
+     */
     public PagoServicio() {
         this.pagoDAO = new DAOFactory().getPagoDAO();
 
     }
 
+    /**
+     * Agrega un pago a la base de datos.
+     *
+     * @param pago Pago que se desea guardar en la base de datos.
+     * @return Pago que se guardó en la base de datos.
+     * @throws ServicioException Si no se puede guardar el pago en la base de
+     * datos.
+     */
     public Pago agregarPago(Pago pago) throws ServicioException {
         try {
             this.validarDatos(pago);
@@ -37,6 +49,13 @@ public class PagoServicio {
         }
     }
 
+    /**
+     * Elimina un pago de la base de datos.
+     *
+     * @param pago Pago que se desea eliminar de la base de datos.
+     * @throws ServicioException Si no se puede eliminar el pago de la base de
+     * datos.
+     */
     public void eliminarPago(Pago pago) throws ServicioException {
         try {
             this.validarDatos(pago);
@@ -48,6 +67,14 @@ public class PagoServicio {
         }
     }
 
+    /**
+     * Actualiza los datos de un pago en la base de datos.
+     *
+     * @param pago Pago que se desea actualizar en la base de datos.
+     * @return Pago que se actualizó en la base de datos.
+     * @throws ServicioException Si no se puede actualizar el pago en la base de
+     * datos.
+     */
     public Pago actualizarPago(Pago pago) throws ServicioException {
         try {
             this.validarDatos(pago);
@@ -59,6 +86,14 @@ public class PagoServicio {
         }
     }
 
+    /**
+     * Consulta un pago en la base de datos.
+     *
+     * @param pago Pago que se desea consultar en la base de datos.
+     * @return Pago consultado en la base de datos.
+     * @throws ServicioException Si no se puede consultar el pago en la base de
+     * datos.
+     */
     public Pago consultarPago(Pago pago) throws ServicioException {
         try {
             this.validarDatos(pago);
@@ -70,6 +105,13 @@ public class PagoServicio {
         }
     }
 
+    /**
+     * Consulta todos los pagos en la base de datos.
+     *
+     * @return Lista de todos los pagos en la base de datos.
+     * @throws ServicioException Si no se puede realizar la consulta en la base
+     * de datos.
+     */
     public List<Pago> consultarPagos() throws ServicioException {
         try {
             return pagoDAO.consultarPagos();
@@ -80,6 +122,14 @@ public class PagoServicio {
         }
     }
 
+    /**
+     * Consulta todos los pagos realizados en una fecha específica.
+     *
+     * @param fecha Fecha a consultar.
+     * @return Lista de todos los pagos realizados en la fecha especificada.
+     * @throws ServicioException Si no se puede realizar la consulta en la base
+     * de datos.
+     */
     public List<Pago> consultarPagosFecha(Calendar fecha) throws ServicioException {
         try {
             if (fecha == null) {
@@ -93,6 +143,12 @@ public class PagoServicio {
         }
     }
 
+    /**
+     * Valida los atributos del objeto pago
+     *
+     * @param pago objeto a validar
+     * @throws ServicioException si algun atributo no sea el correcto
+     */
     public void validarDatos(Pago pago) throws ServicioException {
         if (pago.getMonto() <= 0) {
             throw new ServicioException("El monto debe ser mayor a 0");

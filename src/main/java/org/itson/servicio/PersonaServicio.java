@@ -21,11 +21,22 @@ public class PersonaServicio {
 
     private IPersonaDAO personaDAO;
 
+    /**
+     * Constructor por defecto que inicializa un objeto DAOFactory para obtener
+     * un objeto IPersonaDAO.
+     */
     public PersonaServicio() {
         this.personaDAO = new DAOFactory().getPersonaDAO();
 
     }
 
+    /**
+     * Agrega una nueva persona a la base de datos
+     *
+     * @param persona La persona a agregar
+     * @return La persona agregada
+     * @throws ServicioException En caso de que algo salga mal en la inserción
+     */
     public Persona agregarPersona(Persona persona) throws ServicioException {
         try {
             this.validarDatos(persona);
@@ -38,6 +49,14 @@ public class PersonaServicio {
         }
     }
 
+    /**
+     * Actualiza una persona existente en la base de datos
+     *
+     * @param persona La persona a actualizar
+     * @return La persona actualizada
+     * @throws ServicioException En caso de que algo salga mal en la
+     * actualización
+     */
     public Persona actualizarPersona(Persona persona) throws ServicioException {
         try {
             this.validarDatos(persona);
@@ -51,6 +70,14 @@ public class PersonaServicio {
     }
 
 //    public Persona eliminarPersona(Persona persona)throws PersistenciaException;
+    /**
+     * Consulta personas en la base de datos según un filtro de consulta
+     *
+     * @param filtro El filtro de consulta
+     * @param busqueda El término de consulta
+     * @return La lista de personas que cumplen con el filtro y la consulta
+     * @throws ServicioException En caso de que algo salga mal en la consulta
+     */
     public List<Persona> consultarPersonasFiltro(String filtro, String busqueda) throws ServicioException {
         try {
             return personaDAO.consultarPersonasFiltro(filtro, busqueda);
@@ -62,7 +89,18 @@ public class PersonaServicio {
         }
     }
 
-    public List<Persona> consultarPersonasFiltroPaginado(String filtro, String busqueda, ConfiguracionDePaginado paginado) throws SecurityException {
+    /**
+     * Consulta personas en la base de datos según un filtro de consulta y
+     * paginación
+     *
+     * @param filtro El filtro de consulta
+     * @param busqueda El término de consulta
+     * @param paginado La configuración de paginación
+     * @return La lista de personas que cumplen con el filtro, la consulta y la
+     * paginación
+     * @throws ServicioException En caso de que algo salga mal en la consulta
+     */
+    public List<Persona> consultarPersonasFiltroPaginado(String filtro, String busqueda, ConfiguracionDePaginado paginado) throws ServicioException {
         try {
             return personaDAO.consultarPersonasFiltroPaginado(filtro, busqueda, paginado);
         } catch (PersistenciaException pe) {
@@ -73,6 +111,12 @@ public class PersonaServicio {
         }
     }
 
+    /**
+     * Consulta todas las personas en la base de datos
+     *
+     * @return La lista de todas las personas en la base de datos
+     * @throws ServicioException En caso de que algo salga mal en la consulta
+     */
     public List<Persona> consultarPersonas() throws ServicioException {
         try {
             return personaDAO.consultarPersonas();
@@ -83,6 +127,13 @@ public class PersonaServicio {
         }
     }
 
+    /**
+     * Busca una persona en la base de datos
+     *
+     * @param persona La persona a buscar (se busca por su ID)
+     * @return La persona encontrada
+     * @throwsServicioException En caso de que algo salga mal en la consulta
+     */
     public Persona consultarPersona(Persona persona) throws ServicioException {
         try {
             return personaDAO.buscarPersona(persona);
@@ -93,6 +144,12 @@ public class PersonaServicio {
         }
     }
 
+    /**
+     * Validar los datos del objeto persona
+     *
+     * @param persona el objeto a validar
+     * @throws ServicioException si algun atributo no es el correcto
+     */
     public void validarDatos(Persona persona) throws ServicioException {
         if (persona.getNombres() == null || persona.getNombres().trim().isEmpty()) {
             throw new ServicioException("El nombre no puede estar vacío");

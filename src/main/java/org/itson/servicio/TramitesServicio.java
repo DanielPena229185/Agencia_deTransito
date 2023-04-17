@@ -22,10 +22,21 @@ public class TramitesServicio {
 
     private ITramiteDAO tramiteDAO;
 
+    /**
+     * Constructor por defecto que inicializa un objeto DAOFactory para obtener
+     * un objeto ITramiteDAO.
+     */
     public TramitesServicio() {
         this.tramiteDAO = new DAOFactory().getTramiteDAO();
     }
 
+    /**
+     * Agrega un nuevo trámite a la base de datos.
+     *
+     * @param tramite El trámite a agregar.
+     * @return El trámite agregado.
+     * @throws ServicioException Si algo sale mal al agregar.
+     */
     public Tramite agregarTramite(Tramite tramite) throws ServicioException {
         try {
             this.validarDatos(tramite);
@@ -37,6 +48,13 @@ public class TramitesServicio {
         }
     }
 
+    /**
+     * Actualiza un trámite existente en la base de datos.
+     *
+     * @param tramite El trámite a actualizar.
+     * @return El trámite actualizado.
+     * @throws ServicioException Si algo sale mal al actualizar.
+     */
     public Tramite actualizarTramite(Tramite tramite) throws ServicioException {
         try {
             this.validarDatos(tramite);
@@ -49,6 +67,12 @@ public class TramitesServicio {
     }
 
 //    public Tramite eliminarTramite(Tramite tramite)throws PersistenciaException;
+    /**
+     * Consulta todos los trámites existentes en la base de datos.
+     *
+     * @return Lista con todos los trámites.
+     * @throws ServicioException Si algo sale mal al consultar.
+     */
     public List<Tramite> consultarTramites() throws ServicioException {
         try {
             return tramiteDAO.consultarTramites();
@@ -59,6 +83,13 @@ public class TramitesServicio {
         }
     }
 
+    /**
+     * Consulta los trámites relacionados con una persona.
+     *
+     * @param persona La persona para la que se consultan los trámites.
+     * @return Lista con los trámites relacionados con la persona.
+     * @throws ServicioException Si algo sale mal al consultar.
+     */
     public List<Tramite> consultarTramitesPersona(Persona persona) throws ServicioException {
         try {
             this.validarDatosPersona(persona);
@@ -70,6 +101,17 @@ public class TramitesServicio {
         }
     }
 
+    /**
+     * Consulta los trámites realizados en un período determinado y que
+     * contienen un nombre de la persona en específico.
+     *
+     * @param desde Fecha inicial del período.
+     * @param hasta Fecha final del período.
+     * @param nombre Nombre que de la persona relacionada
+     * @return Lista con los trámites realizados en el período y que contienen
+     * el nombre específico.
+     * @throws ServicioException Si algo sale mal al consultar.
+     */
     public List<Tramite> consultarTramitesPeriodo(Calendar desde, Calendar hasta, String nombre) throws ServicioException {
         try {
             //this.validarFechas(desde, hasta);
@@ -81,6 +123,12 @@ public class TramitesServicio {
         }
     }
 
+    /**
+     * Validar los datos del objeto tramite
+     *
+     * @param tramite el objeto a validar
+     * @throws ServicioException si algun atributo no es el correcto
+     */
     public void validarDatos(Tramite tramite) throws ServicioException {
         if (tramite.getEstado() == null) {
             throw new ServicioException("El estado no puede ser nula");
@@ -100,6 +148,12 @@ public class TramitesServicio {
 
     }
 
+    /**
+     * Validar los datos del objeto persona
+     *
+     * @param persona el objeto a validar
+     * @throws ServicioException si algun atributo no es el correcto
+     */
     public void validarDatosPersona(Persona persona) throws ServicioException {
         if (persona.getNombres() == null || persona.getNombres().trim().isEmpty()) {
             throw new ServicioException("El nombre no puede estar vacío");
@@ -136,6 +190,13 @@ public class TramitesServicio {
         }
     }
 
+    /**
+     * Validar fechas
+     *
+     * @param desde primera fecha a validar
+     * @param hasta segunda fecha a validar
+     * @throws ServicioException si alguna fecha no es la correcta
+     */
     private void validarFechas(Calendar desde, Calendar hasta) throws ServicioException {
         if (desde == null) {
             throw new ServicioException("La fecha desde no pueden ser nulas");

@@ -24,10 +24,23 @@ public class PlacaServicio {
 
     private IPlacaDAO placaDAO;
 
+    /**
+     * Constructor por defecto que inicializa un objeto DAOFactory para obtener
+     * un objeto IPlacaDAO.
+     */
     public PlacaServicio() {
         this.placaDAO = new DAOFactory().getPlacaDAO();
     }
 
+    /**
+     *
+     * Agrega una nueva placa al sistema.
+     *
+     * @param placa la placa a agregar al sistema.
+     * @return la placa agregada al sistema.
+     * @throws ServicioException si ocurre un error al interactuar con el
+     * sistema de persistencia.
+     */
     public Placa agregarPlaca(Placa placa) throws ServicioException {
         try {
             this.validarDatos(placa);
@@ -39,6 +52,14 @@ public class PlacaServicio {
         }
     }
 
+    /**
+     * Actualiza la información de una placa existente en la base de datos.
+     *
+     * @param placa la placa a actualizar
+     * @return la placa actualizada
+     * @throws ServicioException si ocurre un error al acceder a la base de
+     * datos
+     */
     public Placa actualizarPlaca(Placa placa) throws ServicioException {
         try {
             this.validarDatos(placa);
@@ -51,6 +72,13 @@ public class PlacaServicio {
     }
 //    public Placa eliminarTramite(Placa placa)throws PersistenciaException;
 
+    /**
+     * Devuelve una lista de todas las placas registradas en el sistema.
+     *
+     * @return una lista de todas las placas registradas en el sistema.
+     * @throws ServicioException si ocurre algún error al interactuar con el
+     * almacenamiento persistente.
+     */
     public List<Placa> consultarPlaca() throws ServicioException {
         try {
             return placaDAO.consultarPlaca();
@@ -61,6 +89,17 @@ public class PlacaServicio {
         }
     }
 
+    /**
+     * Devuelve una lista de todas las placas registradas en el sistema que
+     * están asociadas con una persona dada.
+     *
+     * @param persona la persona para la cual se desea obtener las placas
+     * asociadas.
+     * @return una lista de todas las placas registradas en el sistema que están
+     * asociadas con la persona dada.
+     * @throws ServicioException si ocurre algún error al interactuar con el
+     * almacenamiento persistente.
+     */
     public List<Placa> consultarPlacasPersona(Persona persona) throws ServicioException {
         try {
             this.validarDatosPersona(persona);
@@ -72,6 +111,15 @@ public class PlacaServicio {
         }
     }
 
+    /**
+     * Consulta las placas de una persona de forma paginada.
+     *
+     * @param persona La persona de la que se quieren consultar las placas.
+     * @param paginado La configuración de paginado que se quiere utilizar.
+     * @return La lista de placas de la persona consultada, de acuerdo a la
+     * configuración de paginado especificada.
+     * @throws ServicioException Si ocurre un error en la operación de consulta.
+     */
     public List<Placa> consultarPlacasPersona(Persona persona, ConfiguracionDePaginado paginado) throws ServicioException {
         try {
             this.validarDatosPersona(persona);
@@ -83,6 +131,16 @@ public class PlacaServicio {
         }
     }
 
+    /**
+     * Consulta las placas de una persona en un período de tiempo específico.
+     *
+     * @param desde La fecha de inicio del período de tiempo.
+     * @param hasta La fecha de fin del período de tiempo.
+     * @param persona La persona de la que se quieren consultar las placas.
+     * @return La lista de placas de la persona consultada que se encontraron
+     * dentro del período de tiempo especificado.
+     * @throws ServicioException Si ocurre un error en la operación de consulta.
+     */
     public List<Placa> consultarPlacasPeriodo(Calendar desde, Calendar hasta, Persona persona) throws ServicioException {
         try {
             this.validarFechas(desde, hasta);
@@ -95,6 +153,15 @@ public class PlacaServicio {
         }
     }
 
+    /**
+     * Obtiene la lista de placas de todos los vehículos asociados a sus
+     * respectivos dueños.
+     *
+     * @return una lista de matrices de objetos, donde cada fila contiene la
+     * información de la placa, el vehículo y la persona propietaria.
+     * @throws ServicioException si ocurre un error al interactuar con el
+     * sistema de persistencia de datos.
+     */
     public List<Object[]> consultarPlacasPersonas() throws ServicioException {
         try {
             return placaDAO.consultarPlacasPersonas();
@@ -105,6 +172,18 @@ public class PlacaServicio {
         }
     }
 
+    /**
+     * Obtiene la lista de placas de los vehículos asociados a las personas cuyo
+     * nombre, número de identificación o dirección contengan la cadena
+     * especificada en el parámetro de búsqueda.
+     *
+     * @param busqueda la cadena de texto a buscar en los datos de las personas
+     * asociadas a los vehículos.
+     * @return una lista de matrices de objetos, donde cada fila contiene la
+     * información de la placa, el vehículo y la persona propietaria.
+     * @throws ServicioException ocurre un error al interactuar con el sistema
+     * de persistencia de datos.
+     */
     public List<Object[]> consultarPlacasPersonasFiltro(String busqueda) throws ServicioException {
         try {
             return placaDAO.consultarPlacasPersonasFiltro(busqueda);
@@ -115,6 +194,21 @@ public class PlacaServicio {
         }
     }
 
+    /**
+     * Busca y retorna una lista de objetos que contienen la información de la
+     * placa y la persona asociada a dicha placa, filtrando los resultados según
+     * el valor de búsqueda proporcionado, y aplicando paginación a los
+     * resultados.
+     *
+     * @param busqueda valor de búsqueda para filtrar los resultados de la
+     * consulta.
+     * @param paginado configuración de paginación a aplicar a los resultados de
+     * la consulta.
+     * @return lista de objetos que contienen la información de la placa y la
+     * persona asociada a dicha placa.
+     * @throws ServicioException si ocurre algún error durante la ejecución de
+     * la consulta.
+     */
     public List<Object[]> consultarPlacasPersonasFiltroPaginado(String busqueda, ConfiguracionDePaginado paginado) throws ServicioException {
         try {
             return placaDAO.consultarPlacasPersonasFiltroPaginado(busqueda, paginado);
@@ -125,6 +219,13 @@ public class PlacaServicio {
         }
     }
 
+    /**
+     * Devuelve una lista de todas las placas registradas en el sistema.
+     *
+     * @return una lista de todas las placas registradas en el sistema.
+     * @throws ServicioException si ocurre algún error al interactuar con el
+     * almacenamiento persistente.
+     */
     public Placa consultarPlaca(Placa placa) throws ServicioException {
         try {
             return placaDAO.consultarPlaca(placa);
@@ -135,6 +236,14 @@ public class PlacaServicio {
         }
     }
 
+    /**
+     *
+     * Consulta la placa asociada a un vehículo en la base de datos.
+     *
+     * @param vehiculo El vehículo del cual se desea consultar la placa.
+     * @return La placa asociada al vehículo consultado.
+     * @throws ServicioException Si ocurre un error en la consulta.
+     */
     public Placa consultarPlacaVehiculo(Vehiculo vehiculo) throws ServicioException {
         try {
             return placaDAO.consultarPlacasVehiculo(vehiculo);
@@ -145,6 +254,12 @@ public class PlacaServicio {
         }
     }
 
+    /**
+     * Valida los atributos del objeto placa
+     *
+     * @param placa objeto a validar
+     * @throws ServicioException si algun atributo no sea el correcto
+     */
     public void validarDatos(Placa placa) throws ServicioException {
         if (placa.getEstado() == null) {
             throw new ServicioException("El estado no puede ser nula");
@@ -163,6 +278,12 @@ public class PlacaServicio {
         }
     }
 
+    /**
+     * Validar los datos del objeto persona
+     *
+     * @param persona el objeto a validar
+     * @throws ServicioException si algun atributo no es el correcto
+     */
     public void validarDatosPersona(Persona persona) throws ServicioException {
         if (persona.getNombres() == null || persona.getNombres().trim().isEmpty()) {
             throw new ServicioException("El nombre no puede estar vacío");
@@ -199,6 +320,13 @@ public class PlacaServicio {
         }
     }
 
+    /**
+     * Validar fechas
+     *
+     * @param desde primera fecha a validar
+     * @param hasta segunda fecha a validar
+     * @throws ServicioException si alguna fecha no es la correcta
+     */
     private void validarFechas(Calendar desde, Calendar hasta) throws ServicioException {
         if (desde == null) {
             throw new ServicioException("La fecha desde no pueden ser nulas");

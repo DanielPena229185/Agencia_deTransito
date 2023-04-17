@@ -19,10 +19,22 @@ public class VehiculoServicio {
 
     private IVehiculoDAO vehiculoDAO;
 
+    /**
+     * Constructor por defecto que inicializa un objeto DAOFactory para obtener
+     * un objeto IVehiculoDAO.
+     */
     public VehiculoServicio() {
         this.vehiculoDAO = new DAOFactory().getVehiculoDAO();
     }
 
+    /**
+     * Agrega un nuevo Vehiculo a la base de datos.
+     *
+     * @param vehiculo El Vehiculo que se desea agregar.
+     * @return El Vehiculo agregado.
+     * @throws IllegalArgumentException En caso de que haya un error al agregar
+     * en la base de datos
+     */
     public Vehiculo agregarVehiculo(Vehiculo vehiculo) throws IllegalArgumentException {
         try {
             this.validarDatos(vehiculo);
@@ -32,6 +44,14 @@ public class VehiculoServicio {
         }
     }
 
+    /**
+     * Actualiza un Vehiculo existente en la base de datos.
+     *
+     * @param vehiculo El Vehiculo que se desea actualizar.
+     * @return El Vehiculo actualizado.
+     * @throws IllegalArgumentException En caso de que haya un error al
+     * actualizar en la base de datos
+     */
     public Vehiculo actualizarVehiculo(Vehiculo vehiculo) throws IllegalArgumentException {
         try {
             this.validarDatos(vehiculo);
@@ -42,6 +62,13 @@ public class VehiculoServicio {
     }
 
 //    public Vehiculo eliminarVehiculo(Vehiculo vehiculo)throws PersistenciaException;
+    /**
+     * Busca todos los Vehiculos existentes en la base de datos.
+     *
+     * @return Una lista con todos los Vehiculos de la base de datos.
+     * @throws IllegalArgumentException En caso de que haya un error al
+     * consultar en la base de datos
+     */
     public List<Vehiculo> consultarVehiculos() throws IllegalArgumentException {
         try {
             return vehiculoDAO.consultarVehiculos();
@@ -50,6 +77,14 @@ public class VehiculoServicio {
         }
     }
 
+    /**
+     * Busca un Vehiculo existente en la base de datos por su Placa.
+     *
+     * @param placa La Placa del Vehiculo que se desea buscar.
+     * @return El Vehiculo encontrado o null si no existe en la base de datos.
+     * @throws IllegalArgumentException En caso de que haya un error al
+     * consultar en la base de datos
+     */
     public List<Vehiculo> consultarVehiculo(Placa placa) throws IllegalArgumentException {
         try {
             this.validarDatosPlaca(placa);
@@ -59,6 +94,14 @@ public class VehiculoServicio {
         }
     }
 
+    /**
+     * Busca un Vehiculo existente en la base de datos.
+     *
+     * @param vehiculo El Vehiculo que se desea buscar.
+     * @return El Vehiculo encontrado o null si no existe en la base de datos.
+     * @throws IllegalArgumentException En caso de que haya un error al
+     * consultar en la base de datos
+     */
     public Vehiculo consultarVehiculo(Vehiculo vehiculo) throws IllegalArgumentException {
         try {
             return vehiculoDAO.consultarVehiculo(vehiculo);
@@ -66,8 +109,18 @@ public class VehiculoServicio {
             throw new IllegalArgumentException("No se puede realizar ña busqueda del vehiculo: " + e.getMessage());
         }
     }
-    
-    public List<Vehiculo> consultarVehiculoNumeroSerie(Vehiculo vehiculo)throws IllegalArgumentException{
+
+    /**
+     * Busca todos los Vehiculos de la base de datos que coinciden con el número
+     * de serie dado.
+     *
+     * @param vehiculo El Vehiculo que contiene el número de serie a buscar.
+     * @return Una lista de Vehiculos que tienen el mismo número de serie que el
+     * Vehiculo dado.
+     * @throws IllegalArgumentException En caso de que haya un error al
+     * consultar en la base de datos
+     */
+    public List<Vehiculo> consultarVehiculoNumeroSerie(Vehiculo vehiculo) throws IllegalArgumentException {
         try {
             return vehiculoDAO.consultarVehiculoNumeroSerie(vehiculo);
         } catch (IllegalArgumentException e) {
@@ -75,6 +128,12 @@ public class VehiculoServicio {
         }
     }
 
+    /**
+     * Valida los atributos del objeto vehiculo
+     *
+     * @param placa objeto a validar
+     * @throws ServicioException si algun atributo no sea el correcto
+     */
     public void validarDatos(Vehiculo vehiculo) {
         if (vehiculo.getNumeroSerie() == null || vehiculo.getNumeroSerie().trim().isEmpty()) {
             throw new IllegalArgumentException("El numero de serie no puede estar vacío");
@@ -107,6 +166,12 @@ public class VehiculoServicio {
         }
     }
 
+    /**
+     * Valida los atributos del objeto placa
+     *
+     * @param placa objeto a validar
+     * @throws ServicioException si algun atributo no sea el correcto
+     */
     public void validarDatosPlaca(Placa placa) throws IllegalArgumentException {
         if (placa.getEstado() == null) {
             throw new IllegalArgumentException("El estado no puede ser nula");
