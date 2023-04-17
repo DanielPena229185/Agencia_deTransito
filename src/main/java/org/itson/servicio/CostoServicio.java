@@ -15,9 +15,11 @@ import org.itson.implementaciones.DAOFactory;
 import org.itson.interfaces.ICostoDAO;
 
 /**
- * Descripción de la clase:
+ * Descripción de la clase: Esta clase se encarga de realizar la conexion con la
+ * clase dao del costo para antes hacer validaciones
  *
  * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class CostoServicio {
 

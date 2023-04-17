@@ -5,9 +5,11 @@
 package org.itson.presentacion;
 
 /**
- * Descripción de la clase:
+ * Descripción de la clase: Esta clase se encarga de mostrar el formulario para
+ * nosotros
  *
  * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class NosotrosDlg extends javax.swing.JDialog {
 

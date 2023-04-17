@@ -6,8 +6,12 @@ import java.util.List;
 import javax.persistence.*;
 
 /**
+ * Descripción de la clase: Esta clase es el dominio de una clase hija de la
+ * clase padre Trámite que representa a un trámite de una placa y se realiza el
+ * mapeo en la base de datos
  *
- * @author Daniel Alameda, Daniel Peña
+ * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 @Entity
 @DiscriminatorValue(value = "placa")

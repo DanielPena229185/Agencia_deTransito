@@ -8,9 +8,11 @@ package org.itson.dominio;
 import java.text.SimpleDateFormat;
 
 /**
- * Descripción de la clase:
+ * Descripción de la clase: Esta clase es para guardar los datos de un reporte
+ * para generar el pdf
  *
  * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class Reporte {
 

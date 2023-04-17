@@ -13,9 +13,12 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 /**
- * Descripción de la clase:
+ * Descripción de la clase: Esta clase es el dominio de una clase hija de la
+ * clase padre Costo que representa a un costo de una placa y se realiza el
+ * mapeo en la base de datos
  *
  * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 @Entity
 @DiscriminatorValue(value = "placa")

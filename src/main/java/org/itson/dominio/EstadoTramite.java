@@ -6,8 +6,11 @@
 package org.itson.dominio;
 
 /**
+ * Descripción de la clase: Esta clase es una clase enum para especificar los
+ * dos estados en los que puede estar un trámite
  *
- * @author HP
+ * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public enum EstadoTramite {
     ACTIVO, INACTIVO

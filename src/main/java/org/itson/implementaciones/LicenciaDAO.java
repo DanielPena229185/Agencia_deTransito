@@ -5,7 +5,6 @@
  */
 package org.itson.implementaciones;
 
-import java.util.Calendar;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -22,8 +21,11 @@ import org.itson.interfaces.ILicenciaDAO;
 import org.itson.utils.ConfiguracionDePaginado;
 
 /**
+ * Descripción de la clase: Esta clase se encarga de realizar operaciones en la
+ * base de datos con respecto a la clase hija Licencia
  *
- * @author HP
+ * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class LicenciaDAO implements ILicenciaDAO {
 

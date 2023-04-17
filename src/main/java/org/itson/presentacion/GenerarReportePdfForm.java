@@ -19,9 +19,11 @@ import org.itson.utils.Encriptador;
 import org.itson.utils.GenerarReporte;
 
 /**
- * Descripción de la clase:
+ * Descripción de la clase: Esta clase se encarga de mostrar el formulario para
+ * generar reporte pdf
  *
  * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class GenerarReportePdfForm extends javax.swing.JFrame {
 

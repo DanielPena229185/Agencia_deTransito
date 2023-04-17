@@ -11,9 +11,12 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 /**
- * Descripción de la clase:
+ * Descripción de la clase: Esta clase es el dominio de una clase hija de la
+ * clase padre Costo que representa a un costo de una licencia y se realiza el
+ * mapeo en la base de datos
  *
  * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 @Entity
 @DiscriminatorValue(value = "licencia")

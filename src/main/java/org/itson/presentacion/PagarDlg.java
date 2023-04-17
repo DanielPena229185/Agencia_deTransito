@@ -18,9 +18,11 @@ import org.itson.servicio.PlacaServicio;
 import org.itson.servicio.VehiculoServicio;
 
 /**
- * Descripción de la clase:
+ * Descripción de la clase: Esta clase se encarga de mostrar el formulario para
+ * pagar
  *
  * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class PagarDlg extends javax.swing.JDialog {
 

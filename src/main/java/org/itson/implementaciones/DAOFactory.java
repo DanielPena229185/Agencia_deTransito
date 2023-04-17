@@ -8,8 +8,11 @@ package org.itson.implementaciones;
 import org.itson.interfaces.*;
 
 /**
+ * Descripción de la clase: Esta clase se encarga de realizar la conexión con la
+ * base de datos
  *
- * @author HP
+ * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class DAOFactory {
 

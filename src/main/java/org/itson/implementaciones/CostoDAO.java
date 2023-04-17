@@ -21,9 +21,11 @@ import org.itson.excepciones.PersistenciaException;
 import org.itson.interfaces.ICostoDAO;
 
 /**
- * Descripción de la clase:
+ * Descripción de la clase: Esta clase se encarga de realizar operaciones en la
+ * base de datos con respecto a la clase padre Costo
  *
  * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class CostoDAO implements ICostoDAO {
 

@@ -18,8 +18,11 @@ import org.itson.servicio.PlacaServicio;
 import org.itson.utils.ConfiguracionDePaginado;
 
 /**
+ * Descripción de la clase: Esta clase se encarga de mostrar el formulario para
+ * la consulta
  *
- * @author Dapgp
+ * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class ConsultaForm extends javax.swing.JFrame {
 

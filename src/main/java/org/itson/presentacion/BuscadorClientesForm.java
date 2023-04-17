@@ -6,6 +6,7 @@
 package org.itson.presentacion;
 
 import java.text.SimpleDateFormat;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -14,6 +15,7 @@ import org.itson.dominio.EstadoTramite;
 import org.itson.dominio.Licencia;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Placa;
+import org.itson.dominio.Tramite;
 import org.itson.dominio.Vehiculo;
 import org.itson.excepciones.EncriptarException;
 import org.itson.servicio.LicenciaServicio;
@@ -22,9 +24,11 @@ import org.itson.utils.ConfiguracionDePaginado;
 import org.itson.utils.Encriptador;
 
 /**
- * Descripción de la clase:
+ * Descripción de la clase: Esta clase se encarga de mostrar el formulario para
+ * buscar cliente
  *
  * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class BuscadorClientesForm extends javax.swing.JFrame {
 
@@ -107,6 +111,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     public BuscadorClientesForm(PrimerasPlacasForm tramitePrimerasPlacas, Vehiculo vehiculo) {
         personaDAO = new PersonaServicio();
         initComponents();
+        this.licenciasActivas.setVisible(true);
         this.cargarComboBox();
         this.validarPersonas();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -127,6 +132,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     public BuscadorClientesForm(ActualizarPlacasForm actualizarPlacas, Vehiculo vehiculo, Placa placaAntigua) {
         personaDAO = new PersonaServicio();
         initComponents();
+        this.licenciasActivas.setVisible(true);
         this.cargarComboBox();
         this.validarPersonas();
         this.tblPersonas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -158,6 +164,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         btnRetrocederPersona = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
         yearChooser = new com.toedter.calendar.JYearChooser();
+        licenciasActivas = new javax.swing.JLabel();
 
         setTitle("Buscador de Cliente");
         setResizable(false);
@@ -306,9 +313,12 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         });
 
         yearChooser.setBackground(new java.awt.Color(255, 255, 255));
-        yearChooser.setForeground(new java.awt.Color(0, 0, 0));
-        yearChooser.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         yearChooser.setYear(1999);
+
+        licenciasActivas.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        licenciasActivas.setForeground(new java.awt.Color(0, 153, 0));
+        licenciasActivas.setText("Solo licencias activas");
+	licenciasActivas.setVisible(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -328,12 +338,15 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                         .addComponent(yearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtBuscar))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAceptar)
-                    .addComponent(btnRetrocederPersona)
-                    .addComponent(btnAvanzarPersona))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAceptar)
+                            .addComponent(btnRetrocederPersona)
+                            .addComponent(btnAvanzarPersona)))
+                    .addComponent(licenciasActivas))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -354,6 +367,8 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
                             .addComponent(yearChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(187, 187, 187))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(licenciasActivas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
@@ -410,6 +425,8 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         //Generar tabla
         List<Persona> listaPersona = personaDAO.consultarPersonasFiltroPaginado(filtro, buscar, paginadoCliente);
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblPersonas.getModel();
+
+        listaPersona = this.filtrarLicenciasActivas(listaPersona);
         //Limpia tabla anterior
         modeloTabla.setRowCount(0);
         listaPersona.forEach(persona -> {
@@ -722,6 +739,34 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Método dónde se filtra las personas que solo tengan licencias activas
+     * para solo el caso de que quiera realizar el trámite de placas, ya sea
+     * actualizar o tramitar las primeras placas
+     *
+     * @param listaPersona Lista que se desea filtrar
+     * @return Lista filtrada
+     */
+    private List<Persona> filtrarLicenciasActivas(List<Persona> listaPersona) {
+        if (this.actualizarPlacas != null || this.tramitePrimerasPlacas != null) {
+            //Si busca para actualizar o tramitar primeras placas
+            //Aparezcan puras licencias activas
+            List<Persona> listaPersonasFiltro = new LinkedList<>();
+            for (Persona person : listaPersona) {
+                List<Tramite> tramitesPerson = person.getTramite();
+                for (Tramite tramite : tramitesPerson) {
+                    if (tramite instanceof Licencia) {
+                        if (tramite.getEstado() == EstadoTramite.ACTIVO) {
+                            listaPersonasFiltro.add(person);
+                        }
+                    }
+                }
+            }
+            listaPersona = listaPersonasFiltro;
+        }
+        return listaPersona;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
@@ -734,6 +779,7 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBuscarPor;
+    private javax.swing.JLabel licenciasActivas;
     private javax.swing.JTable tblPersonas;
     private javax.swing.JTextField txtBuscar;
     private com.toedter.calendar.JYearChooser yearChooser;

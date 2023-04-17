@@ -16,8 +16,11 @@ import org.itson.interfaces.ILicenciaDAO;
 import org.itson.utils.ConfiguracionDePaginado;
 
 /**
+ * Descripción de la clase: Esta clase se encarga de realizar la conexion con la
+ * clase dao de licencia para antes hacer validaciones
  *
- * @author HP
+ * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class LicenciaServicio {
 

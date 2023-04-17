@@ -10,8 +10,11 @@ import java.util.Calendar;
 import javax.persistence.*;
 
 /**
+ * Descripción de la clase: Esta clase representa un pago para realizar los
+ * trámites y se realiza un mapeo con la base de datos
  *
- * @author HP
+ * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 @Entity
 @Table(name = "pago")

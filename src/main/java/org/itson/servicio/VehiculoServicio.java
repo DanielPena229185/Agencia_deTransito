@@ -12,8 +12,11 @@ import org.itson.implementaciones.DAOFactory;
 import org.itson.interfaces.IVehiculoDAO;
 
 /**
+ * Descripción de la clase: Esta clase se encarga de realizar la conexion con la
+ * clase dao del vehículo para antes hacer validaciones
  *
- * @author HP
+ * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class VehiculoServicio {
 

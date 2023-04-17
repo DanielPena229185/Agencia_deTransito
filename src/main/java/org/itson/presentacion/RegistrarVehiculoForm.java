@@ -15,9 +15,11 @@ import org.itson.servicio.PlacaServicio;
 import org.itson.servicio.VehiculoServicio;
 
 /**
- * DescripciÃ³n de la clase:
+ * Descripción de la clase: Esta clase se encarga de mostrar el formulario para
+ * registrar vehículo
  *
- * @author Daniel Armando PeÃ±a Garcia ID:229185
+ * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class RegistrarVehiculoForm extends javax.swing.JFrame {
 

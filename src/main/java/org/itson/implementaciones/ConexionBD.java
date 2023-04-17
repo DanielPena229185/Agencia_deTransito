@@ -12,9 +12,11 @@ import javax.persistence.PersistenceException;
 import javax.swing.JOptionPane;
 
 /**
- * Descripción de la clase:
+ * Descripción de la clase: Esta clase se encarga de realizar las conexiones a
+ * la base de datos cada vez que la llamen y poder realizar operaciones
  *
  * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class ConexionBD {
 

@@ -18,9 +18,11 @@ import org.itson.interfaces.IPersonaDAO;
 import org.itson.utils.ConfiguracionDePaginado;
 
 /**
- * Descripción de la clase:
+ * Descripción de la clase: Esta clase se encarga de realizar operaciones en la
+ * base de datos con respecto a la clase hija Persona
  *
  * @author Daniel Armando Peña Garcia ID:229185
+ * @author Daniel Omar Alameda López ID: 228343
  */
 public class PersonaDAO implements IPersonaDAO {
 
