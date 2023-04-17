@@ -24,20 +24,27 @@ import org.itson.interfaces.IPagoDAO;
  */
 public class PagoDAO implements IPagoDAO {
 
+    /**
+     * Conexión a la base de datos
+     */
     private ConexionBD conexion;
 
     /**
+     * Constructor de la clase PagoDAO
      *
+     * @param conexion Conexión de la base de datos
      */
     public PagoDAO(ConexionBD conexion) {
         this.conexion = conexion;
     }
 
     /**
+     * Agrega un pago a la base de datos.
      *
-     * @param pago
-     * @return
-     * @throws PersistenciaException
+     * @param pago Pago que se desea guardar en la base de datos.
+     * @return Pago que se guardó en la base de datos.
+     * @throws PersistenciaException Si no se puede guardar el pago en la base
+     * de datos.
      */
     @Override
     public Pago agregarPago(Pago pago) throws PersistenciaException {
@@ -58,9 +65,11 @@ public class PagoDAO implements IPagoDAO {
     }
 
     /**
+     * Elimina un pago de la base de datos.
      *
-     * @param pago
-     * @throws PersistenciaException
+     * @param pago Pago que se desea eliminar de la base de datos.
+     * @throws PersistenciaException Si no se puede eliminar el pago de la base
+     * de datos.
      */
     @Override
     public void eliminarPago(Pago pago) throws PersistenciaException {
@@ -89,10 +98,12 @@ public class PagoDAO implements IPagoDAO {
     }
 
     /**
+     * Actualiza los datos de un pago en la base de datos.
      *
-     * @param pago
-     * @return
-     * @throws PersistenciaException
+     * @param pago Pago que se desea actualizar en la base de datos.
+     * @return Pago que se actualizó en la base de datos.
+     * @throws PersistenciaException Si no se puede actualizar el pago en la
+     * base de datos.
      */
     @Override
     public Pago actualizarPago(Pago pago) throws PersistenciaException {
@@ -124,6 +135,14 @@ public class PagoDAO implements IPagoDAO {
         }
     }
 
+    /**
+     * Consulta un pago en la base de datos.
+     *
+     * @param pago Pago que se desea consultar en la base de datos.
+     * @return Pago consultado en la base de datos.
+     * @throws PersistenciaException Si no se puede consultar el pago en la base
+     * de datos.
+     */
     @Override
     public Pago consultarPago(Pago pago) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -141,6 +160,13 @@ public class PagoDAO implements IPagoDAO {
         }
     }
 
+    /**
+     * Consulta todos los pagos en la base de datos.
+     *
+     * @return Lista de todos los pagos en la base de datos.
+     * @throws PersistenciaException Si no se puede realizar la consulta en la
+     * base de datos.
+     */
     @Override
     public List<Pago> consultarPagos() throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -162,6 +188,14 @@ public class PagoDAO implements IPagoDAO {
         }
     }
 
+    /**
+     * Consulta todos los pagos realizados en una fecha específica.
+     *
+     * @param fecha Fecha a consultar.
+     * @return Lista de todos los pagos realizados en la fecha especificada.
+     * @throws PersistenciaException Si no se puede realizar la consulta en la
+     * base de datos.
+     */
     @Override
     public List<Pago> consultarPagosFecha(Calendar fecha) throws PersistenciaException {
         EntityManager em = conexion.getConexion();

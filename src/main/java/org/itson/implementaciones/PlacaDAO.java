@@ -30,12 +30,29 @@ import org.itson.utils.ConfiguracionDePaginado;
  */
 public class PlacaDAO implements IPlacaDAO {
 
+    /**
+     * Conexión a la base de datos
+     */
     private ConexionBD conexion;
 
+    /**
+     * Constructor de la clase PlacaDAO
+     *
+     * @param conexion Conexión de la base de datos
+     */
     public PlacaDAO(ConexionBD conexion) {
         this.conexion = conexion;
     }
 
+    /**
+     *
+     * Agrega una nueva placa al sistema.
+     *
+     * @param placa la placa a agregar al sistema.
+     * @return la placa agregada al sistema.
+     * @throws PersistenciaException si ocurre un error al interactuar con el
+     * sistema de persistencia.
+     */
     @Override
     public Placa agregarPlaca(Placa placa) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -54,6 +71,14 @@ public class PlacaDAO implements IPlacaDAO {
         }
     }
 
+    /**
+     * Actualiza la información de una placa existente en la base de datos.
+     *
+     * @param placa la placa a actualizar
+     * @return la placa actualizada
+     * @throws PersistenciaException si ocurre un error al acceder a la base de
+     * datos
+     */
     @Override
     public Placa actualizarPlaca(Placa placa) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -85,11 +110,26 @@ public class PlacaDAO implements IPlacaDAO {
         }
     }
 
+    /**
+     * Elimina una placa existente en la base de datos.
+     *
+     * @param placa la placa a eliminar
+     * @return la placa eliminada
+     * @throws PersistenciaException si ocurre un error al acceder a la base de
+     * datos
+     */
     @Override
     public Placa eliminarPlaca(Placa placa) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Devuelve una lista de todas las placas registradas en el sistema.
+     *
+     * @return una lista de todas las placas registradas en el sistema.
+     * @throws PersistenciaException si ocurre algún error al interactuar con el
+     * almacenamiento persistente.
+     */
     @Override
     public List<Placa> consultarPlaca() throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -112,6 +152,17 @@ public class PlacaDAO implements IPlacaDAO {
         }
     }
 
+    /**
+     * Devuelve una lista de todas las placas registradas en el sistema que
+     * están asociadas con una persona dada.
+     *
+     * @param persona la persona para la cual se desea obtener las placas
+     * asociadas.
+     * @return una lista de todas las placas registradas en el sistema que están
+     * asociadas con la persona dada.
+     * @throws PersistenciaException si ocurre algún error al interactuar con el
+     * almacenamiento persistente.
+     */
     @Override
     public List<Placa> consultarPlacasPersona(Persona persona) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -135,6 +186,17 @@ public class PlacaDAO implements IPlacaDAO {
         }
     }
 
+    /**
+     * Consulta las placas de una persona en un período de tiempo específico.
+     *
+     * @param desde La fecha de inicio del período de tiempo.
+     * @param hasta La fecha de fin del período de tiempo.
+     * @param persona La persona de la que se quieren consultar las placas.
+     * @return La lista de placas de la persona consultada que se encontraron
+     * dentro del período de tiempo especificado.
+     * @throws PersistenciaException Si ocurre un error en la operación de
+     * consulta.
+     */
     @Override
     public List<Placa> consultarPlacasPeriodo(Calendar desde, Calendar hasta, Persona persona) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -162,6 +224,15 @@ public class PlacaDAO implements IPlacaDAO {
         }
     }
 
+    /**
+     * Obtiene la lista de placas de todos los vehículos asociados a sus
+     * respectivos dueños.
+     *
+     * @return una lista de matrices de objetos, donde cada fila contiene la
+     * información de la placa, el vehículo y la persona propietaria.
+     * @throws PersistenciaException si ocurre un error al interactuar con el
+     * sistema de persistencia de datos.
+     */
     @Override
     public List<Object[]> consultarPlacasPersonas() throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -198,6 +269,18 @@ public class PlacaDAO implements IPlacaDAO {
 
     }
 
+    /**
+     * Obtiene la lista de placas de los vehículos asociados a las personas cuyo
+     * nombre, número de identificación o dirección contengan la cadena
+     * especificada en el parámetro de búsqueda.
+     *
+     * @param busqueda la cadena de texto a buscar en los datos de las personas
+     * asociadas a los vehículos.
+     * @return una lista de matrices de objetos, donde cada fila contiene la
+     * información de la placa, el vehículo y la persona propietaria.
+     * @throws PersistenciaException si ocurre un error al interactuar con el
+     * sistema de persistencia de datos.
+     */
     @Override
     public List<Object[]> consultarPlacasPersonasFiltro(String busqueda) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -236,6 +319,14 @@ public class PlacaDAO implements IPlacaDAO {
         }
     }
 
+    /**
+     *
+     * Consulta una placa en la base de datos.
+     *
+     * @param placa La placa a consultar.
+     * @return La placa consultada.
+     * @throws PersistenciaException Si ocurre un error en la consulta.
+     */
     @Override
     public Placa consultarPlaca(Placa placa) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -253,6 +344,14 @@ public class PlacaDAO implements IPlacaDAO {
         }
     }
 
+    /**
+     *
+     * Consulta la placa asociada a un vehículo en la base de datos.
+     *
+     * @param vehiculo El vehículo del cual se desea consultar la placa.
+     * @return La placa asociada al vehículo consultado.
+     * @throws PersistenciaException Si ocurre un error en la consulta.
+     */
     @Override
     public Placa consultarPlacasVehiculo(Vehiculo vehiculo) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -281,6 +380,16 @@ public class PlacaDAO implements IPlacaDAO {
         }
     }
 
+    /**
+     * Consulta las placas de una persona de forma paginada.
+     *
+     * @param persona La persona de la que se quieren consultar las placas.
+     * @param paginado La configuración de paginado que se quiere utilizar.
+     * @return La lista de placas de la persona consultada, de acuerdo a la
+     * configuración de paginado especificada.
+     * @throws PersistenciaException Si ocurre un error en la operación de
+     * consulta.
+     */
     @Override
     public List<Placa> consultarPlacasPersonaPaginado(Persona persona, ConfiguracionDePaginado paginado) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -308,6 +417,21 @@ public class PlacaDAO implements IPlacaDAO {
         }
     }
 
+    /**
+     * Busca y retorna una lista de objetos que contienen la información de la
+     * placa y la persona asociada a dicha placa, filtrando los resultados según
+     * el valor de búsqueda proporcionado, y aplicando paginación a los
+     * resultados.
+     *
+     * @param busqueda valor de búsqueda para filtrar los resultados de la
+     * consulta.
+     * @param paginado configuración de paginación a aplicar a los resultados de
+     * la consulta.
+     * @return lista de objetos que contienen la información de la placa y la
+     * persona asociada a dicha placa.
+     * @throws PersistenciaException si ocurre algún error durante la ejecución
+     * de la consulta.
+     */
     @Override
     public List<Object[]> consultarPlacasPersonasFiltroPaginado(String busqueda, ConfiguracionDePaginado paginado) throws PersistenciaException {
         EntityManager em = conexion.getConexion();

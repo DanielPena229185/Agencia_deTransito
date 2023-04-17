@@ -27,15 +27,27 @@ import org.itson.interfaces.ICostoDAO;
  */
 public class CostoDAO implements ICostoDAO {
 
+    /**
+     * Conexión a la base de datos
+     */
     ConexionBD conexion;
 
     /**
+     * Constructor de la clase CostoDAO
      *
+     * @param conexion Conexión de la base de datos
      */
     public CostoDAO(ConexionBD conexion) {
         this.conexion = conexion;
     }
 
+    /**
+     * Guardar el costo a la base de datos
+     *
+     * @param costo el costo a guardar en la base de datos
+     * @return costo ya guardado
+     * @throws PersistenciaException en el caso de no poder guardarse
+     */
     @Override
     public Costo agregarCosto(Costo costo) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -50,16 +62,36 @@ public class CostoDAO implements ICostoDAO {
         }
     }
 
+    /**
+     * Eliminar el costo en la base de datos
+     *
+     * @param costo el costo a eliminar en la base de datos
+     * @return costo ya eliminado en la base de datos
+     * @throws PersistenciaException en el caso de no poder eliminarse
+     */
     @Override
     public Costo eliminarCosto(Costo costo) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    /**
+     * Actualizar el costo en la base de datos
+     *
+     * @param costo el costo a actualizar en la base de datos
+     * @return costo ya actualizado en la base de datos
+     * @throws PersistenciaException en el caso de no poder actualizarse
+     */
     @Override
     public Costo actualizarCosto(Costo costo) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    /**
+     * Consultar los costos en la base de datos
+     *
+     * @return Lista de costos en la base de datos
+     * @throws PersistenciaException en el caso de no poder consultar los costos
+     */
     @Override
     public List<Costo> consultarCostos() throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -77,16 +109,37 @@ public class CostoDAO implements ICostoDAO {
         }
     }
 
+    /**
+     * Consultar el costo con la vigencia ingresada en la base de datos
+     *
+     * @param vigencia la vigencia a comparar en la base de datos
+     * @return Lista de costos con la vigencia comparada en la base de datos
+     * @throws PersistenciaException en el caso de podero consultar los costos
+     */
     @Override
     public List<Costo> consultarCostosLicencia() throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    /**
+     * Consultar los costos de placa en la base de datos
+     *
+     * @return Lista de costos de placa en la base de datos
+     * @throws PersistenciaException en el caso de no poder consultar los costos
+     * de las placas
+     */
     @Override
     public List<Costo> consultarCostosPlacas() throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    /**
+     * Consultar los costos de licencia en la base de datos
+     *
+     * @return Lista de costos de licencia en la base de datos
+     * @throws PersistenciaException en el caso de no poder consultar los costos
+     * de las licencias
+     */
     @Override
     public List<CostoLicencia> consultarCostoLicencias(String vigencia) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -108,6 +161,12 @@ public class CostoDAO implements ICostoDAO {
         }
     }
 
+    /**
+     * Consulta el costo de placas nuevas en la base de datos
+     *
+     * @return Lista de costos de placas nuevas en la base de datos
+     * @throws PersistenciaException en el caso de no poder consultar los costos
+     */
     @Override
     public List<CostoPlaca> consultarCostoPlacaNuevo() throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -129,6 +188,12 @@ public class CostoDAO implements ICostoDAO {
         }
     }
 
+    /**
+     * Consulta el costo de placas usadas en la base de datos
+     *
+     * @return Lista de costos de placas usadas en la base de datos
+     * @throws PersistenciaException en el caso de no poder consultar los costos
+     */
     @Override
     public List<CostoPlaca> consultarCostoPlacaUsado() throws PersistenciaException {
         EntityManager em = conexion.getConexion();

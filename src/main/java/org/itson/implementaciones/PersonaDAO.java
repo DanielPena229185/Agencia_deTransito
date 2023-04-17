@@ -24,12 +24,28 @@ import org.itson.utils.ConfiguracionDePaginado;
  */
 public class PersonaDAO implements IPersonaDAO {
 
+    /**
+     * Conexión a la base de datos
+     */
     private ConexionBD conexion;
 
+    /**
+     * Constructor de la clase PersonaDAO
+     *
+     * @param conexion Conexión de la base de datos
+     */
     public PersonaDAO(ConexionBD conexion) {
         this.conexion = conexion;
     }
 
+    /**
+     * Agrega una nueva persona a la base de datos
+     *
+     * @param persona La persona a agregar
+     * @return La persona agregada
+     * @throws PersistenciaException En caso de que algo salga mal en la
+     * inserción
+     */
     @Override
     public Persona agregarPersona(Persona persona) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -47,6 +63,14 @@ public class PersonaDAO implements IPersonaDAO {
         }
     }
 
+    /**
+     * Actualiza una persona existente en la base de datos
+     *
+     * @param persona La persona a actualizar
+     * @return La persona actualizada
+     * @throws PersistenciaException En caso de que algo salga mal en la
+     * actualización
+     */
     @Override
     public Persona actualizarPersona(Persona persona) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -73,11 +97,28 @@ public class PersonaDAO implements IPersonaDAO {
         }
     }
 
+    /**
+     * Elimina una persona existente en la base de datos
+     *
+     * @param persona La persona a eliminar
+     * @return La persona eliminada
+     * @throws PersistenciaException En caso de que algo salga mal en la
+     * eliminación
+     */
     @Override
     public Persona eliminarPersona(Persona persona) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    /**
+     * Consulta personas en la base de datos según un filtro de consulta
+     *
+     * @param filtro El filtro de consulta
+     * @param busqueda El término de consulta
+     * @return La lista de personas que cumplen con el filtro y la consulta
+     * @throws PersistenciaException En caso de que algo salga mal en la
+     * consulta
+     */
     @Override
     public List<Persona> consultarPersonasFiltro(String filtro, String busqueda) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -102,6 +143,13 @@ public class PersonaDAO implements IPersonaDAO {
         }
     }
 
+    /**
+     * Consulta todas las personas en la base de datos
+     *
+     * @return La lista de todas las personas en la base de datos
+     * @throws PersistenciaException En caso de que algo salga mal en la
+     * consulta
+     */
     @Override
     public List<Persona> consultarPersonas() throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -123,6 +171,14 @@ public class PersonaDAO implements IPersonaDAO {
         }
     }
 
+    /**
+     * Busca una persona en la base de datos
+     *
+     * @param persona La persona a buscar (se busca por su ID)
+     * @return La persona encontrada
+     * @throws PersistenciaException En caso de que algo salga mal en la
+     * consulta
+     */
     @Override
     public Persona buscarPersona(Persona persona) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -140,6 +196,18 @@ public class PersonaDAO implements IPersonaDAO {
         }
     }
 
+    /**
+     * Consulta personas en la base de datos según un filtro de consulta y
+     * paginación
+     *
+     * @param filtro El filtro de consulta
+     * @param busqueda El término de consulta
+     * @param paginado La configuración de paginación
+     * @return La lista de personas que cumplen con el filtro, la consulta y la
+     * paginación
+     * @throws PersistenciaException En caso de que algo salga mal en la
+     * consulta
+     */
     @Override
     public List<Persona> consultarPersonasFiltroPaginado(String filtro, String busqueda, ConfiguracionDePaginado paginado) throws PersistenciaException {
         EntityManager em = conexion.getConexion();

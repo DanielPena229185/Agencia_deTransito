@@ -27,12 +27,28 @@ import org.itson.utils.ConfiguracionDePaginado;
  */
 public class LicenciaDAO implements ILicenciaDAO {
 
+    /**
+     * Conexión a la base de datos
+     */
     private ConexionBD conexion;
 
+    /**
+     * Constructor de la clase LicenciaDAO
+     *
+     * @param conexion Conexión de la base de datos
+     */
     public LicenciaDAO(ConexionBD conexion) {
         this.conexion = conexion;
     }
 
+    /**
+     * Método que se encarga de guardar un trámite de Licencia
+     *
+     * @param licencia Licencia que se quiere guardar
+     * @return La licencia que se guardó
+     * @throws PersistenciaException En caso de que no se pueda añadir el
+     * trámite
+     */
     @Override
     public Licencia agregarLicencia(Licencia licencia) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -51,6 +67,13 @@ public class LicenciaDAO implements ILicenciaDAO {
         }
     }
 
+    /**
+     * Método que se encarga de actualizar la licencia
+     *
+     * @param licencia Licencia que se quiere actualizar
+     * @return Licencia que se actualizó
+     * @throws PersistenciaException En caso de que no se haya podido actualizar
+     */
     @Override
     public Licencia actualizarLicencia(Licencia licencia) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -79,11 +102,26 @@ public class LicenciaDAO implements ILicenciaDAO {
         }
     }
 
+    /**
+     * Método que se encarga de eliminar una licencia
+     *
+     * @param licencia Licencia que se planea eliminar
+     * @return Licencia que se eliminó
+     * @throws PersistenciaException En caso de que no se pueda eliminar la
+     * licencia
+     */
     @Override
     public Licencia eliminarLicencia(Licencia licencia) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Método que se encarga de consultar todas las licencias
+     *
+     * @return Lista de todas las licencias que hay en la base de datos
+     * @throws PersistenciaException En caso de que no se haya podido realizar
+     * la consulta
+     */
     @Override
     public List<Licencia> consultarLicencias() throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -106,6 +144,15 @@ public class LicenciaDAO implements ILicenciaDAO {
         }
     }
 
+    /**
+     * Método que se encarga de consultar todas las licencias dependiendo de la
+     * persona
+     *
+     * @param persona Persona de la que se quiere buscar sus licencias
+     * @return Regresa todas las licencias de la persona
+     * @throws PersistenciaException En caso de que no se pueda realizar la
+     * consulta
+     */
     @Override
     public List<Licencia> consultarLicenciasPersona(Persona persona) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -129,6 +176,16 @@ public class LicenciaDAO implements ILicenciaDAO {
         }
     }
 
+    /**
+     * Método que realiza la consulta por persona y limita para no traer todos
+     * los tramites y se configura el páginado
+     *
+     * @param persona Persona de la que se quiere buscar sus trámites
+     * @param paginado La cantidad de partes en la que va a traer los datos en
+     * la consulta
+     * @return Lista de licencias de la persona
+     * @throws PersistenciaException En caso que no pueda realizarce la consulta
+     */
     @Override
     public List<Licencia> consultarLicenciasPersonaPaginado(Persona persona, ConfiguracionDePaginado paginado) throws PersistenciaException {
         EntityManager em = conexion.getConexion();

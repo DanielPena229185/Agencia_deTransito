@@ -24,12 +24,28 @@ import org.itson.interfaces.IVehiculoDAO;
  */
 public class VehiculoDAO implements IVehiculoDAO {
 
+    /**
+     * Conexión a la base de datos
+     */
     private ConexionBD conexion;
 
+    /**
+     * Constructor de la clase VehiculoDAO
+     *
+     * @param conexion Conexión de la base de datos
+     */
     public VehiculoDAO(ConexionBD conexion) {
         this.conexion = conexion;
     }
 
+    /**
+     * Agrega un nuevo Vehiculo a la base de datos.
+     *
+     * @param vehiculo El Vehiculo que se desea agregar.
+     * @return El Vehiculo agregado.
+     * @throws PersistenciaException En caso de que haya un error al agregar en
+     * la base de datos
+     */
     @Override
     public Vehiculo agregarVehiculo(Vehiculo vehiculo) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -48,6 +64,14 @@ public class VehiculoDAO implements IVehiculoDAO {
         }
     }
 
+    /**
+     * Actualiza un Vehiculo existente en la base de datos.
+     *
+     * @param vehiculo El Vehiculo que se desea actualizar.
+     * @return El Vehiculo actualizado.
+     * @throws PersistenciaException En caso de que haya un error al actualizar
+     * en la base de datos
+     */
     @Override
     public Vehiculo actualizarVehiculo(Vehiculo vehiculo) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -76,11 +100,26 @@ public class VehiculoDAO implements IVehiculoDAO {
         }
     }
 
+    /**
+     * Elimina un Vehiculo existente en la base de datos.
+     *
+     * @param vehiculo El Vehiculo que se desea eliminar.
+     * @return El Vehiculo eliminado.
+     * @throws PersistenciaException En caso de que haya un error al eliminar en
+     * la base de datos
+     */
     @Override
     public Vehiculo eliminarVehiculo(Vehiculo vehiculo) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    /**
+     * Busca todos los Vehiculos existentes en la base de datos.
+     *
+     * @return Una lista con todos los Vehiculos de la base de datos.
+     * @throws PersistenciaException En caso de que haya un error al consultar
+     * en la base de datos
+     */
     @Override
     public List<Vehiculo> consultarVehiculos() throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -101,6 +140,14 @@ public class VehiculoDAO implements IVehiculoDAO {
         }
     }
 
+    /**
+     * Busca un Vehiculo existente en la base de datos por su Placa.
+     *
+     * @param placa La Placa del Vehiculo que se desea buscar.
+     * @return El Vehiculo encontrado o null si no existe en la base de datos.
+     * @throws PersistenciaException En caso de que haya un error al consultar
+     * en la base de datos
+     */
     @Override
     public List<Vehiculo> consultarVehiculo(Placa placa) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -125,6 +172,14 @@ public class VehiculoDAO implements IVehiculoDAO {
         }
     }
 
+    /**
+     * Busca un Vehiculo existente en la base de datos.
+     *
+     * @param vehiculo El Vehiculo que se desea buscar.
+     * @return El Vehiculo encontrado o null si no existe en la base de datos.
+     * @throws PersistenciaException En caso de que haya un error al consultar
+     * en la base de datos
+     */
     @Override
     public Vehiculo consultarVehiculo(Vehiculo vehiculo) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -142,6 +197,16 @@ public class VehiculoDAO implements IVehiculoDAO {
         }
     }
 
+    /**
+     * Busca todos los Vehiculos de la base de datos que coinciden con el número
+     * de serie dado.
+     *
+     * @param vehiculo El Vehiculo que contiene el número de serie a buscar.
+     * @return Una lista de Vehiculos que tienen el mismo número de serie que el
+     * Vehiculo dado.
+     * @throws PersistenciaException En caso de que haya un error al consultar
+     * en la base de datos
+     */
     @Override
     public List<Vehiculo> consultarVehiculoNumeroSerie(Vehiculo vehiculo) throws PersistenciaException {
         EntityManager em = conexion.getConexion();

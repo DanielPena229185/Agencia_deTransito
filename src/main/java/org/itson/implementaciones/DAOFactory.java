@@ -14,40 +14,79 @@ import org.itson.interfaces.*;
 public class DAOFactory {
 
     //Cambiar para que corra
+    /**
+     * Conexión a la base de datos
+     */
     ConexionBD conexion = new ConexionBD("org.itson.sistema_AgenciaDeTransito_jar_1.0-SNAPSHOTPU");
 
     /**
+     * Devuelve la conexión a la base de dato para la clase PagoDAO
      *
-     * @return
+     * @return conexión a la base de dato para la clase PagoDAO
      */
     public IPagoDAO getPagoDAO() {
         return new PagoDAO(conexion);
     }
 
+    /**
+     * Devuelve la conexión a la base de dato para la clase PesonaDAO
+     *
+     * @return conexión a la base de dato para la clase PesonaDAO
+     */
     public IPersonaDAO getPersonaDAO() {
         return new PersonaDAO(conexion);
     }
 
+    /**
+     * Devuelve la conexión a la base de dato para la clase TramiteDAO
+     *
+     * @return conexión a la base de dato para la clase TramiteDAO
+     */
     public ITramiteDAO getTramiteDAO() {
         return new TramiteDAO(conexion);
     }
 
+    /**
+     * Devuelve la conexión a la base de dato para la clase VehiculoDAO
+     *
+     * @return conexión a la base de dato para la clase VehiculoDAO
+     */
     public IVehiculoDAO getVehiculoDAO() {
         return new VehiculoDAO(conexion);
     }
 
+    /**
+     * Devuelve la conexión a la base de dato para la clase AutomovilDAO
+     *
+     * @return conexión a la base de dato para la clase AutomovilDAO
+     */
     public IAutomovilDAO getAutomovilDAO() {
         return new AutomovilDAO(conexion);
     }
 
+    /**
+     * Devuelve la conexión a la base de dato para la clase LicenciaDAO
+     *
+     * @return conexión a la base de dato para la clase LicenciaDAO
+     */
     public ILicenciaDAO getLicenciaDAO() {
         return new LicenciaDAO(conexion);
     }
 
+    /**
+     * Devuelve la conexión a la base de dato para la clase PlacaDAO
+     *
+     * @return conexión a la base de dato para la clase PlacaDAO
+     */
     public IPlacaDAO getPlacaDAO() {
         return new PlacaDAO(conexion);
     }
 
+    /**
+     * Devuelve la conexión a la base de dato para la clase CostoDAO
+     *
+     * @return conexión a la base de dato para la clase CostoDAO
+     */
     public ICostoDAO getCostoDAO() {
         return new CostoDAO(conexion);
     }

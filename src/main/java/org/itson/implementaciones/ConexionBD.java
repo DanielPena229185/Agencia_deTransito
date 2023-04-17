@@ -18,11 +18,22 @@ import javax.swing.JOptionPane;
  */
 public class ConexionBD {
 
+    /**
+     *
+     * Clase que representa una conexión a una base de datos usando JPA
+     * EntityManager
+     */
     private final EntityManagerFactory factory;
 
     /**
      *
-     * @param direccionPersistencia
+     * Constructor que recibe la dirección de persistencia y crea una conexión a
+     * la base de datos
+     *
+     * @param direccionPersistencia la dirección de persistencia de la base de
+     * datos
+     * @throws PersistenceException si ocurre un error al obtener la conexión a
+     * la base de datos
      */
     public ConexionBD(String direccionPersistencia) {
         try {
@@ -35,7 +46,10 @@ public class ConexionBD {
 
     /**
      *
-     * @return @throws PersistenceException
+     * Retorna una instancia de EntityManager para la conexión actual
+     *
+     * @return EntityManager una instancia de EntityManager para la conexión
+     * actual
      */
     public EntityManager getConexion() {
         return factory.createEntityManager();
@@ -43,7 +57,9 @@ public class ConexionBD {
 
     /**
      *
-     * @param em
+     * Cierra una conexión de EntityManager
+     *
+     * @param em la conexión a cerrar
      */
     public void cerrarConexion(EntityManager em) {
         em.close();

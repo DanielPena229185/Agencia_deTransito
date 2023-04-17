@@ -28,12 +28,27 @@ import org.itson.interfaces.ITramiteDAO;
  */
 public class TramiteDAO implements ITramiteDAO {
 
+    /**
+     * Conexión a la base de datos
+     */
     private ConexionBD conexion;
 
+    /**
+     * Constructor de la clase TramiteDAO
+     *
+     * @param conexion Conexión de la base de datos
+     */
     public TramiteDAO(ConexionBD conexion) {
         this.conexion = conexion;
     }
 
+    /**
+     * Agrega un nuevo trámite a la base de datos.
+     *
+     * @param tramite El trámite a agregar.
+     * @return El trámite agregado.
+     * @throws PersistenciaException Si algo sale mal al agregar.
+     */
     @Override
     public Tramite agregarTramite(Tramite tramite) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -52,6 +67,13 @@ public class TramiteDAO implements ITramiteDAO {
         }
     }
 
+    /**
+     * Actualiza un trámite existente en la base de datos.
+     *
+     * @param tramite El trámite a actualizar.
+     * @return El trámite actualizado.
+     * @throws PersistenciaException Si algo sale mal al actualizar.
+     */
     @Override
     public Tramite actualizarTramite(Tramite tramite) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -80,11 +102,24 @@ public class TramiteDAO implements ITramiteDAO {
         }
     }
 
+    /**
+     * Elimina un trámite existente en la base de datos.
+     *
+     * @param tramite El trámite a eliminar.
+     * @return El trámite eliminado.
+     * @throws PersistenciaException Si algo sale mal al eliminar.
+     */
     @Override
     public Tramite eliminarTramite(Tramite tramite) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    /**
+     * Consulta todos los trámites existentes en la base de datos.
+     *
+     * @return Lista con todos los trámites.
+     * @throws PersistenciaException Si algo sale mal al consultar.
+     */
     @Override
     public List<Tramite> consultarTramites() throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -105,6 +140,13 @@ public class TramiteDAO implements ITramiteDAO {
         }
     }
 
+    /**
+     * Consulta los trámites relacionados con una persona.
+     *
+     * @param persona La persona para la que se consultan los trámites.
+     * @return Lista con los trámites relacionados con la persona.
+     * @throws PersistenciaException Si algo sale mal al consultar.
+     */
     @Override
     public List<Tramite> consultarTramitesPersona(Persona persona) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -129,6 +171,17 @@ public class TramiteDAO implements ITramiteDAO {
         }
     }
 
+    /**
+     * Consulta los trámites realizados en un período determinado y que
+     * contienen un nombre de la persona en específico.
+     *
+     * @param desde Fecha inicial del período.
+     * @param hasta Fecha final del período.
+     * @param nombre Nombre que de la persona relacionada
+     * @return Lista con los trámites realizados en el período y que contienen
+     * el nombre específico.
+     * @throws PersistenciaException Si algo sale mal al consultar.
+     */
     @Override
     public List<Tramite> consultarTramitesPeriodo(Calendar desde, Calendar hasta, String nombre) throws PersistenciaException {
         EntityManager em = conexion.getConexion();
@@ -143,7 +196,7 @@ public class TramiteDAO implements ITramiteDAO {
             if (desde != null && hasta != null) {
                 predicados.add(builder.between(root.get("fechaExpedicion"), desde, hasta));
             }
-            if(nombre != null){
+            if (nombre != null) {
                 predicados.add(builder.like(joinPersona.get("nombres"), "%" + nombre + "%"));
             }
             ; // Se hace el join con la clase Persona
