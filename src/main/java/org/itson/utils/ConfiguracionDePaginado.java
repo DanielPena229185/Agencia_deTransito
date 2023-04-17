@@ -50,16 +50,26 @@ public class ConfiguracionDePaginado {
     /**
      * Establece el número de página
      *
-     * @param numPagina
+     * @param numPagina numero de página
      */
     public void setNumPagina(int numPagina) {
         this.numPagina = numPagina;
     }
 
+    /**
+     * Regresa el número de elementos por página
+     * 
+     * @return Los elementos por página
+     */
     public int getElementosPorPagina() {
         return elementosPorPagina;
     }
 
+    /**
+     * Establece los elementos por página
+     * 
+     * @param elementosPorPagina Los elementos por página
+     */
     public void setElementosPorPagina(int elementosPorPagina) {
         this.elementosPorPagina = elementosPorPagina;
     }

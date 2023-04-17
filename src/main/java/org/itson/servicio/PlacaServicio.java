@@ -225,6 +225,7 @@ public class PlacaServicio {
     /**
      * Devuelve una lista de todas las placas registradas en el sistema.
      *
+     * @param placa Placa que se deseas buscar en la base de datos
      * @return una lista de todas las placas registradas en el sistema.
      * @throws ServicioException si ocurre algún error al interactuar con el
      * almacenamiento persistente.

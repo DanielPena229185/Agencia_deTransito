@@ -53,9 +53,9 @@ public class Placa extends Tramite implements Serializable {
      * @param vehiculo Vehiculo asociado a la placa
      * @param estado Estado actaul de la placa
      * @param precio Precio de la placa
-     * @param fechaExpedicio Fecha de expedición de la placa
      * @param pago Pago asociado a la placa
      * @param persona Persona asociada a la placa
+     * @param fechaExpedicion Fecha en la que se realizó el trámite
      */
     public Placa(String numeroPlaca, Calendar fechaRecepcion, Vehiculo vehiculo, EstadoTramite estado, Float precio, Calendar fechaExpedicion, List<Pago> pago, Persona persona) {
         super(estado, precio, fechaExpedicion, persona);

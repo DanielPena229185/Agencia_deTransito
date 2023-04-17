@@ -114,7 +114,6 @@ public class CostoDAO implements ICostoDAO {
     /**
      * Consultar el costo con la vigencia ingresada en la base de datos
      *
-     * @param vigencia la vigencia a comparar en la base de datos
      * @return Lista de costos con la vigencia comparada en la base de datos
      * @throws PersistenciaException en el caso de podero consultar los costos
      */

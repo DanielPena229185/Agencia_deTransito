@@ -9,9 +9,8 @@ import org.itson.excepciones.EncriptarException;
 import org.itson.utils.Encriptador;
 
 /**
- * Descripción de la clase: Esta clase es el dominio de una clase que
- * representa a una persona y se realiza el mapeo en la base de
- * datos
+ * Descripción de la clase: Esta clase es el dominio de una clase que representa
+ * a una persona y se realiza el mapeo en la base de datos
  *
  * @author Daniel Armando Peña Garcia ID:229185
  * @author Daniel Omar Alameda López ID: 228343
@@ -47,7 +46,7 @@ public class Persona implements Serializable {
 
     @Column(name = "telefono", nullable = false, length = 100)
     private String telefono;
- 
+
     //Relaciones
     // Relacion Tramite
     @OneToMany(mappedBy = "persona")
@@ -62,13 +61,13 @@ public class Persona implements Serializable {
     /**
      * Constructor que inicializa el objeto los parametros:
      *
-     * @param nombres
-     * @param apellido_paterno
-     * @param apellido_materno
-     * @param rfc
-     * @param fechaNacimiento
-     * @param discapacidad
-     * @param telefono
+     * @param nombres Nombre de la persona
+     * @param apellido_paterno Apellido paterno de la persona
+     * @param apellido_materno Apellido paterno de la persona
+     * @param rfc RFC de la persona
+     * @param fechaNacimiento Fecha de nacimiento de la persona
+     * @param discapacidad La discapacidad de la persona
+     * @param telefono Teléfono de la persona
      */
     public Persona(String nombres, String apellido_paterno,
             String apellido_materno, String rfc, Calendar fechaNacimiento,
@@ -82,15 +81,16 @@ public class Persona implements Serializable {
     }
 
     /**
+     * Constructor que inicializa los parámetros
      *
-     * @param idPersona
-     * @param nombres
-     * @param apellido_paterno
-     * @param apellido_materno
-     * @param rfc
-     * @param fechaNacimiento
-     * @param discapacidad
-     * @param telefono
+     * @param idPersona Id de la persona
+     * @param nombres Nombre de la persona
+     * @param apellido_paterno Apellido paterno de la persona
+     * @param apellido_materno Apellido paterno de la persona
+     * @param rfc RFC de la persona
+     * @param fechaNacimiento Fecha de nacimiento de la persona
+     * @param discapacidad La discapacidad de la persona
+     * @param telefono Teléfono de la persona
      */
     public Persona(Long idPersona, String nombres, String apellido_paterno,
             String apellido_materno, String rfc, Calendar fechaNacimiento,
@@ -105,14 +105,15 @@ public class Persona implements Serializable {
     }
 
     /**
+     * Valida si los parametros con responden con las validaciones
      *
-     * @param nombres
-     * @param apellido_paterno
-     * @param apellido_materno
-     * @param rfc
-     * @param fechaNacimiento
-     * @param discapacidad
-     * @param telefono
+     * @param nombres Nombre de la persona
+     * @param apellido_paterno Apellido paterno de la persona
+     * @param apellido_materno Apellido paterno de la persona
+     * @param rfc RFC de la persona
+     * @param fechaNacimiento Fecha de nacimiento de la persona
+     * @param discapacidad La discapacidad de la persona
+     * @param telefono Teléfono de la persona
      */
     public void validarPersona(String nombres, String apellido_paterno,
             String apellido_materno, String rfc, Calendar fechaNacimiento,
@@ -202,7 +203,7 @@ public class Persona implements Serializable {
      *
      * @return apellido_paterno de la persona
      */
-    public String getApellido_paterno(){
+    public String getApellido_paterno() {
         try {
             return Encriptador.desencriptar(this.apellido_paterno);
         } catch (Exception e) {
@@ -225,7 +226,7 @@ public class Persona implements Serializable {
      *
      * @return apellido_materno de la persona
      */
-    public String getApellido_materno(){
+    public String getApellido_materno() {
         try {
             return Encriptador.desencriptar(this.apellido_materno);
         } catch (Exception e) {
@@ -255,7 +256,7 @@ public class Persona implements Serializable {
     /**
      * Método que ingresa el rfc de la persona
      *
-     * @param rfc
+     * @param rfc Rfc de la persona
      */
     public void setRfc(String rfc) {
         if (rfc == null || rfc.trim().isEmpty()) {
@@ -278,7 +279,7 @@ public class Persona implements Serializable {
     /**
      * Método que ingresa valor de fecha de nacimiento de la persona
      *
-     * @param fechaNacimiento
+     * @param fechaNacimiento Fecha de nacimiento de la persona
      */
     public void setFechaNacimiento(Calendar fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
@@ -287,7 +288,7 @@ public class Persona implements Serializable {
     /**
      * Devuelve el valor de discapacidad
      *
-     * @return discapaciad
+     * @return discapaciad 
      */
     public Boolean getDiscapacidad() {
         return discapacidad;
@@ -365,9 +366,9 @@ public class Persona implements Serializable {
         return "Persona{" + "idPersona=" + idPersona + ", nombres=" + nombres + ", apellido_paterno=" + apellido_paterno + ", apellido_materno=" + apellido_materno + ", rfc=" + rfc + ", fechaNacimiento=" + fechaNacimiento + ", discapacidad=" + discapacidad + ", telefono=" + telefono + ", tramites=" + tramites + '}';
     }
 
-    private void encriptarNombres(String nombres, String apellido_Paterno, String apellido_Materno)throws EncriptarException{
+    private void encriptarNombres(String nombres, String apellido_Paterno, String apellido_Materno) throws EncriptarException {
         try {
-            
+
             this.nombres = Encriptador.encriptar(nombres.toUpperCase());
             this.apellido_paterno = Encriptador.encriptar(apellido_Paterno.toUpperCase());
             this.apellido_materno = Encriptador.encriptar(apellido_Materno.toUpperCase());
@@ -375,5 +376,5 @@ public class Persona implements Serializable {
             throw new EncriptarException("Error al encriptar: " + e.getMessage(), e);
         }
     }
-    
+
 }

@@ -135,7 +135,7 @@ public class PersonaServicio {
      *
      * @param persona La persona a buscar (se busca por su ID)
      * @return La persona encontrada
-     * @throwsServicioException En caso de que algo salga mal en la consulta
+     * @throws ServicioException En caso de que algo salga mal en la consulta
      */
     public Persona consultarPersona(Persona persona) throws ServicioException {
         try {

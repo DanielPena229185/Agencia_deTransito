@@ -102,7 +102,6 @@ public class ConsultaForm extends javax.swing.JFrame {
      * tabla anterior y agrega las nuevas filas con los datos obtenidos al
      * modelo de tabla de la tabla de placas.
      *
-     * @return void
      */
     public void cargarTablaPlaca() {
         List<Placa> listaPlaca = placaDAO.consultarPlacasPersona(persona, paginadoPlaca);

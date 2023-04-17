@@ -134,8 +134,8 @@ public class VehiculoServicio {
     /**
      * Valida los atributos del objeto vehiculo
      *
-     * @param placa objeto a validar
-     * @throws ServicioException si algun atributo no sea el correcto
+     * @param vehiculo vehículo a validar
+     * @throws IllegalArgumentException si algun atributo no sea el correcto
      */
     public void validarDatos(Vehiculo vehiculo) {
         if (vehiculo.getNumeroSerie() == null || vehiculo.getNumeroSerie().trim().isEmpty()) {
@@ -173,7 +173,7 @@ public class VehiculoServicio {
      * Valida los atributos del objeto placa
      *
      * @param placa objeto a validar
-     * @throws ServicioException si algun atributo no sea el correcto
+     * @throws IllegalArgumentException si algun atributo no sea el correcto
      */
     public void validarDatosPlaca(Placa placa) throws IllegalArgumentException {
         if (placa.getEstado() == null) {

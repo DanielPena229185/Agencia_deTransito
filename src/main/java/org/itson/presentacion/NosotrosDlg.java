@@ -14,7 +14,9 @@ package org.itson.presentacion;
 public class NosotrosDlg extends javax.swing.JDialog {
 
     /**
-     * Creates new form SobreNosotrosDlg
+     * 
+     * @param parent Frame del que hereda
+     * @param modal Modal de la clase padre
      */
     public NosotrosDlg(java.awt.Frame parent, boolean modal) {
         super(parent, modal);

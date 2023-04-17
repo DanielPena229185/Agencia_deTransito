@@ -42,10 +42,10 @@ public class PagarDlg extends javax.swing.JDialog {
      * En este constructor, recivimos trámites de licencia, para saber a qué
      * tipo de trámite se le va a pagar, en este caso es para una nueva licencia
      *
-     * @param parent
-     * @param modal
-     * @param licencia
-     * @param concepto
+     * @param parent Clase de la que hereda
+     * @param modal Modal de la clase padre
+     * @param licencia La licencia a pagar
+     * @param concepto El concepto del pago
      */
     public PagarDlg(java.awt.Frame parent, boolean modal, Licencia licencia, String concepto) {
         super(parent, modal);
@@ -60,10 +60,10 @@ public class PagarDlg extends javax.swing.JDialog {
      * En este constructor, recivimos trámites de licencia, para saber a qué
      * tipo de trámite se le va a pagar, en este caso es para una nueva licencia
      *
-     * @param parent
-     * @param modal
-     * @param placa
-     * @param concepto
+     * @param parent Clase de la que hereda
+     * @param modal Modal de la clase padre
+     * @param placa La licencia a pagar
+     * @param concepto El concepto del pago
      */
     public PagarDlg(java.awt.Frame parent, boolean modal, Placa placa, String concepto) {
         super(parent, modal);
@@ -79,10 +79,11 @@ public class PagarDlg extends javax.swing.JDialog {
      * tipo de trámite se le va a pagar, en este caso es para una trámitar otra
      * licencia
      *
-     * @param parent
-     * @param modal
-     * @param licencia
-     * @param licenciaAnterior
+     * @param parent Clase de la que hereda
+     * @param modal Modal de la clase padre
+     * @param licencia La licencia a pagar
+     * @param licenciaAnterior La licencia anterior que tenía
+     * @param concepto El concepto del pago
      */
     public PagarDlg(java.awt.Frame parent, boolean modal, Licencia licencia, Licencia licenciaAnterior, String concepto) {
         super(parent, modal);
