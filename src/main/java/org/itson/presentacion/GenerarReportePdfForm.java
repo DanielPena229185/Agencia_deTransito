@@ -29,7 +29,7 @@ public class GenerarReportePdfForm extends javax.swing.JFrame {
     private String nombre;
 
     /**
-     * Creates new form GenerarReportePdfForm
+     * Crea un nuevo formulario de GenerarReportePdfForm
      */
     public GenerarReportePdfForm() {
         initComponents();
@@ -190,6 +190,18 @@ public class GenerarReportePdfForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     *
+     * Acción ejecutada al presionar el botón "Generar Reporte". Verifica que
+     * las fechas de inicio y fin hayan sido seleccionadas y son válidas para
+     * generar el reporte. Si no se han seleccionado fechas, se generará el
+     * reporte con todos los trámites. Si se han seleccionado fechas, se
+     * generará el reporte con los trámites realizados dentro de ese periodo. Si
+     * las fechas no son válidas (la fecha de inicio es posterior a la de fin),
+     * se mostrará un mensaje de error.
+     *
+     * @param evt Acción que desencadena el evento.
+     */
     private void btnGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGActionPerformed
         if (this.datePickerDesde.getDate() == null || this.datePickerHasta.getDate() == null) {
             if (this.consultarListaTramites() != null) {
@@ -213,9 +225,16 @@ public class GenerarReportePdfForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGActionPerformed
 
     private void txtNombrePersonasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombrePersonasKeyTyped
-        
+
     }//GEN-LAST:event_txtNombrePersonasKeyTyped
 
+    /**
+     *
+     * Este método es llamado cuando se cierra la ventana y se encarga de crear
+     * una nueva instancia de la clase PrincipalForm y mostrarla en pantalla.
+     *
+     * @param evt el evento que desencadena el método
+     */
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         new PrincipalForm().setVisible(true);
     }//GEN-LAST:event_formWindowClosed
@@ -224,6 +243,17 @@ public class GenerarReportePdfForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombrePersonasActionPerformed
 
+    /**
+     *
+     * Consulta la lista de trámites según el periodo especificado y el nombre
+     * de la persona. Si el nombre de la persona no
+     *
+     * se especifica, se ignorará en la consulta. Si el periodo no se
+     * especifica, se mostrará un mensaje de error.
+     *
+     * @return una lista de objetos Reporte que representan los trámites
+     * encontrados en la consulta o null si no se encontró ningún trámite.
+     */
     private List<Reporte> consultarListaTramites() {
         String nombre = "";
 
@@ -231,7 +261,7 @@ public class GenerarReportePdfForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Necesitas llenar almenos los campos del periodo (Desde y Hasta) o escribir almenos un nombre", "No se puede realizar la búsqueda", JOptionPane.ERROR_MESSAGE);
             return null;
         }
-        
+
         if (!this.txtNombrePersonas.getText().isEmpty()) {
             nombre = Encriptador.encriptar(txtNombrePersonas.getText().toUpperCase());
         }
@@ -240,16 +270,16 @@ public class GenerarReportePdfForm extends javax.swing.JFrame {
 
         List<Tramite> tramites = servicioA.consultarTramitesPeriodo(this.datePickerDesde.getCalendar(), this.datePickerHasta.getCalendar(), nombre);
         if (tramites.isEmpty()) {
-            String mensaje  = "";
-            if(nombre == ""){
+            String mensaje = "";
+            if (nombre == "") {
                 mensaje += "[Sin Nombre]";
-            }else{
+            } else {
                 mensaje += "[" + Encriptador.desencriptar(nombre) + "]";
             }
-            
-            if(this.datePickerDesde.getCalendar() == null || this.datePickerHasta.getCalendar() == null){
+
+            if (this.datePickerDesde.getCalendar() == null || this.datePickerHasta.getCalendar() == null) {
                 mensaje += "[Periodo sin especificar]";
-            }else{
+            } else {
                 String fechaDesde = new SimpleDateFormat("dd/MM/yyyy").format(this.datePickerDesde.getCalendar().getTime());
                 String fechaHasta = new SimpleDateFormat("dd/MM/yyyy").format(this.datePickerHasta.getCalendar().getTime());
                 mensaje += "[Desde " + fechaDesde + "] [Hasta " + fechaHasta + "]";

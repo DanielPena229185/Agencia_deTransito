@@ -30,7 +30,10 @@ public class PrincipalForm extends javax.swing.JFrame {
     private CostoServicio costoDAO;
 
     /**
-     * Creates new form PrincipalForm
+     *
+     * Crea una instancia de la clase PrincipalForm. Inicializa los componentes
+     * de la ventana y crea objetos de servicio de Persona y Costo. Configura
+     * los valores iniciales de la ventana.
      */
     public PrincipalForm() {
         initComponents();
@@ -39,6 +42,12 @@ public class PrincipalForm extends javax.swing.JFrame {
         valoresIniciales();
     }
 
+    /**
+     *
+     * Devuelve la fecha actual en formato "dd/MM/yyyy".
+     *
+     * @return la fecha actual en formato "dd/MM/yyyy".
+     */
     private String fecha() {
         LocalDate fechaActual = LocalDate.now();
 
@@ -50,6 +59,11 @@ public class PrincipalForm extends javax.swing.JFrame {
         return fechaFormateada;
     }
 
+    /**
+     *
+     * Configura los valores iniciales de la ventana. Establece la fecha actual
+     * en el label lblFecha, e inserta los costos y personas iniciales.
+     */
     private void valoresIniciales() {
         this.lblFecha.setText(fecha());
         this.insertarCostos();
@@ -254,6 +268,13 @@ public class PrincipalForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     *
+     * Maneja la acción del menú "Salir". Pregunta al usuario si realmente desea
+     * salir del sistema y, si es así, termina la ejecución de la aplicación.
+     *
+     * @param evt Evento de acción que activa este método.
+     */
     private void menuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSalirActionPerformed
         int salir = JOptionPane.showConfirmDialog(this, "¿Segur(a) que desea salir\n"
                 + "del sistema?", "¡Precaucion!", JOptionPane.YES_NO_OPTION);
@@ -262,11 +283,26 @@ public class PrincipalForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_menuItemSalirActionPerformed
 
+    /**
+     *
+     * Maneja la acción del menú "Sobre Nosotros". Muestra la ventana modal
+     * "NosotrosDlg".
+     *
+     * @param evt Evento de acción que activa este método.
+     */
     private void menuItemSobreNosotrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSobreNosotrosActionPerformed
         NosotrosDlg nosotros = new NosotrosDlg(this, true);
         nosotros.setVisible(true);
     }//GEN-LAST:event_menuItemSobreNosotrosActionPerformed
 
+    /**
+     *
+     * Maneja la acción del menú "Trámite Licencia". Crea una instancia de la
+     * clase TramiteLicenciaForm y muestra la ventana, cerrando la ventana
+     * actual.
+     *
+     * @param evt Evento de acción que activa este método.
+     */
     private void menuItemTramiteLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemTramiteLicenciaActionPerformed
         TramiteLicenciaForm tramiteLicencia = new TramiteLicenciaForm();
         this.dispose();
@@ -281,6 +317,13 @@ public class PrincipalForm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_menuItemTramitePlacaActionPerformed
 
+    /**
+     *
+     * Abre la ventana de consulta de trámites al hacer clic en el menú
+     * "Consulta de Trámites". Se cierra la ventana actual.
+     *
+     * @param evt El evento que se genera al hacer clic en el menú.
+     */
     private void menuItemConsultaTramitesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemConsultaTramitesActionPerformed
         // TODO add your handling code here:
         ConsultaForm consultarTramites = new ConsultaForm();
@@ -288,12 +331,23 @@ public class PrincipalForm extends javax.swing.JFrame {
         consultarTramites.setVisible(true);
     }//GEN-LAST:event_menuItemConsultaTramitesActionPerformed
 
+    /**
+     *
+     * Este método se ejecuta al hacer clic en el botón "Nueva placa" del menú
+     * principal y muestra el formulario para registrar un nuevo vehículo.
+     */
     private void menuItemPlacasNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPlacasNuevaActionPerformed
         RegistrarVehiculoForm nuevoAuto = new RegistrarVehiculoForm();
         this.dispose();
         nuevoAuto.setVisible(true);
     }//GEN-LAST:event_menuItemPlacasNuevaActionPerformed
 
+    /**
+     *
+     * Este método se ejecuta al hacer clic en el botón "Cambiar placa" del menú
+     * principal y muestra el formulario para buscar un vehículo y cambiar sus
+     * placas.
+     */
     private void menuItemPlacasCambiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPlacasCambiarActionPerformed
         // TODO add your handling code here:
         BuscadorAutomovilesForm buscarAutomovil = new BuscadorAutomovilesForm();
@@ -303,6 +357,11 @@ public class PrincipalForm extends javax.swing.JFrame {
         buscarAutomovil.setVisible(true);
     }//GEN-LAST:event_menuItemPlacasCambiarActionPerformed
 
+    /**
+     *
+     * Este método se ejecuta al hacer clic en el botón "Consulta de reporte"
+     * del menú principal y muestra el formulario para generar un reporte PDF.
+     */
     private void menuItemConsultaReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemConsultaReporteActionPerformed
         new GenerarReportePdfForm().setVisible(true);
         this.dispose();

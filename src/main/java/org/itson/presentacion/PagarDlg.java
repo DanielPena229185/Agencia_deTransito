@@ -54,6 +54,15 @@ public class PagarDlg extends javax.swing.JDialog {
         this.llenarCamposTextoLicencia();
     }
 
+    /**
+     * En este constructor, recivimos trámites de licencia, para saber a qué
+     * tipo de trámite se le va a pagar, en este caso es para una nueva licencia
+     *
+     * @param parent
+     * @param modal
+     * @param placa
+     * @param concepto
+     */
     public PagarDlg(java.awt.Frame parent, boolean modal, Placa placa, String concepto) {
         super(parent, modal);
         initComponents();
@@ -84,6 +93,17 @@ public class PagarDlg extends javax.swing.JDialog {
         this.llenarCamposTextoLicencia();
     }
 
+    /**
+     *
+     * Constructor de la clase PagarDlg.
+     *
+     * @param parent La ventana padre del diálogo.
+     * @param modal Indica si el diálogo es modal o no.
+     * @param placa La placa del vehículo a pagar.
+     * @param placaAnterior La placa anterior del vehículo (en caso de cambio de
+     * placa).
+     * @param concepto El concepto de pago (multa, tenencia, etc.).
+     */
     public PagarDlg(java.awt.Frame parent, boolean modal, Placa placa, Placa placaAnterior, String concepto) {
         super(parent, modal);
         initComponents();
@@ -94,6 +114,18 @@ public class PagarDlg extends javax.swing.JDialog {
         this.llenarCamposTextoLicencia();
     }
 
+    /**
+     *
+     * Crea un diálogo para realizar el pago de un trámite asociado a una placa
+     * de vehículo.
+     *
+     * @param placa la placa de vehículo asociada al trámite.
+     * @param placaAnterior la placa anterior del vehículo, en caso de cambio de
+     * placa.
+     * @param owner el Frame padre del diálogo.
+     * @param modal especifica si el diálogo es modal.
+     * @param concepto el concepto del trámite a pagar.
+     */
     public PagarDlg(Placa placa, Placa placaAnterior, Frame owner, boolean modal, String concepto) {
         super(owner, modal);
         initComponents();
@@ -104,6 +136,16 @@ public class PagarDlg extends javax.swing.JDialog {
         this.llenarCamposTextoPlaca();
     }
 
+    /**
+     *
+     * Crea un diálogo para realizar un pago relacionado con una placa
+     * especificada.
+     *
+     * @param placa la placa relacionada con el pago
+     * @param owner el marco padre del diálogo
+     * @param modal si el diálogo debe ser modal o no
+     * @param concepto el concepto del pago a realizar
+     */
     public PagarDlg(Placa placa, Frame owner, boolean modal, String concepto) {
         super(owner, modal);
         initComponents();
@@ -113,6 +155,18 @@ public class PagarDlg extends javax.swing.JDialog {
         this.llenarCamposTextoPlaca();
     }
 
+    /**
+     *
+     * Agrega un pago al sistema, actualizando la licencia o placa
+     * correspondiente si es necesario. Si la licencia es no nula, crea un nuevo
+     * objeto de tipo Pago y lo asocia a la licencia. Además, si existe una
+     * licencia anterior, la actualiza a INACTIVA en la base de datos. Si la
+     * licencia es nula, verifica si la placa anterior es nula o no. Si es nula,
+     * crea un nuevo objeto de tipo Pago y lo asocia a la placa. Si no es nula,
+     * actualiza la placa anterior a INACTIVA y con la fecha de recepción
+     * actual, y crea un nuevo objeto de tipo Pago y lo asocia a la placa
+     * actual.
+     */
     public void agregarPago() {
         if (licencia != null) {
             pago = new Pago(licencia.getPrecio(), Calendar.getInstance(), this.txtConcepto.getText(), licencia);
@@ -121,11 +175,11 @@ public class PagarDlg extends javax.swing.JDialog {
                 licenciaDAO.actualizarLicencia(licenciaAnterior);
             }
         } else {
-            if(placaAnterior == null){
+            if (placaAnterior == null) {
                 Vehiculo vehiculo = placa.getVehiculo();
                 vehiculoDAO.agregarVehiculo(vehiculo);
                 pago = new Pago(placa.getPrecio(), Calendar.getInstance(), this.txtConcepto.getText(), placa);
-            }else{
+            } else {
                 placaAnterior.setEstado(EstadoTramite.INACTIVO);
                 placaAnterior.setFechaRecepcion(Calendar.getInstance());
                 placaDAO.actualizarPlaca(placaAnterior);
@@ -267,24 +321,49 @@ public class PagarDlg extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     *
+     * Método que se ejecuta al presionar el botón de cobro. Agrega un nuevo
+     * pago y cierra el diálogo.
+     *
+     * @param evt El evento de acción que se genera al presionar el botón de
+     * cobro.
+     */
     private void btnCobroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCobroActionPerformed
         this.agregarPago();
         this.salir = true;
         this.dispose();
     }//GEN-LAST:event_btnCobroActionPerformed
 
+    /**
+     *
+     * Llena los campos de texto de la ventana de pago con la información de la
+     * licencia. El precio de la licencia se coloca en el campo "txtMonto" y el
+     * concepto en el campo "txtConcepto".
+     */
     private void llenarCamposTextoLicencia() {
         String monto = String.valueOf(licencia.getPrecio());
         this.txtMonto.setText(monto);
         this.txtConcepto.setText(concepto);
     }
 
+    /**
+     *
+     * Llena los campos de texto de la ventana con la información de la placa.
+     */
     private void llenarCamposTextoPlaca() {
         String monto = String.valueOf(placa.getPrecio());
         this.txtMonto.setText(monto);
         this.txtConcepto.setText(concepto);
     }
 
+    /**
+     *
+     * Retorna el valor actual de la variable "salir".
+     *
+     * @return true si se ha confirmado el cobro y se ha cerrado el dialogo,
+     * false en caso contrario.
+     */
     public boolean isSalir() {
         return salir;
     }

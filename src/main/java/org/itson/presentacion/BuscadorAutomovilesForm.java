@@ -36,7 +36,11 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
     private ConfiguracionDePaginado paginado = new ConfiguracionDePaginado(1, 20);
 
     /**
-     * Creates new form BuscadorAutomovilesForm
+     *
+     * Constructor for BuscadorAutomovilesForm class. Initializes components and
+     * initializes DAO services for Placa, Persona, and Vehiculo. Also calls the
+     * method buscarPlacas() to populate the form with the list of available
+     * license plates.
      */
     public BuscadorAutomovilesForm() {
         initComponents();
@@ -46,6 +50,10 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         this.buscarPlacas();
     }
 
+    /**
+     *
+     * Carga los datos de los vehículos en la tabla de la interfaz gráfica.
+     */
     public void cargarTablaVehiculo() {
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblVehiculos.getModel();
         for (Object[] resultados : placaDAO.consultarPlacasPersonas()) {
@@ -57,6 +65,13 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         }
     }
 
+    /**
+     *
+     * Método que realiza la búsqueda de placas de vehículos según el filtro de
+     * búsqueda ingresado en el campo de texto 'txtPlacas' y actualiza la tabla
+     * de resultados con los resultados obtenidos. Se utiliza un objeto
+     * 'paginado' para controlar la paginación de los resultados.
+     */
     public void buscarPlacas() {
 
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblVehiculos.getModel();
@@ -275,11 +290,28 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     *
+     * Este método se encarga de buscar las placas en la tabla de vehículos,
+     * dependiendo del filtro ingresado en el campo de texto "txtPlacas".
+     * Utiliza el método "consultarPlacasPersonasFiltroPaginado" de la clase
+     * PlacaServicio para obtener los resultados de la búsqueda, y los muestra
+     * en la tabla de vehículos.
+     */
     private void txtPlacasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPlacasKeyTyped
         // TODO add your handling code here:
         this.buscarPlacas();
     }//GEN-LAST:event_txtPlacasKeyTyped
 
+    /**
+     *
+     * Método que se encarga de manejar el evento "MouseClicked" del JTable
+     * "tblVehiculos". Al seleccionar una fila de la tabla, se obtienen los
+     * datos de la persona, la placa anterior y el vehículo seleccionados y se
+     * guardan en las variables correspondientes.
+     *
+     * @param evt Objeto que contiene la información del evento.
+     */
     private void tblVehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVehiculosMouseClicked
         // TODO add your handling code here:
         int seleccionar = tblVehiculos.rowAtPoint(evt.getPoint());
@@ -305,31 +337,73 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         // JOptionPane.showMessageDialog(null, vehiculo.toString());
     }//GEN-LAST:event_tblVehiculosMouseClicked
 
+    /**
+     *
+     * Abre la ventana para actualizar las placas del vehículo seleccionado, si
+     * hay uno seleccionado.
+     *
+     * Si no hay un vehículo seleccionado, muestra un mensaje de error.
+     */
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        
+
         if (this.vehiculo != null) {
             ActualizarPlacasForm actualizarPlacas = new ActualizarPlacasForm(vehiculo, placaAnterior);
             actualizarPlacas.setVisible(true);
             this.dispose();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this,
                     "No has seleccionado ningún vehículo", "Error!",
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
+    /**
+     *
+     * Método que se llama cuando se presiona la tecla "Enter" en el campo de
+     * texto "txtPlacas". Ejecuta el método "buscarPlacas()" para realizar la
+     * búsqueda de placas y actualizar la tabla de vehículos.
+     *
+     * @param evt El evento de acción que se produce al presionar la tecla
+     * "Enter".
+     */
     private void txtPlacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPlacasActionPerformed
         this.buscarPlacas();
     }//GEN-LAST:event_txtPlacasActionPerformed
 
+    /**
+     *
+     * Este método se ejecuta cuando se presiona una tecla en el campo de texto
+     * "txtPlacas". Llama al método "buscarPlacas" para actualizar la tabla de
+     * vehículos según el texto ingresado.
+     *
+     * @param evt el evento de teclado generado al presionar una tecla
+     */
     private void txtPlacasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPlacasKeyPressed
         this.buscarPlacas();
     }//GEN-LAST:event_txtPlacasKeyPressed
 
+    /**
+     *
+     * Actualiza la búsqueda de placas cuando se suelta una tecla en el campo de
+     * texto de placas. Llama al método buscarPlacas() para realizar la búsqueda
+     * actualizada.
+     *
+     * @param evt El evento de soltar una tecla en el campo de texto de placas.
+     */
     private void txtPlacasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPlacasKeyReleased
         this.buscarPlacas();
     }//GEN-LAST:event_txtPlacasKeyReleased
 
+    /**
+     *
+     * Método que se ejecuta al cerrar la ventana y muestra una ventana de
+     * confirmación para preguntar si el usuario está seguro de que quiere
+     * salir. Si el usuario confirma la salida, se cierra la ventana y se
+     * regresa a la pantalla principal. Si el usuario cancela la salida, se
+     * evita que se cierre la ventana.
+     *
+     * @param evt El evento que dispara la acción.
+     */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION);
@@ -343,18 +417,37 @@ public class BuscadorAutomovilesForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    /**
+     *
+     * Avanza una página en la tabla de resultados de búsqueda de placas y
+     * vuelve a cargar los resultados actualizados.
+     *
+     * @param evt Evento de acción generado por el botón "Avanzar".
+     */
     private void btnAvanzarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvanzarActionPerformed
         // TODO add your handling code here:
         paginado.avanzarPagina();
         this.buscarPlacas();
     }//GEN-LAST:event_btnAvanzarActionPerformed
 
+    /**
+     *
+     * Método que se ejecuta al presionar el botón "Regresar" para retroceder
+     * una página en la tabla de resultados de búsqueda. Actualiza la página
+     * actual y vuelve a ejecutar la búsqueda de placas.
+     *
+     * @param evt el evento de acción que se produce al hacer clic en el botón
+     * "Regresar".
+     */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         paginado.retrocederPagina();
         this.buscarPlacas();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    /**
+     * Método para regresar a la pantalla principal del sistema.
+     */
     private void regresarPantallaPrincipal() {
         PrincipalForm principal = new PrincipalForm();
         principal.setVisible(true);

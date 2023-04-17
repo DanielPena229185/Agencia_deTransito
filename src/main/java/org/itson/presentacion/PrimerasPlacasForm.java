@@ -31,7 +31,12 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
     private Placa placaNueva;
 
     /**
-     * Creates new form AsignarPlacasDlg
+     *
+     * Constructor de la clase PrimerasPlacasForm.
+     *
+     * @param vehiculo el vehículo asociado con el trámite de primeras placas
+     * Este método inicializa la clase PrimerasPlacasForm con un vehículo dado,
+     * y llena los campos correspondientes con la información del vehículo.
      */
     public PrimerasPlacasForm(Vehiculo vehiculo) {
         initComponents();
@@ -40,6 +45,16 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         this.llenarCamposTramite();
     }
 
+    /**
+     *
+     * Constructor de la clase PrimerasPlacasForm.
+     *
+     * @param persona la persona asociada con el trámite de primeras placas
+     * @param vehiculo el vehículo asociado con el trámite de primeras placas
+     * Este método inicializa la clase PrimerasPlacasForm con una persona y un
+     * vehículo dados, y llena los campos correspondientes con la información de
+     * la persona y el vehículo.
+     */
     public PrimerasPlacasForm(Persona persona, Vehiculo vehiculo) {
         initComponents();
         this.persona = persona;
@@ -436,6 +451,17 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     *
+     * Método que se llama cuando se cierra la ventana.
+     *
+     * @param evt el evento que se produce al cerrar la ventana Este método
+     * muestra un cuadro de diálogo de confirmación para asegurarse de que el
+     * usuario desea salir de la ventana. Si el usuario confirma la salida,
+     * permite que la ventana se cierre y llama al método
+     * regresarPantallaPrincipal(). Si el usuario cancela la salida, evita que
+     * la ventana se cierre.
+     */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION);
         if (confirmacion == JOptionPane.YES_OPTION) {
@@ -448,12 +474,28 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    /**
+     *
+     * Método que se llama para regresar a la pantalla principal. Este método
+     * crea una nueva instancia de la clase PrincipalForm y la muestra en la
+     * pantalla. Luego, cierra la ventana actual (PrimerasPlacasForm).
+     */
     private void regresarPantallaPrincipal() {
         PrincipalForm principal = new PrincipalForm();
         principal.setVisible(true);
         dispose();
     }
 
+    /**
+     *
+     * Método que se llama para llenar los campos correspondientes al trámite de
+     * primeras placas. Este método obtiene una nueva placa llamando al método
+     * conseguirPlacaNueva(), y la muestra en el campo correspondiente
+     * formatoPlacas. Luego, obtiene la fecha actual y la muestra en el campo
+     * correspondiente txtFecha en el formato especificado por formatoFecha.
+     * Finalmente, llama al método costoDeTramite() para obtener el costo del
+     * trámite y lo muestra en el campo correspondiente txtPrecio.
+     */
     private void llenarCamposTramite() {
         //Placas
         String placas = conseguirPlacaNueva();
@@ -466,6 +508,16 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         txtPrecio.setText(String.valueOf(costo));
     }
 
+    /**
+     *
+     * Método que se llama cuando el componente se oculta.
+     *
+     * @param evt el evento que se produce cuando el componente se oculta Este
+     * método muestra un cuadro de diálogo de confirmación para asegurarse de
+     * que el usuario desea salir de la ventana. Si el usuario confirma la
+     * salida, cierra la ventana actual (PrimerasPlacasForm). Si el usuario
+     * cancela la salida, mantiene la ventana visible.
+     */
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
         int cancelarTodo = JOptionPane.showConfirmDialog(this,
                 "¿Seguro(a) que deseas salir?"
@@ -480,12 +532,34 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formComponentHidden
 
+    /**
+     *
+     * Método que se llama cuando se hace clic en el botón de buscar cliente.
+     *
+     * @param evt el evento que se produce cuando se hace clic en el botón de
+     * buscar cliente Este método crea una nueva instancia de la clase
+     * BuscadorClientesForm, pasándole la ventana actual (PrimerasPlacasForm) y
+     * el vehículo actual. Luego, muestra la ventana del buscador y cierra la
+     * ventana actual.
+     */
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
         BuscadorClientesForm buscador = new BuscadorClientesForm(this, vehiculo);
         buscador.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
+    /**
+     *
+     * Método que se llama cuando se hace clic en el botón de aceptar.
+     *
+     * @param evt el evento que se produce cuando se hace clic en el botón de
+     * aceptar Este método valida los campos de texto de la ventana. Si los
+     * campos son válidos, crea una instancia de la clase PagarDlg, pasándole
+     * los datos de las nuevas placas y un concepto de "Nuevas Placas". Muestra
+     * la ventana de cobro y, si el usuario confirma el pago, crea una nueva
+     * instancia de la clase PrincipalForm y la muestra, cerrando la ventana
+     * actual (PrimerasPlacasForm).
+     */
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         if (this.validarCamposTexto()) {
             PagarDlg cobrar;
@@ -503,9 +577,6 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
                 principal.setVisible(true);
                 dispose();
             }
-            //   } else {
-            //cobrar = new PagarDlg(this, true, null, null, concepto);
-            //  }
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -513,12 +584,25 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPrecioActionPerformed
 
+    /**
+     *
+     * Método que genera una nueva placa utilizando un objeto GeneradorPlacas.
+     *
+     * @return la nueva placa generada como una cadena de texto
+     */
     private String conseguirPlacaNueva() {
         GeneradorPlacas placas = new GeneradorPlacas();
 
         return placas.generarPlaca();
     }
 
+    /**
+     *
+     * Método que valida si se ha seleccionado un cliente antes de continuar con
+     * el trámite.
+     *
+     * @return true si se ha seleccionado un cliente, false de lo contrario.
+     */
     private boolean validarCamposTexto() {
         if (this.persona == null) {
             JOptionPane.showConfirmDialog(this,
@@ -531,6 +615,11 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         return true;
     }
 
+    /**
+     *
+     * Método que llena los campos de la información de la persona en el
+     * formulario de trámite de placas.
+     */
     private void llenarCamposPersona() {
         String nombreCompleto = persona.getNombreCompleto();
         String rfc = persona.getRfc();
@@ -541,6 +630,10 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         checkDiscapacitado.setSelected(persona.getDiscapacidad());
     }
 
+    /**
+     *
+     * Llena los campos de la ventana con la información del vehículo.
+     */
     private void llenarCamposVehiculo() {
         String numeroSerie = vehiculo.getNumeroSerie();
         String marca = vehiculo.getMarca();
@@ -553,6 +646,12 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         this.formatModelo.setText(modelo);
     }
 
+    /**
+     *
+     * Calcula el costo de un trámite de placas.
+     *
+     * @return El costo del trámite.
+     */
     private Double costoDeTramite() {
         List<CostoPlaca> costos = obtenerCostoTramite();
 
@@ -562,6 +661,12 @@ public class PrimerasPlacasForm extends javax.swing.JFrame {
         return null;
     }
 
+    /**
+     *
+     * Método que devuelve el costo del trámite de la placa nueva.
+     *
+     * @return el costo del trámite de la placa nueva.
+     */
     private List<CostoPlaca> obtenerCostoTramite() {
         return costoDAO.consultarCostoPlacaNueva();
     }

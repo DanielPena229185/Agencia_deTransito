@@ -31,12 +31,19 @@ public class ConsultaForm extends javax.swing.JFrame {
     private ConfiguracionDePaginado paginadoPlaca;
 
     /**
-     * Creates new form ConsultaForm
+     * Crea un nuevo formulario ConsultaForm.
      */
     public ConsultaForm() {
         initComponents();
     }
 
+    /**
+     *
+     * Crea un objeto ConsultaForm para mostrar la información de las licencias
+     * y placas asociadas a una persona.
+     *
+     * @param persona Persona cuya información se desea consultar.
+     */
     public ConsultaForm(Persona persona) {
         initComponents();
         this.licenciaDAO = new LicenciaServicio();
@@ -49,6 +56,10 @@ public class ConsultaForm extends javax.swing.JFrame {
         this.cargarTablaPlaca();
     }
 
+    /**
+     *
+     * Llena los campos del formulario con los datos de la persona.
+     */
     public void llenarCampos() {
         this.txtNombre.setText(persona.getNombreCompleto());
         this.txtRfc.setText(persona.getRfc());
@@ -57,6 +68,11 @@ public class ConsultaForm extends javax.swing.JFrame {
         }
     }
 
+    /**
+     *
+     * Carga los datos de las licencias de conducir de la persona en la tabla
+     * correspondiente.
+     */
     public void cargarTablaLicencia() {
         List<Licencia> listaLicencia = licenciaDAO.consultarLicenciasPersonaPaginado(persona, paginadoLicencia);
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblLicencia.getModel();
@@ -74,6 +90,17 @@ public class ConsultaForm extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Actualiza la tabla de placas con los datos obtenidos de la base de datos
+     * correspondientes a la persona actual y la paginación actual.
+     *
+     * Este método utiliza el objeto PlacaDAO para consultar la lista de placas
+     * de la persona actual, utilizando la paginación actual. Luego, limpia la
+     * tabla anterior y agrega las nuevas filas con los datos obtenidos al
+     * modelo de tabla de la tabla de placas.
+     *
+     * @return void
+     */
     public void cargarTablaPlaca() {
         List<Placa> listaPlaca = placaDAO.consultarPlacasPersona(persona, paginadoPlaca);
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblPlaca.getModel();
@@ -394,6 +421,17 @@ public class ConsultaForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de cierre de la ventana principal de la aplicación.
+     * Muestra un mensaje de confirmación para preguntar al usuario si está
+     * seguro de que desea salir. Si el usuario confirma, la ventana se cierra y
+     * se regresa a la pantalla principal. Si el usuario cancela, la ventana no
+     * se cierra.
+     *
+     * @param evt el evento de cierre de la ventana
+     * @return void
+     */
+
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION);
@@ -407,6 +445,13 @@ public class ConsultaForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    /**
+     * Este método se ejecuta cuando se hace clic en el botón "Buscar clientes".
+     * Crea una nueva instancia del formulario BuscadorClientesForm y lo muestra
+     * en la pantalla actual. Finalmente, cierra el formulario actual.
+     *
+     * @param evt el evento generado por el clic en el botón
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         BuscadorClientesForm buscarCliente = new BuscadorClientesForm(this);
@@ -414,30 +459,63 @@ public class ConsultaForm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    /**
+     * Este método se ejecuta cuando se hace clic en el botón "Avanzar" para el
+     * paginado de licencias. Avanza a la siguiente página del paginado y carga
+     * la tabla de datos de licencias correspondiente.
+     *
+     * @param evt el evento generado por el clic en el botón
+     */
     private void btnAvanzarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvanzarLicenciaActionPerformed
         // TODO add your handling code here:
         paginadoLicencia.avanzarPagina();
         this.cargarTablaLicencia();
     }//GEN-LAST:event_btnAvanzarLicenciaActionPerformed
 
+    /**
+     * Este método se ejecuta cuando se hace clic en el botón "Retroceder" para
+     * el paginado de licencias. Retrocede a la página anterior del paginado y
+     * carga la tabla de datos de licencias correspondiente.
+     *
+     * @param evt el evento generado por el clic en el botón
+     */
     private void btnRegresarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarLicenciaActionPerformed
         // TODO add your handling code here:
         paginadoLicencia.retrocederPagina();
         this.cargarTablaLicencia();
     }//GEN-LAST:event_btnRegresarLicenciaActionPerformed
 
+    /**
+     * Este método se ejecuta cuando se hace clic en el botón "Avanzar" para el
+     * paginado de placas. Avanza a la siguiente página del paginado y carga la
+     * tabla de datos de placas correspondiente.
+     *
+     * @param evt el evento generado por el clic en el botón
+     */
     private void btnAvanzarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvanzarPlacaActionPerformed
         // TODO add your handling code here:
         paginadoPlaca.avanzarPagina();
         this.cargarTablaPlaca();
     }//GEN-LAST:event_btnAvanzarPlacaActionPerformed
 
+    /**
+     * Este método se ejecuta cuando se hace clic en el botón "Retroceder" para
+     * el paginado de placas. Retrocede a la página anterior del paginado y
+     * carga la tabla de datos de placas correspondiente.
+     *
+     * @param evt el evento generado por el clic en el botón
+     */
     private void btnRetrocederPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetrocederPlacaActionPerformed
         // TODO add your handling code here:
         paginadoPlaca.retrocederPagina();
         this.cargarTablaPlaca();
     }//GEN-LAST:event_btnRetrocederPlacaActionPerformed
 
+    /**
+     * Este método regresa a la pantalla principal de la aplicación. Crea una
+     * nueva instancia del formulario PrincipalForm y lo muestra en la pantalla
+     * actual. Finalmente, cierra el formulario actual.
+     */
     private void regresarPantallaPrincipal() {
         PrincipalForm principal = new PrincipalForm();
         principal.setVisible(true);

@@ -27,7 +27,7 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
     private PlacaServicio placaDAO = new PlacaServicio();
 
     /**
-     * Creates new form RegistrarAutoForm
+     * Constructor vacio de la pantalla registrar vehiculo
      */
     public RegistrarVehiculoForm() {
         initComponents();
@@ -280,6 +280,11 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosed
 
+    /**
+     * Evento cuando se desee salir de la ventana
+     *
+     * @param evt evento al accionar la salida de la ventanas
+     */
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
         int cancelarTodo = JOptionPane.showConfirmDialog(this,
                 "¿Seguro(a) que deseas salir?"
@@ -294,6 +299,16 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formComponentHidden
 
+    /**
+     *
+     * Método que se activa al hacer clic en el botón "Registrar". Valida los
+     * campos de texto y, si están vacíos, verifica si el vehículo ya está
+     * registrado. Si no está registrado, abre una ventana para registrar las
+     * primeras placas. Si el vehículo ya está registrado, muestra un mensaje de
+     * advertencia y abre una ventana para actualizar las placas.
+     *
+     * @param evt El evento de acción del botón
+     */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         if (validarCamposTexto().isEmpty()) {
             if (!validarAutoRegistrado()) {
@@ -316,6 +331,17 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_formatNumeroSerieActionPerformed
 
+    /**
+     *
+     * Método que se activa cuando se cierra la ventana. Muestra una ventana de
+     * confirmación para verificar si el usuario realmente quiere salir. Si el
+     * usuario confirma la salida, se permite que el marco se cierre y se
+     * regresa a la pantalla principal. Si el usuario cancela la salida, se
+     * evita que el marco se cierre.
+     *
+     * @param evt El evento de ventana que se activa cuando se cierra la
+     * ventana.
+     */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION);
@@ -329,6 +355,15 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    /**
+     *
+     * Este método se encarga de formatear el texto ingresado en un campo de
+     * texto para permitir solo la entrada de números y los caracteres de
+     * retroceso y espacio.
+     *
+     * @param evt Un objeto de tipo KeyEvent que representa el evento de tecla
+     * que se ha activado al ingresar texto en el campo de texto.
+     */
     private void formatModeloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formatModeloKeyTyped
         char c = evt.getKeyChar();
         if (!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_SPACE)) {
@@ -346,32 +381,64 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtColorActionPerformed
 
+    /**
+     *
+     * Método que se activa cuando se escribe en el campo "formatNumeroSerie".
+     * Llena los campos del formulario con la información del vehículo si éste
+     * ya está registrado.
+     *
+     * @param evt El evento de tecla que se activa cuando se escribe en el campo
+     * "formatNumeroSerie".
+     */
     private void formatNumeroSerieKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formatNumeroSerieKeyTyped
         this.llenarCamposAutoRegistrado();
     }//GEN-LAST:event_formatNumeroSerieKeyTyped
 
+    /**
+     *
+     * Método que se activa cuando el campo "txtMarca" gana el foco. Llena los
+     * campos del formulario con la información del vehículo si éste ya está
+     * registrado.
+     *
+     * @param evt El evento de foco que se activa cuando el campo "txtMarca"
+     * gana el foco.
+     */
     private void txtMarcaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMarcaFocusGained
         this.llenarCamposAutoRegistrado();
     }//GEN-LAST:event_txtMarcaFocusGained
 
+    /**
+     *
+     * Este método se encarga de regresar a la pantalla principal y destruir la
+     * ventana actual.
+     */
     private void regresarPantallaPrincipal() {
         PrincipalForm principal = new PrincipalForm();
         principal.setVisible(true);
         dispose();
     }
 
+    /**
+     *
+     * Método que valida que los campos de texto del formulario no estén vacíos
+     * y que cumplan con los formatos requeridos.
+     *
+     * @return Una lista de cadenas de texto que contienen los nombres de los
+     * campos de texto que están vacíos o no cumplen con los formatos
+     * requeridos.
+     */
     private List<String> validarCamposTexto() {
-        
+
         List<String> camposVacios = new ArrayList<>();
-        
+
         if (formatNumeroSerie.getText().isEmpty() || !formatNumeroSerie.getText().matches("[A-Z]{3}-\\d{3}")) {
             camposVacios.add("Número de serie (formato AAA-123)");
-        }else{
-            if(this.validarAutoRegistrado()){
+        } else {
+            if (this.validarAutoRegistrado()) {
                 this.llenarCamposAutoRegistrado();
             }
         }
-        
+
         if (txtColor.getText().isEmpty()) {
             camposVacios.add("Color");
         }
@@ -391,6 +458,17 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         return camposVacios;
     }
 
+    /**
+     *
+     * Este método se encarga de generar un objeto de la clase Vehiculo
+     * utilizando los datos ingresados por el usuario en los campos
+     * correspondientes.
+     *
+     * Los datos se obtienen de los campos de texto correspondientes en la
+     * interfaz gráfica.
+     *
+     * @return void
+     */
     private void generarObjetoVehiculo() {
         String numeroSerie = this.formatNumeroSerie.getText();
         String marca = this.txtMarca.getText();
@@ -400,6 +478,16 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
         this.vehiculo = new Vehiculo(numeroSerie, marca, color, modelo, linea);
     }
 
+    /**
+     *
+     * Valida si un vehículo ya ha sido registrado en la base de datos. Si el
+     * vehículo ya ha sido registrado, guarda su información en el objeto
+     * vehiculo y guarda la información de la placa anterior en el objeto
+     * placasAntiguas.
+     *
+     * @return true si el vehículo ya ha sido registrado, false en caso
+     * contrario.
+     */
     private boolean validarAutoRegistrado() {
         this.generarObjetoVehiculo();
         List<Vehiculo> buscarVehiculo;
@@ -413,8 +501,17 @@ public class RegistrarVehiculoForm extends javax.swing.JFrame {
             return true;
         }
     }
-    
-    private void llenarCamposAutoRegistrado(){
+
+    /**
+     *
+     * Este método se encarga de llenar los campos correspondientes con los
+     * datos del vehículo registrado, si es que los datos son válidos. Si los
+     * datos no son válidos, se habilitan los campos para que el usuario pueda
+     * ingresarlos.
+     *
+     * @return void
+     */
+    private void llenarCamposAutoRegistrado() {
         if (this.validarAutoRegistrado()) {
             this.txtMarca.setText(this.vehiculo.getMarca());
             this.txtMarca.enable(false);

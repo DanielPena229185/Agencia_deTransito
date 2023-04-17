@@ -41,7 +41,10 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
     private ConfiguracionDePaginado paginadoCliente = new ConfiguracionDePaginado(1, 10);
 
     /**
-     * Creates new form BuscadorForm
+     *
+     * Constructor por defecto que inicializa los componentes del formulario,
+     * carga la información necesaria en ellos y configura la selección de la
+     * tabla de personas.
      */
     public BuscadorClientesForm() {
         personaDAO = new PersonaServicio();
@@ -54,7 +57,12 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
 
     /**
      *
-     * @param tramiteLicencia
+     * Constructor que recibe un objeto TramiteLicenciaForm como parámetro y lo
+     * guarda en el atributo correspondiente. Llama a los mismos métodos que el
+     * constructor por defecto.
+     *
+     * @param tramiteLicencia Objeto TramiteLicenciaForm que será utilizado en
+     * el contexto del formulario.
      */
     public BuscadorClientesForm(TramiteLicenciaForm tramiteLicencia) {
         personaDAO = new PersonaServicio();
@@ -66,6 +74,15 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         this.tramiteLicencia = tramiteLicencia;
     }
 
+    /**
+     *
+     * Constructor que recibe un objeto ConsultaForm como parámetro y lo guarda
+     * en el atributo correspondiente. Llama a los mismos métodos que el
+     * constructor por defecto.
+     *
+     * @param consultarForm Objeto ConsultaForm que será utilizado en el
+     * contexto del formulario.
+     */
     public BuscadorClientesForm(ConsultaForm consultarForm) {
         personaDAO = new PersonaServicio();
         initComponents();
@@ -76,6 +93,17 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         this.consultarForm = consultarForm;
     }
 
+    /**
+     *
+     * Constructor que recibe un objeto PrimerasPlacasForm y un objeto Vehiculo
+     * como parámetros y los guarda en los atributos correspondientes. Llama a
+     * los mismos métodos que el constructor por defecto.
+     *
+     * @param tramitePrimerasPlacas Objeto PrimerasPlacasForm que será utilizado
+     * en el contexto del formulario.
+     * @param vehiculo Objeto Vehiculo que será utilizado en el contexto del
+     * formulario.
+     */
     public BuscadorClientesForm(PrimerasPlacasForm tramitePrimerasPlacas, Vehiculo vehiculo) {
         personaDAO = new PersonaServicio();
         initComponents();
@@ -87,6 +115,15 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         this.tramitePrimerasPlacas = tramitePrimerasPlacas;
     }
 
+    /**
+     *
+     * Constructor que recibe los parámetros necesarios para realizar la
+     * búsqueda de clientes.
+     *
+     * @param actualizarPlacas Objeto de la clase ActualizarPlacasForm.
+     * @param vehiculo Objeto de la clase Vehiculo.
+     * @param placaAntigua Objeto de la clase Placa.
+     */
     public BuscadorClientesForm(ActualizarPlacasForm actualizarPlacas, Vehiculo vehiculo, Placa placaAntigua) {
         personaDAO = new PersonaServicio();
         initComponents();
@@ -344,6 +381,13 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     *
+     * Realiza la búsqueda de personas de acuerdo al filtro seleccionado y al
+     * término de búsqueda ingresado. Actualiza la tabla de resultados de
+     * acuerdo a la búsqueda. Lanza una excepción de tipo EncriptarException si
+     * ocurre algún error al intentar encriptar el término de búsqueda.
+     */
     public void BuscarPersona() {
         String filtro = null;
         String buscar = "";
@@ -380,6 +424,12 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         });
     }
 
+    /**
+     *
+     * Carga los elementos del ComboBox de filtro de búsqueda con los posibles
+     * filtros disponibles. Este método es llamado al inicializar la ventana de
+     * búsqueda de personas.
+     */
     private void cbxFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFiltroActionPerformed
         this.cargarComboBox();
     }//GEN-LAST:event_cbxFiltroActionPerformed
@@ -392,6 +442,14 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtBuscarKeyTyped
 
+    /**
+     *
+     * Maneja el evento de tecleo de la caja de búsqueda de personas. Si el
+     * término de búsqueda está vacío, se actualizan los resultados. Si el
+     * término de búsqueda no está vacío y el filtro seleccionado no es
+     * "Nombre", se actualizan los resultados. Este método es llamado cada vez
+     * que se teclea en la caja de búsqueda.
+     */
     private void tblPersonasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPersonasMouseClicked
         int seleccionar = tblPersonas.rowAtPoint(evt.getPoint());
         String idString = String.valueOf(tblPersonas.getValueAt(seleccionar, 0));
@@ -401,6 +459,13 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         this.persona = personaDAO.consultarPersona(personaSeleccionada);
     }//GEN-LAST:event_tblPersonasMouseClicked
 
+    /**
+     *
+     * Maneja el evento de clic en la tabla de resultados de personas. Obtiene
+     * el ID de la persona seleccionada y consulta su información en la base de
+     * datos. Este método es llamado cada vez que se hace clic en la tabla de
+     * resultados.
+     */
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         if (this.validarEscogioPersona()) {
             if (this.validarMayorDeEdad()) {
@@ -412,6 +477,12 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
+    /**
+     *
+     * Maneja el evento de clic del mouse en la tabla de personas.
+     *
+     * @param evt El evento del mouse
+     */
     private void tblPersonasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPersonasMousePressed
         int seleccionar = tblPersonas.rowAtPoint(evt.getPoint());
         String idString = String.valueOf(tblPersonas.getValueAt(seleccionar, 0));
@@ -421,6 +492,12 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         this.persona = personaDAO.consultarPersona(personaSeleccionada);
     }//GEN-LAST:event_tblPersonasMousePressed
 
+    /**
+     *
+     * Maneja el evento de ocultación del componente.
+     *
+     * @param evt El evento del componente
+     */
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
         int opcion;
         opcion = JOptionPane.showConfirmDialog(this,
@@ -443,26 +520,56 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formComponentHidden
 
+    /**
+     *
+     * Maneja el evento de acción del cuadro de búsqueda.
+     *
+     * @param evt El evento de acción
+     */
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarActionPerformed
 
+    /**
+     *
+     * Maneja el evento de acción del botón de avanzar persona.
+     *
+     * @param evt El evento de acción
+     */
     private void btnAvanzarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvanzarPersonaActionPerformed
         // TODO add your handling code here:
         paginadoCliente.avanzarPagina();
         this.BuscarPersona();
     }//GEN-LAST:event_btnAvanzarPersonaActionPerformed
 
+    /**
+     *
+     * Maneja el evento de acción del botón de retroceder persona.
+     *
+     * @param evt El evento de acción
+     */
     private void btnRetrocederPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetrocederPersonaActionPerformed
         // TODO add your handling code here:
         paginadoCliente.retrocederPagina();
         this.BuscarPersona();
     }//GEN-LAST:event_btnRetrocederPersonaActionPerformed
 
+    /**
+     *
+     * Maneja el evento de acción del botón de búsqueda.
+     *
+     * @param evt El evento de acción
+     */
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         this.BuscarPersona();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    /**
+     *
+     * Valida si la credencial de la persona está activa.
+     *
+     * @return true si la credencial está activa, false en caso contrario
+     */
     private boolean validarCredencialActiva() {
         List<Licencia> licencias = licenciaDAO.consultarLicenciasPersona(this.persona);
         for (Licencia licencia : licencias) {
@@ -473,6 +580,13 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         return false;
     }
 
+    /**
+     *
+     * Valida si se seleccionó correctamente a la persona.
+     *
+     * @return true si la persona está seleccionada correctamente, false en caso
+     * contrario
+     */
     private boolean validarEscogioPersona() {
         if (persona == null) {
             JOptionPane.showMessageDialog(this,
@@ -484,6 +598,10 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         return true;
     }
 
+    /**
+     *
+     * Abre la ventana de tramitación de licencia.
+     */
     private void tramitaLicenciaForm() {
         if (this.tramiteLicencia != null) {
             new TramiteLicenciaForm(persona);
@@ -491,6 +609,10 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         }
     }
 
+    /**
+     *
+     * Abre la ventana de tramitación de primeras placas.
+     */
     private void tramitePrimerasPlacasForm() {
         if (this.tramitePrimerasPlacas != null) {
             if (validarCredencialActiva()) {
@@ -508,6 +630,15 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         }
     }
 
+    /**
+     *
+     * Método que permite la creación de una instancia de la clase
+     * ActualizarPlacasForm para actualizar las placas de un vehículo registrado
+     * en la base de datos. Si el formulario de ActualizarPlacas ya está abierto
+     * y hay una persona seleccionada con una licencia activa, se crea una
+     * instancia del formulario y se abre. Si la persona seleccionada no tiene
+     * una licencia activa, se muestra un mensaje de error al usuario.
+     */
     private void actualizarPlacasForm() {
         if (this.actualizarPlacas != null) {
             if (validarCredencialActiva()) {
@@ -523,6 +654,13 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         }
     }
 
+    /**
+     *
+     * Método que permite la creación de una instancia de la clase ConsultaForm
+     * para consultar los datos de una persona registrada en la base de datos.
+     * Si el formulario de consulta ya está abierto, se crea una instancia del
+     * formulario y se abre.
+     */
     private void consultaForm() {
         if (this.consultarForm != null) {
             ConsultaForm consultar = new ConsultaForm(persona);
@@ -531,6 +669,14 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         }
     }
 
+    /**
+     *
+     * Método que verifica si la persona seleccionada es mayor de edad, es
+     * decir, tiene una edad mayor o igual a 18 años. Si la persona no es mayor
+     * de edad, se muestra un mensaje de error al usuario.
+     *
+     * @return true si la persona es mayor de edad, false en caso contrario.
+     */
     private boolean validarMayorDeEdad() {
         if (this.persona.getEdad() < 18) {
             JOptionPane.showMessageDialog(this,
@@ -542,6 +688,12 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         return true;
     }
 
+    /**
+     *
+     * Método que verifica si hay al menos una persona registrada en la base de
+     * datos. Si no hay personas registradas, se muestra un mensaje de error al
+     * usuario.
+     */
     private void validarPersonas() {
         if (personaDAO.consultarPersonas().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ops! Parece que no "
@@ -551,6 +703,15 @@ public class BuscadorClientesForm extends javax.swing.JFrame {
         }
     }
 
+    /**
+     *
+     * Método que carga los datos del comboBox utilizado para filtrar los
+     * resultados de búsqueda de acuerdo a la opción seleccionada por el
+     * usuario. Si se selecciona la opción "Año de Nacimiento", se deshabilita
+     * el campo de búsqueda de texto y se habilita un componente de selección de
+     * año. En caso contrario, se habilita el campo de búsqueda de texto y se
+     * oculta el componente de selección de año.
+     */
     private void cargarComboBox() {
         if (this.cbxFiltro.getSelectedItem().toString() != "Año de Nacimiento") {
             this.txtBuscar.enable(true);

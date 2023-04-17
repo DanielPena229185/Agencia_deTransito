@@ -35,17 +35,41 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
     private CostoServicio costosDAO;
 
     /**
-     * Creates new form ActualizarVehiculoPlaca
+     *
+     * Constructor de la clase ActualizarPlacasForm. Inicializa y muestra la
+     * interfaz de usuario.
      */
     public ActualizarPlacasForm() {
         initComponents();
     }
 
+    /**
+     *
+     * Constructor de la clase ActualizarPlacasForm que recibe un objeto
+     * Vehiculo. Inicializa y muestra la interfaz de usuario.
+     *
+     * @param vehiculo Objeto de la clase Vehiculo que se utilizará para
+     * actualizar las placas.
+     */
     public ActualizarPlacasForm(Vehiculo vehiculo) {
         initComponents();
         this.vehiculo = vehiculo;
     }
 
+    /**
+     *
+     * Constructor de la clase ActualizarPlacasForm que recibe objetos de las
+     * clases Persona, Vehiculo y Placa. También inicializa y muestra la
+     * interfaz de usuario, y llena los campos correspondientes con la
+     * información recibida.
+     *
+     * @param persona Objeto de la clase Persona que se utilizará para llenar
+     * los campos correspondientes.
+     * @param vehiculo Objeto de la clase Vehiculo que se utilizará para llenar
+     * los campos correspondientes.
+     * @param placaAntigua Objeto de la clase Placa que representa la placa
+     * anterior del vehículo.
+     */
     public ActualizarPlacasForm(Persona persona, Vehiculo vehiculo, Placa placaAntigua) {
         initComponents();
         this.costosDAO = new CostoServicio();
@@ -58,6 +82,17 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         this.llenarCamposPlacaNueva();
     }
 
+    /**
+     *
+     * Constructor de la clase ActualizarPlacasForm que recibe un objeto
+     * Vehiculo y un objeto Placa. Inicializa y muestra la interfaz de usuario,
+     * y llena los campos correspondientes con la información recibida.
+     *
+     * @param vehiculo Objeto de la clase Vehiculo que se utilizará para llenar
+     * los campos correspondientes.
+     * @param placaAntigua Objeto de la clase Placa que representa la placa
+     * anterior del vehículo.
+     */
     public ActualizarPlacasForm(Vehiculo vehiculo, Placa placaAntigua) {
         initComponents();
         this.costosDAO = new CostoServicio();
@@ -68,12 +103,22 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         this.llenarCamposPlacaNueva();
     }
 
+    /**
+     *
+     * Método que llena los campos de nombre, RFC y teléfono de la persona en la
+     * interfaz de usuario.
+     */
     public void llenarCamposPersona() {
         this.txtNombre.setText(this.persona.getNombreCompleto());
         this.txtRfc.setText(this.persona.getRfc());
         this.txtTelefono.setText(this.persona.getTelefono());
     }
 
+    /**
+     *
+     * Método que llena los campos de número de serie, marca, línea y modelo del
+     * vehículo en la interfaz de usuario.
+     */
     public void llenarCamposVehiculo() {
         this.txtNumeroSerie.setText(this.vehiculo.getNumeroSerie());
         this.txtMarca.setText(this.vehiculo.getMarca());
@@ -81,12 +126,23 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         this.txtModelo.setText(this.vehiculo.getModelo());
     }
 
+    /**
+     *
+     * Método que llena los campos de número de placa y fecha de expedición de
+     * la placa antigua del vehículo en la interfaz de usuario.
+     */
     public void llenarCamposPlaca() {
         this.txtPlacas.setText(this.placaAntigua.getNumeroPlaca());
         Calendar fechaPlaca = this.placaAntigua.getFechaExpedicion();
         this.txtFechaExpedicion.setText(formatoFecha.format(fechaPlaca.getTime()));
     }
 
+    /**
+     *
+     * Método que llena los campos de número de placa nueva, fecha de expedición
+     * y costo de trámite de la nueva placa del vehículo en la interfaz de
+     * usuario.
+     */
     public void llenarCamposPlacaNueva() {
         GeneradorPlacas placaNueva = new GeneradorPlacas();
         this.txtPlacasNuevas.setText(placaNueva.generarPlaca());
@@ -94,6 +150,15 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         this.txtPrecio.setText(String.valueOf(this.costoDeTramite()));
     }
 
+    /**
+     *
+     * Retorna el costo del trámite de placa usado. Este método consulta los
+     * costos de la tabla de costos de placa y retorna el costo normal del
+     * trámite de placa usado. Si no hay costos en la tabla, retorna null.
+     *
+     * @return el costo normal del trámite de placa usado si hay costos en la
+     * tabla
+     */
     private Double costoDeTramite() {
         List<CostoPlaca> costos = costosDAO.consultarCostoPlacaUsado();
 
@@ -508,12 +573,33 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPlacasActionPerformed
 
+    /**
+     *
+     * Acción que se realiza al hacer clic en el botón "Buscar Cliente". Este
+     * método crea una instancia de la clase BuscadorClientesForm y muestra la
+     * ventana de búsqueda de clientes. Luego, cierra la ventana actual.
+     *
+     * @param evt El evento que se activó al hacer clic en el botón "Buscar
+     * Cliente".
+     */
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
         BuscadorClientesForm buscar = new BuscadorClientesForm(this, vehiculo, placaAntigua);
         buscar.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
+    /**
+     *
+     * Acción que se realiza al hacer clic en el botón "Aceptar". Este método
+     * crea un objeto de tipo Placa y verifica si el vehículo tiene un dueño
+     * registrado. Si el vehículo tiene un dueño registrado, crea una instancia
+     * de la clase PagarDlg y muestra la ventana de pago. Si el usuario hace
+     * clic en el botón "Salir" de la ventana de pago, crea una instancia de la
+     * clase PrincipalForm y muestra la ventana principal. Si el vehículo no
+     * tiene un dueño registrado, muestra un mensaje de advertencia al usuario.
+     *
+     * @param evt El evento que se activó al hacer clic en el botón "Aceptar".
+     */
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         crearObjetoPlaca();
         if (this.persona != null) {
@@ -531,6 +617,16 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
+    /**
+     *
+     * Acción que se realiza al intentar cerrar la ventana. Este método muestra
+     * un cuadro de diálogo de confirmación que pregunta al usuario si desea
+     * cerrar la ventana. Si el usuario hace clic en "Sí", la ventana se cierra
+     * y se llama al método regresarPantallaPrincipal(). Si el usuario hace clic
+     * en "No", la ventana permanece abierta.
+     *
+     * @param evt El evento que se activó al intentar cerrar la ventana.
+     */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION);
         if (confirmacion == JOptionPane.YES_OPTION) {
@@ -543,6 +639,15 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    /**
+     *
+     * Crea un objeto de tipo Placa. Este método crea un objeto de tipo Placa
+     * con la información de la placa que se está registrando. La placa incluirá
+     * el número de placa nuevo, el vehículo al que se está asignando la placa,
+     * el estado del trámite, el precio del trámite, la fecha de creación, la
+     * fecha de vencimiento (que se establece en null) y la persona a la que se
+     * está asignando la placa (que se establece en null).
+     */
     private void crearObjetoPlaca() {
         this.placa = new Placa(this.txtPlacasNuevas.getText(),
                 null, vehiculo, EstadoTramite.ACTIVO,
@@ -550,6 +655,12 @@ public class ActualizarPlacasForm extends javax.swing.JFrame {
                 null, persona);
     }
 
+    /**
+     *
+     * Retorna a la pantalla principal de la aplicación. Este método crea una
+     * instancia de la clase PrincipalForm y muestra la ventana principal, luego
+     * cierra la ventana actual.
+     */
     private void regresarPantallaPrincipal() {
         PrincipalForm principal = new PrincipalForm();
         principal.setVisible(true);

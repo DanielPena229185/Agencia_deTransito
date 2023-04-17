@@ -32,7 +32,11 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
-     * Creates new form TramiteLicencia
+     *
+     * Crea una nueva instancia de la clase TramiteLicenciaForm. Este
+     * constructor inicializa los componentes de la interfaz de usuario y crea
+     * instancias de los objetos CostoServicio y LicenciaServicio para su uso
+     * posterior.
      */
     public TramiteLicenciaForm() {
         initComponents();
@@ -40,6 +44,20 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
         licenciaDAO = new LicenciaServicio();
     }
 
+    /**
+     *
+     * Crea una nueva instancia de la clase TramiteLicenciaForm con una persona
+     * preseleccionada. Este constructor establece la persona seleccionada como
+     * el titular de la licencia y luego inicializa los componentes de la
+     * interfaz de usuario. También habilita el cuadro de selección de vigencia
+     * y crea instancias de los objetos CostoServicio y LicenciaServicio para su
+     * uso posterior. Luego muestra la ventana y llama al método
+     * validarLicenciaActiva() para determinar si la persona ya tiene una
+     * licencia activa.
+     *
+     * @param persona La persona que se seleccionó previamente para la solicitud
+     * de la licencia.
+     */
     public TramiteLicenciaForm(Persona persona) {
         this.persona = persona;
         initComponents();
@@ -368,12 +386,34 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formWindowClosed
 
+    /**
+     *
+     * Abre el formulario de búsqueda de clientes y cierra la ventana actual.
+     * Este método crea una instancia de la clase BuscadorClientesForm y muestra
+     * la ventana de búsqueda. Luego cierra la ventana actual para permitir que
+     * la ventana de búsqueda tome el control.
+     *
+     * @param evt El evento de acción que se produce cuando se hace clic en el
+     * botón de búsqueda.
+     */
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
         BuscadorClientesForm buscador = new BuscadorClientesForm(this);
         buscador.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
+    /**
+     *
+     * Maneja el evento de acción cuando se hace clic en el botón de Aceptar.
+     * Este método primero valida que los campos de texto necesarios no estén
+     * vacíos. Si se ingresan valores válidos, crea una instancia de la clase
+     * PagarDlg y muestra la ventana de pago. Luego verifica si el usuario ha
+     * hecho clic en el botón de Salir y, si es así, crea una instancia de la
+     * clase PrincipalForm y muestra la ventana principal.
+     *
+     * @param evt El evento de acción que se produce cuando se hace clic en el
+     * botón de Aceptar.
+     */
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         List<String> validarCamposVacios = this.validarCamposTexto();
         if (validarCamposVacios.isEmpty()) {
@@ -396,6 +436,17 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
+    /**
+     *
+     * Maneja el evento de tecla presionada cuando se está escribiendo en el
+     * campo de texto de Teléfono. Este método limita la cantidad de caracteres
+     * que se pueden ingresar en el campo de texto a 10. Si el usuario intenta
+     * ingresar más caracteres, este método consume el evento para evitar que se
+     * ingresen más caracteres.
+     *
+     * @param evt El evento de tecla presionada que se produce cuando se está
+     * escribiendo en el campo de texto de Teléfono.
+     */
     private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
         // Limitar la cantidad de caracteres a 10
         if (txtTelefono.getText().length() >= 10) {
@@ -407,10 +458,22 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtRfcKeyTyped
 
+    /**
+     *
+     * Este método se llama cuando el usuario hace clic en el comboBox de
+     * vigencia de la licencia y se encarga de llenar los campos del formulario
+     * correspondientes al tipo de licencia seleccionado
+     */
     private void cbxVigenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxVigenciaMouseClicked
         llenarCamposTramite();
     }//GEN-LAST:event_cbxVigenciaMouseClicked
 
+    /**
+     *
+     * Este método se llama cuando el usuario selecciona una opción en el
+     * comboBox de vigencia de la licencia y se encarga de llenar los campos del
+     * formulario correspondientes al tipo de licencia seleccionado
+     */
     private void cbxVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxVigenciaActionPerformed
         llenarCamposTramite();
     }//GEN-LAST:event_cbxVigenciaActionPerformed
@@ -419,6 +482,19 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formComponentHidden
 
+    /**
+     *
+     * Método que se ejecuta al intentar cerrar la ventana. Si hay una persona
+     * seleccionada,
+     *
+     * muestra un diálogo de confirmación antes de cerrar la ventana y regresar
+     * a la pantalla principal.
+     *
+     * Si no hay persona seleccionada, simplemente regresa a la pantalla
+     * principal.
+     *
+     * @param evt el evento de ventana
+     */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
 
         if (this.persona != null) {
@@ -437,6 +513,13 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formWindowClosing
 
+    /**
+     *
+     * Valida que los campos de texto obligatorios no estén vacíos.
+     *
+     * @return Una lista de cadenas con los nombres de los campos vacíos, o una
+     * lista vacía si todos los campos están completos.
+     */
     private List<String> validarCamposTexto() {
         List<String> camposVacios = new ArrayList<>();
         if (txtCosto.getText().isEmpty()) {
@@ -464,6 +547,12 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
         return camposVacios;
     }
 
+    /**
+     * Llena los campos de fecha con la fecha actual y la fecha de vigencia
+     * obtenida del método ObtenerFechaVigencia(). Utiliza un objeto Calendar
+     * para obtener la fecha actual y la fecha de vigencia, y luego los muestra
+     * en los campos de texto correspondientes
+     */
     private void llenarCampoFechas() {
 
         Calendar hoy = Calendar.getInstance();
@@ -472,6 +561,11 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
         txtFechaVigencia.setText(formatoFecha.format(fechaVigencia.getTime()));
     }
 
+    /**
+     *
+     * Llena los campos de texto correspondientes con la información del cliente
+     * actual.
+     */
     private void llenarCamposCliente() {
         String nombreCompleto = persona.getNombreCompleto();
         String rfc = persona.getRfc();
@@ -482,16 +576,37 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
         checkDiscapacitado.setSelected(persona.getDiscapacidad());
     }
 
+    /**
+     *
+     * Actualiza los campos de fecha y costo en la ventana de trámite. Esto se
+     * logra llamando a los métodos "llenarCampoFechas()" y
+     * "llenarCamposCosto()".
+     */
     private void llenarCamposTramite() {
         llenarCampoFechas();
         llenarCamposCosto();
     }
 
+    /**
+     *
+     * Llena el campo de texto correspondiente al costo del trámite con el valor
+     * obtenido mediante el método costoDeTramite()
+     */
     private void llenarCamposCosto() {
         Double costo = costoDeTramite();
         txtCosto.setText(String.valueOf(costo));
     }
 
+    /**
+     *
+     * Calcula el costo del trámite de la licencia de conducir para la persona
+     * asociada a la ventana.
+     *
+     * Si la persona tiene una discapacidad, se utiliza el costo para
+     * discapacitados; de lo contrario, se utiliza el costo normal.
+     *
+     * @return el costo del trámite de la licencia de conducir
+     */
     private Double costoDeTramite() {
         List<CostoLicencia> costos = obtenerCostoTramite();
 
@@ -505,11 +620,26 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
         return null;
     }
 
+    /**
+     *
+     * Obtiene el costo del trámite de la licencia según la vigencia
+     * seleccionada y si la persona tiene o no discapacidad.
+     *
+     * @return el costo del trámite de la licencia.
+     */
     private List<CostoLicencia> obtenerCostoTramite() {
         String vigencia = cbxVigencia.getSelectedItem().toString();
         return costoDAO.consultarCostoLicencias(vigencia);
     }
 
+    /**
+     *
+     * Valida si la persona tiene una licencia activa y solicita confirmación
+     * para cancelarla. Si no tiene una licencia activa, llena los campos del
+     * cliente y del trámite.
+     *
+     * @param persona La persona a validar.
+     */
     private void validarLicenciaActiva(Persona persona) {
         List<Licencia> licencias = licenciaDAO.consultarLicenciasPersona(persona);
         if (licencias.isEmpty()) {
@@ -533,6 +663,14 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
         }
     }
 
+    /**
+     *
+     * Crea una nueva licencia con los datos de la persona y del trámite
+     * seleccionados, estableciendo la fecha de expedición como la fecha actual
+     * y el estado de la licencia como "ACTIVO".
+     *
+     * @return la nueva licencia creada.
+     */
     private Licencia nuevaLicencia() {
         // Licencia licencia;
         EstadoTramite estado = EstadoTramite.ACTIVO;
@@ -552,8 +690,15 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
 //        fecha = new GregorianCalendar(anio, mes, dia);
 //        return fecha;
 //    }
+    /**
+     *
+     * Obtiene la fecha de vigencia de la licencia según la selección realizada
+     * en el ComboBox de vigencia.
+     *
+     * @return la fecha de vigencia de la licencia como un objeto de tipo
+     * Calendar.
+     */
     private Calendar ObtenerFechaVigencia() {
-
         //  Calendar hoy = 
         Calendar vigencia = Calendar.getInstance();
         String seleccion = cbxVigencia.getSelectedItem().toString();
@@ -562,12 +707,27 @@ public class TramiteLicenciaForm extends javax.swing.JFrame {
         return vigencia;
     }
 
+    /**
+     *
+     * Método para regresar a la pantalla principal del sistema. Cierra la
+     * ventana actual y abre una nueva instancia de la clase PrincipalForm.
+     */
     private void regresarPantallaPrincipal() {
         PrincipalForm principal = new PrincipalForm();
         principal.setVisible(true);
         dispose();
     }
 
+    /**
+     *
+     * Establece la persona asociada al trámite y valida si ya tiene una
+     * licencia activa. Si no tiene una licencia activa, se llenan los campos
+     * del cliente y del trámite. Si ya tiene una licencia activa, se muestra un
+     * mensaje de confirmación y si el usuario acepta, se guarda la licencia
+     * anterior y se llenan los campos del cliente y del trámite.
+     *
+     * @param persona La persona asociada al trámite.
+     */
     public void setPersona(Persona persona) {
         this.persona = persona;
         this.validarLicenciaActiva(persona);
