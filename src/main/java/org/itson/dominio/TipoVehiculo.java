@@ -9,5 +9,6 @@ package org.itson.dominio;
  * @author Daniel Armando Peña Garcia ID:229185
  */
 public enum TipoVehiculo {
+    
     NUEVO, USADO
 }

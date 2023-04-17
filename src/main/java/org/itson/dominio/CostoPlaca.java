@@ -21,28 +21,57 @@ import javax.persistence.Enumerated;
 @DiscriminatorValue(value = "placa")
 public class CostoPlaca extends Costo implements Serializable {
 
+    /**
+     * Estado del costo de placas
+     */
     @Column(name = "estado", nullable = true)
     @Enumerated(EnumType.STRING)
     private TipoVehiculo estado;
 
+    /**
+     * Constructor vacio de la calse costo placa
+     */
     public CostoPlaca() {
         super();
     }
 
+    /**
+     * Constructor de la calse costo placa
+     *
+     * @param tipo Tipo de costo de placa
+     * @param id Identificador del costo de placa
+     * @param costoNormal Costo normal del costo de placa
+     */
     public CostoPlaca(TipoVehiculo tipo, Long id, double costoNormal) {
         super(id, costoNormal);
         this.estado = tipo;
     }
 
+    /**
+     * Constructor de la calse costo placa
+     *
+     * @param tipo Tipo de costo de placa
+     * @param costoNormal Costo normal del costo placa
+     */
     public CostoPlaca(TipoVehiculo tipo, double costoNormal) {
         super(costoNormal);
         this.estado = tipo;
     }
 
+    /**
+     * Devuelve el tipo de costo de placa
+     *
+     * @return El tipo de costo de placa
+     */
     public TipoVehiculo getTipo() {
         return estado;
     }
 
+    /**
+     * Establece el tipo de costo de placa
+     *
+     * @param tipo El tipo de costo de placa
+     */
     public void setTipo(TipoVehiculo tipo) {
         this.estado = tipo;
     }
